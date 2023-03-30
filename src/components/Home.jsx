@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ token }) => {
   return (
     <div id="home">
       <h1>Welcome to Grace shopper</h1>

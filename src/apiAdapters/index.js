@@ -1,3 +1,6 @@
+
+export * from './cart';
+
 let BASE_URL = "https://grace-shopper-wiwo.onrender.com/api";
 
 export const registerNewUser = async (name, email, username, password) => {
@@ -38,4 +41,4 @@ export const registerNewUser = async (name, email, username, password) => {
       console.log(error);
     }
   };
-  
+ 

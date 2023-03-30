@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Navbar, Home, LoginRegister } from './';
+
+import { Navbar, Home, LoginRegister, Cart } from './';
 
 import { getTokenFromLocalStorage } from '../utils';
 
 const Main = () => {
   const [token, setToken] = useState('');
-  const [user, setUser] = useState({})
+  const [cart, setCart] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     setToken(getTokenFromLocalStorage());
@@ -19,10 +21,10 @@ const Main = () => {
                 <Routes>
                     <Route exact path="/" element={<Home/>}/>
                     <Route path="/loginregister" element={<LoginRegister setToken={setToken} setUser={setUser}/>}/>
+                    <Route path="/cart" element={<Cart token={token} />} />
                 </Routes>
             </div>
         </div>
     )
     }
-
     export default Main
