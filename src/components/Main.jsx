@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Navbar, Home, LoginRegister, Cart } from './';
 import { usersMe } from '../apiAdapters';
 
-import { getTokenFromLocalStorage } from '../utils';
+import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
 const Main = () => {
   const [cart, setCart] = useState({});
@@ -32,8 +32,12 @@ const Main = () => {
   }
 
   useEffect(() => {
-    getUsers();
+    saveToLocalStorage(token);
   }, [token]);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <div id="main">
