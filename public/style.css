@@ -27,3 +27,31 @@
   flex-direction: row;
   align-items: center;
 }
+
+#products-page-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+#products-filter {
+  display: flex;
+  flex-direction: column;
+}
+
+#products-list {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 30px;
+}
+
+#products-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#product-pic {
+  width: 200px;
+  height: 300px;
+}
