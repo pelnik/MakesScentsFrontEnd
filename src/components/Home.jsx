@@ -5,7 +5,7 @@ const Home = ({ token }) => {
   return (
     <div id="home">
       <h1>Welcome to Grace shopper</h1>
-      <p>Your token: {token}</p>
+      {/* <p>Your token: {token}</p> */}
     </div>
   );
 };
