@@ -56,3 +56,25 @@ export const usersMe = async (token) => {
     console.log(error);
   }
 };
+
+export const editProfile = async (id, token, username, email) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+      }),
+    });
+    const result = await response.json();
+    console.log(response, "editprofile")
+    return result
+  } catch (error) {
+    console.log(error);
+  }
+};
+
