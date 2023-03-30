@@ -11,16 +11,15 @@ const Main = () => {
     setToken(getTokenFromLocalStorage());
   }, []);
 
-  return (
-    <div id="main">
-      <Navbar />
-      <div id="page">
-        <Routes>
-          <Route exact path="/" token={token} element={<Home />} />
-        </Routes>
-      </div>
-    </div>
-  );
-};
-
-export default Main;
+    return(
+        <div id="main">
+            <Navbar />
+            <div id="page">
+                <Routes>
+                    <Route exact path="/" element={<Home/>}/>
+                    <Route path="/loginregister" element={<LoginRegister/>}/>
+                </Routes>
+            </div>
+        </div>
+    )
+    }
