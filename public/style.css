@@ -30,13 +30,25 @@
 
 #products-page-container {
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#products-header {
+  display: flex;
   flex-direction: row;
-  gap: 30px;
+  justify-content: space-between;
+}
+
+#side-by-side {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
 }
 
 #products-filter {
   display: flex;
-  flex-direction: column;
+  flex-flow: column nowrap;
 }
 
 #products-list {

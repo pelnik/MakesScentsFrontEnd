@@ -105,9 +105,8 @@ const Main = () => {
             path="/checkout"
             element={<Checkout token={token} cart={cart} setCart={setCart} />}
           />
-          <Route path='/products' token={token} element={<Products />}/>
+          <Route path='/products' element={<Products token={token} user={user}/>}/>
           <Route path='/products/:product_id' element={<SingleProduct />}/>
-
         </Routes>
       </div>
     </div>
