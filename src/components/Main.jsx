@@ -20,6 +20,23 @@ const Main = () => {
   const [token, setToken] = useState('');
   const [user, setUser] = useState(defaultUser);
 
+  async function checkUser(token) {
+    try {
+      if (token) {
+        const result = await usersMe(token);
+
+        if (result.success) {
+          return true;
+        } else {
+          console.error('Token in LS but user API failed.');
+          return false;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async function getUsers(token) {
     try {
       if (token) {
@@ -42,7 +59,7 @@ const Main = () => {
     const localStorageToken = getTokenFromLocalStorage();
 
     if (localStorageToken) {
-      const userUpdated = await getUsers(localStorageToken);
+      const userUpdated = await checkUser(localStorageToken);
       if (userUpdated) {
         setToken(localStorageToken);
       }
@@ -50,7 +67,9 @@ const Main = () => {
   }
 
   async function tokenChange() {
-    setUser(defaultUser);
+    if (user !== defaultUser) {
+      setUser(defaultUser);
+    }
     if (token) {
       const userUpdated = await getUsers(token);
       if (userUpdated) {
@@ -77,7 +96,10 @@ const Main = () => {
             path="/loginregister"
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
-          <Route path="/cart" element={<Cart token={token} />} />
+          <Route
+            path="/cart"
+            element={<Cart token={token} cart={cart} setCart={setCart} />}
+          />
         </Routes>
       </div>
     </div>
