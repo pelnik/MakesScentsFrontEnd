@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Navbar, Home, LoginRegister, Cart, Products, SingleProduct } from './';
+
+import { Navbar, Home, LoginRegister, Cart, Checkout, Products, SingleProduct } from './';
 import { usersMe } from '../apiAdapters';
 
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
@@ -19,6 +20,23 @@ const Main = () => {
   const [cart, setCart] = useState({});
   const [token, setToken] = useState('');
   const [user, setUser] = useState(defaultUser);
+
+  async function checkUser(token) {
+    try {
+      if (token) {
+        const result = await usersMe(token);
+
+        if (result.success) {
+          return true;
+        } else {
+          console.error('Token in LS but user API failed.');
+          return false;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function getUsers(token) {
     try {
@@ -42,7 +60,7 @@ const Main = () => {
     const localStorageToken = getTokenFromLocalStorage();
 
     if (localStorageToken) {
-      const userUpdated = await getUsers(localStorageToken);
+      const userUpdated = await checkUser(localStorageToken);
       if (userUpdated) {
         setToken(localStorageToken);
       }
@@ -50,7 +68,9 @@ const Main = () => {
   }
 
   async function tokenChange() {
-    setUser(defaultUser);
+    if (user !== defaultUser) {
+      setUser(defaultUser);
+    }
     if (token) {
       const userUpdated = await getUsers(token);
       if (userUpdated) {
@@ -77,7 +97,14 @@ const Main = () => {
             path="/loginregister"
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
-          <Route path="/cart" element={<Cart token={token} />} />
+          <Route
+            path="/cart"
+            element={<Cart token={token} cart={cart} setCart={setCart} />}
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout token={token} cart={cart} setCart={setCart} />}
+          />
           <Route path='/products' element={<Products token={token} user={user}/>}/>
           <Route path='/products/:product_id' element={<SingleProduct />}/>
         </Routes>
