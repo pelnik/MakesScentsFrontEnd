@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Navbar, Home, LoginRegister, Cart } from './';
+import { Navbar, Home, LoginRegister, Cart, Checkout } from './';
 import { usersMe } from '../apiAdapters';
 
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
@@ -99,6 +99,10 @@ const Main = () => {
           <Route
             path="/cart"
             element={<Cart token={token} cart={cart} setCart={setCart} />}
+          />
+          <Route
+            path="/checkout"
+            element={<Checkout token={token} cart={cart} setCart={setCart} />}
           />
         </Routes>
       </div>

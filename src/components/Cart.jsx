@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getActiveCart } from '../apiAdapters';
 
 function Cart({ token, cart, setCart }) {
+  const navigate = useNavigate();
+
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
+
+  const total = hasItems
+    ? cart.items.reduce((x, y) => {
+        const cleanY = y.product_price.slice(1);
+        const numY = parseFloat(cleanY);
+
+        return x + numY;
+      }, 0)
+    : 0;
+
+  const dollarTotal = `$${total.toFixed(2)}`;
 
   async function getCart(token) {
     if (token) {
@@ -14,6 +28,10 @@ function Cart({ token, cart, setCart }) {
         setCart(response.cart);
       }
     }
+  }
+
+  function handleCheckoutClick() {
+    navigate('/checkout');
   }
 
   useEffect(() => {
@@ -27,7 +45,7 @@ function Cart({ token, cart, setCart }) {
           cart.items.map((item) => {
             return (
               <div key={`cartKey ${item.id}`} className="cart-item">
-                <img src={item.pic_url} />
+                <img src={item.product_pic_url} />
                 <div>{item.product_name}</div>
                 <div>{item.product_price}</div>
                 <div>{item.quantity}</div>
@@ -39,6 +57,10 @@ function Cart({ token, cart, setCart }) {
           <div>No items in cart!</div>
         )}
       </div>
+      <div>Total: {dollarTotal}</div>
+      {hasItems ? (
+        <button onClick={handleCheckoutClick}>Checkout</button>
+      ) : null}
     </div>
   );
 }
