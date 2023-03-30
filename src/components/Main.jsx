@@ -78,7 +78,7 @@ const Main = () => {
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
           <Route path="/cart" element={<Cart token={token} />} />
-          <Route path='/products' token={token} element={<Products />}/>
+          <Route path='/products' element={<Products token={token} user={user}/>}/>
           <Route path='/products/:product_id' element={<SingleProduct />}/>
         </Routes>
       </div>

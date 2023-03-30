@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllProducts } from '../apiAdapters/products';
+import { getAllProducts, deleteProduct } from '../apiAdapters';
 
-function Products() {
+function Products({ token, user }) {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate;
 
   async function getAllProductsPage() {
@@ -18,28 +18,56 @@ function Products() {
     }
   }
 
+  async function removeProduct() {
+    try {
+      const result = await deleteProduct
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getAllProductsPage();
   }, []);
 
   return (
-    <div>
-      <h1>Products</h1>
-      <div id='products-page-container'>
+    <div id='products-page-container'>
+      <div id='products-header'>
+        <h1>Products</h1>
+        {user.is_admin === true ? 
+          <button className='add-product-button' onClick={() => {navigate('/products/new')}}>Add New Product</button> 
+          : null}
+      </div>
+      <div id='side-by-side'>
         <div id='products-filter'>
           <h2>Filter</h2>
           <form>
             <input
               type='checkbox'
-              id='category1' 
+              id='category1'
               name='category1'
-              value='Candle'/>
-            <label for='category1'>Candle</label>
-          </form>
+              value='Candle'
+            />
+            <label htmlFor='category1'>Candle</label>
+            <br />
 
-          <h4>Candle</h4>
-          <h4>Diffuser</h4>
-          <h4>Car</h4>
+            <input
+              type='checkbox'
+              id='category2'
+              name='category2'
+              value='Diffuser'
+            />
+            <label htmlFor='category2'>Diffuser</label>
+            <br />
+
+            <input
+              type='checkbox'
+              id='category3'
+              name='category3'
+              value='Car'
+            />
+            <label htmlFor='category3'>Car</label>
+          </form>
         </div>
         <div id='products-list'>
           {products.map((product, idx) => {
@@ -50,6 +78,15 @@ function Products() {
                 <h5>{product.description}</h5>
                 <h4>Size: {product.size}</h4>
                 <h3>{product.price}</h3>
+                <div className='product-buttons'>
+                  <button
+                    onClick={() => {
+                      navigate('/products/:product_id')
+                    }}>
+                    Edit
+                  </button>
+                  <button>Delete</button>
+                </div>
               </div>
             );
           })}
