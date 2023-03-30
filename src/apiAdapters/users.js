@@ -60,9 +60,9 @@ export const usersMe = async (token) => {
 export const editProfile = async (id, token, username, email) => {
   try {
     const response = await fetch(`${BASE_URL}/users/${id}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -71,10 +71,9 @@ export const editProfile = async (id, token, username, email) => {
       }),
     });
     const result = await response.json();
-    console.log(response, "editprofile")
-    return result
+    console.log(result, 'editprofile');
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
-

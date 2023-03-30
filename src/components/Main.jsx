@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import { Navbar, Home, LoginRegister, Cart, Products, SingleProduct, UserProfile, EditProfile } from './';
+import {
+  Navbar,
+  Home,
+  LoginRegister,
+  Cart,
+  Products,
+  SingleProduct,
+  UserProfile,
+  EditProfile,
+} from './';
 import { usersMe } from '../apiAdapters';
 
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
@@ -78,11 +87,13 @@ const Main = () => {
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
           <Route path="/cart" element={<Cart token={token} />} />
-          <Route path='/products' token={token} element={<Products />}/>
-          <Route path='/products/:product_id' element={<SingleProduct />}/>
-          <Route path='/profile' element={<UserProfile user={user} />}/>
-          <Route path='/profile/edit-profile/:id' element={<EditProfile user={user} />}/>
-
+          <Route path="/products" token={token} element={<Products />} />
+          <Route path="/products/:product_id" element={<SingleProduct />} />
+          <Route path="/profile" element={<UserProfile user={user} />} />
+          <Route
+            path="/profile/edit-profile/:id"
+            element={<EditProfile user={user} token={token} />}
+          />
         </Routes>
       </div>
     </div>
