@@ -6,6 +6,7 @@ import { getTokenFromLocalStorage } from '../utils';
 
 const Main = () => {
   const [token, setToken] = useState('');
+  const [cart, setCart] = useState({});
 
   useEffect(() => {
     setToken(getTokenFromLocalStorage());
@@ -17,7 +18,7 @@ const Main = () => {
       <div id="page">
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<Cart token={token} />} />
         </Routes>
       </div>
     </div>
