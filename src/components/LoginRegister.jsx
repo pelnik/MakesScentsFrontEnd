@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { registerNewUser, logUserIn } from "../apiAdapters"
 import { useNavigate } from "react-router-dom";
+import { saveToLocalStorage } from "../utils";
 
 
 const LoginRegister = (props) => {
@@ -9,19 +10,23 @@ const LoginRegister = (props) => {
     const [displayLogin, setDisplayLogin] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [error, setError] = useState("")
 
-    const setLoggedInUser = props.setLoggedInUser;
-
+    const setToken = props.setToken;
+    const setUser = props.setUser
 async function registerUser() {
     try {
-        const response = await registerNewUser(username, password);
-        if (response.name === "UserAlreadyExist") {
-            alert("User already exist");
+        const response = await registerNewUser(name, email, username, password,);
+        if (!response.success) {
+         setError(`${response.message}`)
         }
+
         else {
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("username", username);
-            setLoggedInUser(username);
+            saveToLocalStorage(response.token);
+            setToken(response.token);
+            setUser(response)
             navigate("/")
         }
     } catch (error) {
@@ -32,13 +37,13 @@ async function registerUser() {
 async function loginUser() {
     try {
         const response = await logUserIn(username, password);
-        if (response.error) {
-            alert("Invalid Login Credentials");
+        if (!response.success) {
+            setError(`${response.message}`)
         }
         else {
-            localStorage.setItem("token", response.token);
-            localStorage.setItem("username", username);
-            setLoggedInUser(username);
+            saveToLocalStorage(response.token);
+            setToken(response.token);
+            setUser(response)
             navigate("/")
         }
     } catch (error) {
@@ -88,6 +93,22 @@ async function loginUser() {
                 e.preventDefault();
                registerUser();
             }} > 
+               <label className="formLabel">
+                    Name: 
+                    <input type="text" className="inputtext" value={name} name="name" onChange={(event)=>{
+
+                        setName(event.target.value)
+
+                    }}></input>
+                </label>
+               <label className="formLabel">
+                    Email: 
+                    <input type="text" className="inputtext" value={email} name="email" onChange={(event)=>{
+
+                        setEmail(event.target.value)
+
+                    }}></input>
+                </label>
                 <label className="formLabel">
                     Username: 
                     <input type="text" className="inputtext" value={username} name="username" onChange={(event)=>{
