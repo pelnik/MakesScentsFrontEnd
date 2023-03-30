@@ -20,7 +20,6 @@ const LoginRegister = (props) => {
       if (!response.success) {
         setError(`${response.message}`);
       } else {
-        saveToLocalStorage(response.token);
         setToken(response.token);
         navigate('/');
       }
@@ -35,7 +34,6 @@ const LoginRegister = (props) => {
       if (!response.success) {
         setError(`${response.message}`);
       } else {
-        saveToLocalStorage(response.token);
         setToken(response.token);
         navigate('/');
       }

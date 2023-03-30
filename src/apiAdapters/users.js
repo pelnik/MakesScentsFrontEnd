@@ -40,13 +40,6 @@ export const logUserIn = async (username, password) => {
 };
 
 export const usersMe = async (token) => {
-  const check = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-
-  console.log('check', check);
-
   try {
     const response = await fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
@@ -57,7 +50,7 @@ export const usersMe = async (token) => {
     });
 
     const result = await response.json();
-    console.log(result, 'usersMe');
+    console.log('usersMe', result);
     return result;
   } catch (error) {
     console.log(error);
