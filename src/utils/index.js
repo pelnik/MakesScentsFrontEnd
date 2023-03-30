@@ -1,8 +1,9 @@
 export function saveToLocalStorage(token) {
   if (typeof token !== 'string') {
-    console.error("Tried to save token that wasn't a string", token);
+    console.error('Token is not type string');
+  } else {
+    localStorage.setItem('token', token);
   }
-  localStorage.setItem('token', token);
 }
 
 export function getTokenFromLocalStorage() {
