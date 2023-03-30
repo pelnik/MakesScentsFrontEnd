@@ -16,7 +16,7 @@ const Main = () => {
       <Navbar />
       <div id="page">
         <Routes>
-          <Route exact path="/" token={token} element={<Home />} />
+          <Route exact path="/" element={<Home />} />
         </Routes>
       </div>
     </div>
