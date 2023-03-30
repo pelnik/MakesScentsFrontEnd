@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../apiAdapters/products';
 
-function Products({ token }) {
+function Products() {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([])
   const navigate = useNavigate;
 
   async function getAllProductsPage() {
@@ -27,6 +28,18 @@ function Products({ token }) {
       <div id='products-page-container'>
         <div id='products-filter'>
           <h2>Filter</h2>
+          <form>
+            <input
+              type='checkbox'
+              id='category1' 
+              name='category1'
+              value='Candle'/>
+            <label for='category1'>Candle</label>
+          </form>
+
+          <h4>Candle</h4>
+          <h4>Diffuser</h4>
+          <h4>Car</h4>
         </div>
         <div id='products-list'>
           {products.map((product, idx) => {
