@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Navbar, Home } from './';
+import { Navbar, Home, Products } from './';
 
 import { getTokenFromLocalStorage } from '../utils';
 
@@ -17,6 +17,7 @@ const Main = () => {
       <div id="page">
         <Routes>
           <Route exact path="/" token={token} element={<Home />} />
+          <Route path='/products' token={token} element={<Products />}/>
         </Routes>
       </div>
     </div>
