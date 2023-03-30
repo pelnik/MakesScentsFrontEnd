@@ -38,3 +38,21 @@ export const logUserIn = async (username, password) => {
     console.log(error);
   }
 };
+
+export const usersMe = async (token) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    console.log('usersMe', result);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};

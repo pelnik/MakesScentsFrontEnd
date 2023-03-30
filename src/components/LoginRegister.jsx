@@ -1,140 +1,175 @@
-import React, { useState } from "react"
-import { registerNewUser, logUserIn } from "../apiAdapters"
-import { useNavigate } from "react-router-dom";
-import { saveToLocalStorage } from "../utils";
-
+import React, { useState } from 'react';
+import { registerNewUser, logUserIn } from '../apiAdapters';
+import { useNavigate } from 'react-router-dom';
+import { saveToLocalStorage } from '../utils';
 
 const LoginRegister = (props) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const [displayLogin, setDisplayLogin] = useState(true);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [error, setError] = useState("")
+  const [displayLogin, setDisplayLogin] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-    const setToken = props.setToken;
-    const setUser = props.setUser
-async function registerUser() {
+  const setToken = props.setToken;
+  async function registerUser() {
     try {
-        const response = await registerNewUser(name, email, username, password,);
-        if (!response.success) {
-         setError(`${response.message}`)
-        }
-
-        else {
-            saveToLocalStorage(response.token);
-            setToken(response.token);
-            setUser(response)
-            navigate("/")
-        }
+      const response = await registerNewUser(name, email, username, password);
+      if (!response.success) {
+        setError(`${response.message}`);
+      } else {
+        setToken(response.token);
+        navigate('/');
+      }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  }
 
-async function loginUser() {
+  async function loginUser() {
     try {
-        const response = await logUserIn(username, password);
-        if (!response.success) {
-            setError(`${response.message}`)
-        }
-        else {
-            saveToLocalStorage(response.token);
-            setToken(response.token);
-            setUser(response)
-            navigate("/")
-        }
+      const response = await logUserIn(username, password);
+      if (!response.success) {
+        setError(`${response.message}`);
+      } else {
+        setToken(response.token);
+        navigate('/');
+      }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  }
 
-
-
-    return (
-        <div className="formContainer">
-            {displayLogin  
-            ? <h1 className="pageTitle">Log In</h1>
-            : <h1 className="pageTitle">Register</h1>}
-            {displayLogin  
-            ? <div>
-            <form className="defaultForm" onSubmit={(e) => {
-                e.preventDefault();
-               loginUser();
-            }}> 
-                <label className="formLabel">
-                    Username: 
-                    <input type="text" className="inputtext" value={username} name="username" onChange={(event)=>{
-
-                        setUsername(event.target.value)
-
-                    }}></input>
-                </label>
-                <label className="formLabel">
-                    Password:  
-                    <input type="text" className="inputtext" value={password} name="password" onChange={(event)=>{
-
-                        setPassword(event.target.value)
-
-                    }}></input>
-                </label>
-                <button type="submit" className="redButton">Log In</button>
-            </form> 
-                <button type="button" className="redButton" onClick={() => { 
-                    setDisplayLogin(false);
+  return (
+    <div className="formContainer">
+      {displayLogin ? (
+        <h1 className="pageTitle">Log In</h1>
+      ) : (
+        <h1 className="pageTitle">Register</h1>
+      )}
+      {displayLogin ? (
+        <div>
+          <form
+            className="defaultForm"
+            onSubmit={(e) => {
+              e.preventDefault();
+              loginUser();
+            }}
+          >
+            <label className="formLabel">
+              Username:
+              <input
+                type="text"
+                className="inputtext"
+                value={username}
+                name="username"
+                onChange={(event) => {
+                  setUsername(event.target.value);
                 }}
-                >Don't have an account? Sign up here</button>
-            
-            </div>
-            : <div>
-            <form className="defaultForm" onSubmit={(e) => {
-                e.preventDefault();
-               registerUser();
-            }} > 
-               <label className="formLabel">
-                    Name: 
-                    <input type="text" className="inputtext" value={name} name="name" onChange={(event)=>{
-
-                        setName(event.target.value)
-
-                    }}></input>
-                </label>
-               <label className="formLabel">
-                    Email: 
-                    <input type="text" className="inputtext" value={email} name="email" onChange={(event)=>{
-
-                        setEmail(event.target.value)
-
-                    }}></input>
-                </label>
-                <label className="formLabel">
-                    Username: 
-                    <input type="text" className="inputtext" value={username} name="username" onChange={(event)=>{
-
-                        setUsername(event.target.value)
-
-                    }}></input>
-                </label>
-                <label className="formLabel">
-                    Password:  
-                    <input type="text" className="inputtext" value={password} name="password" onChange={(event)=>{
-
-                        setPassword(event.target.value)
-
-                    }}></input>
-                </label>
-                <button type="submit" className="redButton" >Register</button>
-            </form>
-                <button type="button" className="redButton" onClick={() => {
-                    setDisplayLogin(true);
+              ></input>
+            </label>
+            <label className="formLabel">
+              Password:
+              <input
+                type="text"
+                className="inputtext"
+                value={password}
+                name="password"
+                onChange={(event) => {
+                  setPassword(event.target.value);
                 }}
-                >Already have an account? Log in here</button>
-            </div>
-            }
+              ></input>
+            </label>
+            <button type="submit" className="redButton">
+              Log In
+            </button>
+          </form>
+          <button
+            type="button"
+            className="redButton"
+            onClick={() => {
+              setDisplayLogin(false);
+            }}
+          >
+            Don't have an account? Sign up here
+          </button>
         </div>
-    )
-}
+      ) : (
+        <div>
+          <form
+            className="defaultForm"
+            onSubmit={(e) => {
+              e.preventDefault();
+              registerUser();
+            }}
+          >
+            <label className="formLabel">
+              Name:
+              <input
+                type="text"
+                className="inputtext"
+                value={name}
+                name="name"
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+              ></input>
+            </label>
+            <label className="formLabel">
+              Email:
+              <input
+                type="text"
+                className="inputtext"
+                value={email}
+                name="email"
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+              ></input>
+            </label>
+            <label className="formLabel">
+              Username:
+              <input
+                type="text"
+                className="inputtext"
+                value={username}
+                name="username"
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
+              ></input>
+            </label>
+            <label className="formLabel">
+              Password:
+              <input
+                type="text"
+                className="inputtext"
+                value={password}
+                name="password"
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              ></input>
+            </label>
+            <button type="submit" className="redButton">
+              Register
+            </button>
+          </form>
+          <button
+            type="button"
+            className="redButton"
+            onClick={() => {
+              setDisplayLogin(true);
+            }}
+          >
+            Already have an account? Log in here
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-export default LoginRegister
+export default LoginRegister;
