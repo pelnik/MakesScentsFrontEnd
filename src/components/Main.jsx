@@ -107,7 +107,7 @@ const Main = () => {
           />
           <Route path='/products' element={<Products token={token} user={user}/>}/>
           <Route path='/products/:product_id' element={<SingleProduct />}/>
-          <Route path='/products/new' element={<NewProduct token={token}/>}/>
+          <Route path='/products/new' element={<NewProduct token={token} user={user}/>}/>
         </Routes>
       </div>
     </div>

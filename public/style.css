@@ -67,9 +67,3 @@
   width: 200px;
   height: 300px;
 }
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}

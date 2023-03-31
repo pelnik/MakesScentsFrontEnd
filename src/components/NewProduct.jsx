@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { createProduct } from '../apiAdapters';
 
-function NewProduct({ token }) {
+function NewProduct({ token, user }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -16,36 +16,44 @@ function NewProduct({ token }) {
 
   async function postNewProduct() {
     try {
-      const result = await createProduct(
-        token,
-        name,
-        description,
-        price,
-        pic_url,
-        size,
-        inventory,
-        category_id,
-        color,
-        fragrance
-      );
-      console.log(result, 'result of creating product');
-      if (result.success === true) {
-        setName('');
-        setDescription('');
-        setPrice('');
-        setPic_url('');
-        setSize('');
-        setInventory(0);
-        setCategory_id(0);
-        setColor('');
-        setFragrance('');
-      }
+    //   if (user.is_admin === true) {
+        console.log("check for token",  token )
+
+        const result = await createProduct(
+          token,
+          name,
+          description,
+          price,
+          pic_url,
+          size,
+          inventory,
+          category_id,
+          color,
+          fragrance
+        );
+        console.log(result, 'result of creating product');
+        if (result.success === true) {
+          setName('');
+          setDescription('');
+          setPrice('');
+          setPic_url('');
+          setSize('');
+          setInventory(0);
+          setCategory_id(0);
+          setColor('');
+          setFragrance('');
+        } else {
+          console.log('creating new product failed error') // need to add error message
+        }
+    //   } else {
+    //     console.log('not a admin') // need to add error message
+    //   }
     } catch (error) {
       console.log(error);
     }
   }
   return (
-    <div>
+    <div className='new-product-form'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -53,6 +61,7 @@ function NewProduct({ token }) {
         }}
       >
         <h1>Add New Product</h1>
+        <p>{token}</p>
         <div className='input-group'>
           <label>
             Name:
@@ -135,14 +144,16 @@ function NewProduct({ token }) {
         <div className='input-group'>
           <label>
             Category:
-            <input
-              type='number'
-              name='category_id'
+            <select
               value={category_id}
               onChange={(e) => {
-                setCategory_id(e.target.value);
+                setCategory_id(Number(e.target.value));
               }}
-            />
+            >
+              <option value='1'>Candle</option>
+              <option value='2'>Diffuser</option>
+              <option value='3'>Car</option>
+            </select>
           </label>
         </div>
         <div className='input-group'>
@@ -171,6 +182,7 @@ function NewProduct({ token }) {
             />
           </label>
         </div>
+        <button type='submit'>Submit</button>
       </form>
     </div>
   );

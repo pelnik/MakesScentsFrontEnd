@@ -29,7 +29,7 @@ function Products({ token, user }) {
 
   useEffect(() => {
     getAllProductsPage();
-  }, [token]);
+  }, []);
 
   return (
     <div id='products-page-container'>
