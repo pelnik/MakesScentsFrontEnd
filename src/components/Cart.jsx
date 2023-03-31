@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getActiveCart } from '../apiAdapters';
+import { getActiveCart, updateCartQuantity } from '../apiAdapters';
 
 function Cart({ token, cart, setCart }) {
   const [cartQuantities, setCartQuantities] = useState({});
@@ -33,24 +33,37 @@ function Cart({ token, cart, setCart }) {
     setCartQuantities(newCartQuantity);
   }
 
-  function handleQuantityChange(evt, itemId) {
+  async function updateBackendCartQuantity() {
+    try {
+    } catch (error) {
+      console.error('error updating back end cart quantity', error);
+    }
+  }
+
+  // Updates cart on the back end as well when request is made
+  async function handleQuantityChange(evt, itemId) {
     const newValue = evt.target.value;
 
     const cartQuantityCopy = { ...cartQuantities };
     cartQuantityCopy[itemId] = newValue;
+
     setCartQuantities(cartQuantityCopy);
   }
 
   async function getCart(token) {
-    if (token) {
-      const response = await getActiveCart(token);
-      const cart = response.cart;
-      console.log('cart', cart);
+    try {
+      if (token) {
+        const response = await getActiveCart(token);
+        const cart = response.cart;
+        console.log('cart', cart);
 
-      if (response.success) {
-        setCart(cart);
-        updateCartQuantities(cart);
+        if (response.success) {
+          setCart(cart);
+          updateCartQuantities(cart);
+        }
       }
+    } catch (error) {
+      console.error('error getting cart', error);
     }
   }
 
