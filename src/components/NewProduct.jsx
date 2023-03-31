@@ -10,15 +10,16 @@ function NewProduct({ token, user }) {
   const [pic_url, setPic_url] = useState('');
   const [size, setSize] = useState('');
   const [inventory, setInventory] = useState(0);
-  const [category_id, setCategory_id] = useState(0);
+  const [category_id, setCategory_id] = useState(1);
   const [color, setColor] = useState('');
   const [fragrance, setFragrance] = useState('');
+  const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   async function postNewProduct() {
     try {
-    //   if (user.is_admin === true) {
-        console.log("check for token",  token )
-
+      if (user.is_admin === true) {
         const result = await createProduct(
           token,
           name,
@@ -31,7 +32,6 @@ function NewProduct({ token, user }) {
           color,
           fragrance
         );
-        console.log(result, 'result of creating product');
         if (result.success === true) {
           setName('');
           setDescription('');
@@ -39,15 +39,16 @@ function NewProduct({ token, user }) {
           setPic_url('');
           setSize('');
           setInventory(0);
-          setCategory_id(0);
+          setCategory_id(1);
           setColor('');
           setFragrance('');
+          navigate('/products');
         } else {
-          console.log('creating new product failed error') // need to add error message
+          console.log('creating new product failed error'); // need to add error message
         }
-    //   } else {
-    //     console.log('not a admin') // need to add error message
-    //   }
+      } else {
+        setError('You have to be an admin to add new products.')
+      }
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +62,6 @@ function NewProduct({ token, user }) {
         }}
       >
         <h1>Add New Product</h1>
-        <p>{token}</p>
         <div className='input-group'>
           <label>
             Name:

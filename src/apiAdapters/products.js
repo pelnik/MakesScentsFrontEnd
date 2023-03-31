@@ -4,7 +4,7 @@ export async function getAllProducts() {
   try {
     const response = await fetch(`${BASE_URL}/products`, {
       method: 'GET',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
       },
     });
@@ -12,6 +12,22 @@ export async function getAllProducts() {
     return result;
   } catch (error) {
     console.log('error getting all products', error);
+  }
+}
+
+// I forgot to make API path for this function *********
+export async function getSingleProduct(product_id) {
+  try {
+    const response = await fetch(`${BASE_URL}/products/${product_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log('error getting a single product', error);
   }
 }
 
@@ -30,7 +46,7 @@ export async function createProduct(
   try {
     const response = await fetch(`${BASE_URL}/products`, {
       method: 'POST',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
@@ -65,7 +81,7 @@ export async function updateProduct(
   try {
     const response = await fetch(`${BASE_URL}/products/${product_id}`, {
       method: 'PATCH',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
@@ -88,7 +104,7 @@ export async function deleteProduct(token, product_id) {
   try {
     const response = await fetch(`${BASE_URL}/products/${product_id}`, {
       method: 'DELETE',
-      header: {
+      headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },

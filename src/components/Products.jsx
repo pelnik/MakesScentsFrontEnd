@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { getAllProducts, deleteProduct } from '../apiAdapters';
 
-function Products({ token, user }) {
+function Products({ token, user, setSelectedProduct }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
@@ -11,9 +11,11 @@ function Products({ token, user }) {
   async function getAllProductsPage() {
     try {
       const result = await getAllProducts();
-      console.log(result, 'result here');
-      setProducts(result.products);
-      return result;
+      if (result.success === true) {
+        console.log('getting all products', result);
+        setProducts(result.products);
+        return result;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +31,7 @@ function Products({ token, user }) {
 
   useEffect(() => {
     getAllProductsPage();
-  }, []);
+  }, [token]);
 
   return (
     <div id='products-page-container'>
@@ -80,7 +82,14 @@ function Products({ token, user }) {
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div id='products-container' key={`products${idx}`}>
+              <div
+                id='products-container'
+                key={`products${idx}`}
+                onClick={() => {
+                  setSelectedProduct({product_id: product.id})
+                  navigate(`/products/${product.id}`);
+                }}
+              >
                 <img src={product.pic_url} id='product-pic' />
                 <h3>{product.name}</h3>
                 <h5>{product.description}</h5>
