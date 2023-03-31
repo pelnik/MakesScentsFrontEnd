@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getActiveCart } from '../apiAdapters';
 
 function Cart({ token, cart, setCart }) {
+  const [cartQuantities, setCartQuantities] = useState({});
+
   const navigate = useNavigate();
 
   const hasCart = Object.keys(cart).length > 0;
@@ -19,13 +21,35 @@ function Cart({ token, cart, setCart }) {
 
   const dollarTotal = `$${total.toFixed(2)}`;
 
+  function updateCartQuantities(cart) {
+    const items = cart.items;
+    const newCartQuantity = {};
+
+    items.forEach((item) => {
+      newCartQuantity[item.id] = item.quantity;
+    });
+
+    console.log('cart quantity', newCartQuantity);
+    setCartQuantities(newCartQuantity);
+  }
+
+  function handleQuantityChange(evt, itemId) {
+    const newValue = evt.target.value;
+
+    const cartQuantityCopy = { ...cartQuantities };
+    cartQuantityCopy[itemId] = newValue;
+    setCartQuantities(cartQuantityCopy);
+  }
+
   async function getCart(token) {
     if (token) {
       const response = await getActiveCart(token);
-      console.log('cart', response.cart);
+      const cart = response.cart;
+      console.log('cart', cart);
 
       if (response.success) {
-        setCart(response.cart);
+        setCart(cart);
+        updateCartQuantities(cart);
       }
     }
   }
@@ -49,7 +73,14 @@ function Cart({ token, cart, setCart }) {
                 <div>{item.product_name}</div>
                 <div>{item.product_price}</div>
                 <div>{item.quantity}</div>
-                <div>Cart Item</div>
+                <input
+                  name="quantity"
+                  type="number"
+                  value={cartQuantities[item.id]}
+                  onChange={(evt) => {
+                    handleQuantityChange(evt, item.id);
+                  }}
+                />
               </div>
             );
           })
