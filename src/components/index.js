@@ -9,4 +9,6 @@ export { default as SingleProduct } from "./SingleProduct";
 export { default as NewProduct } from "./NewProduct";
 export { default as UserProfile } from './UserProfile';
 export { default as EditProfile } from './EditProfile';
+export { default as AdminUsersPage } from './AdminUsersPage';
+export { default as EditUser } from './EditUser';
 export { default as EditProduct } from './EditProduct';
