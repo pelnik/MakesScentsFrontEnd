@@ -17,3 +17,27 @@ export async function getActiveCart(token) {
     console.error('Error getting cart', error);
   }
 }
+
+export async function updateCartQuantity(token, cart_product_id, quantity) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/cart_products/${cart_product_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          quantity,
+        }),
+      }
+    );
+
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}
