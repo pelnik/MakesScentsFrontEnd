@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getSingleProduct } from '../apiAdapters';
 
-function SingleProduct({ selectedProduct, setSelectedProduct }) {
+function SingleProduct({ selectedProduct }) {
   const [product, setProduct] = useState([]);
   const product_id = selectedProduct.product_id;
 

@@ -105,6 +105,14 @@ function Products({ token, user, setSelectedProduct }) {
                 <div className='product-buttons'>
                   <button
                     onClick={() => {
+                      setSelectedProduct({
+                        product_id: product.id,
+                        name: product.name,
+                        description: product.description,
+                        price: product.price,
+                        pic_url: product.pic_url,
+                        inventory: product.inventory,
+                      });
                       navigate(`/products/edit/${product.id}`);
                     }}
                   >
@@ -112,7 +120,6 @@ function Products({ token, user, setSelectedProduct }) {
                   </button>
                   <button
                     onClick={() => {
-                      console.log(product.id, "check to see if it's");
                       removeProduct(product.id);
                     }}
                   >
