@@ -21,7 +21,7 @@ function Products({ token, user, setSelectedProduct }) {
     }
   }
 
-  async function removeProduct(product) {
+  async function removeProduct(product_id) {
     try {
       const result = await deleteProduct(token, product_id);
       if (result.success) {
