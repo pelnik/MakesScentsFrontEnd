@@ -8,11 +8,94 @@ export async function getAllProducts() {
         'Content-Type': 'application/json',
       },
     });
-
     const result = await response.json();
-    console.log('products', result);
     return result;
   } catch (error) {
     console.log('error getting all products', error);
+  }
+}
+
+export async function createProduct(
+  token,
+  name,
+  description,
+  price,
+  pic_url,
+  size,
+  inventory,
+  category_id,
+  color,
+  fragrance
+) {
+  try {
+    const response = await fetch(`${BASE_URL}/products`, {
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        price,
+        pic_url,
+        size,
+        inventory,
+        category_id,
+        color,
+        fragrance,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log('error creating a product', error);
+  }
+}
+
+export async function updateProduct(
+  token,
+  product_id,
+  name,
+  description,
+  price,
+  pic_url,
+  inventory
+) {
+  try {
+    const response = await fetch(`${BASE_URL}/products/${product_id}`, {
+      method: 'PATCH',
+      header: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        price,
+        pic_url,
+        inventory,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log('error updating a product', error);
+  }
+}
+
+export async function deleteProduct(token, product_id) {
+  try {
+    const response = await fetch(`${BASE_URL}/products/${product_id}`, {
+      method: 'DELETE',
+      header: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log('error deleting a product', error);
   }
 }
