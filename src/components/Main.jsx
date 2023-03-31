@@ -10,7 +10,10 @@ import {
   Products,
   SingleProduct,
   NewProduct,
+  UserProfile,
+  EditProfile,
 } from './';
+
 import { usersMe } from '../apiAdapters';
 
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
@@ -106,6 +109,7 @@ const Main = () => {
             path='/loginregister'
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
+
           <Route
             path='/cart'
             element={<Cart token={token} cart={cart} setCart={setCart} />}
@@ -136,6 +140,10 @@ const Main = () => {
           <Route
             path='/products/new'
             element={<NewProduct token={token} user={user} />}
+           <Route path="/profile" element={<UserProfile user={user} />} />
+          <Route
+            path="/profile/edit-profile/:id"
+            element={<EditProfile user={user} token={token} getUsers={getUsers}/>}
           />
         </Routes>
       </div>
