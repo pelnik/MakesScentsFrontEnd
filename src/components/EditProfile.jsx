@@ -1,20 +1,34 @@
-import { Password } from '@mui/icons-material';
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { editProfile } from '../apiAdapters';
+import { Password } from "@mui/icons-material";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { editUsername, editEmail } from "../apiAdapters";
 
-function EditProfile({ token }) {
+function EditProfile({ token , getUsers }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [displayEditUsername, setDisplayEditUsername] = useState(true);
   let [newUsername, setNewUsername] = useState(location.state.username);
   let [newEmail, setNewEmail] = useState(location.state.email);
-  async function changeProfile(id, username, email) {
+ 
+  async function changeUsername(id, username) {
     try {
-      console.log(id, token, username, email, '###');
-      await editProfile(id, token, username, email);
-      setNewUsername('');
-      setNewEmail('');
-      navigate('/profile');
+      console.log(id, token, username, "###");
+      await editUsername(id, token, username);
+      setNewUsername("");
+      await getUsers(token);
+      navigate("/profile");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function changeEmail(id, email) {
+    try {
+      console.log(id, token, email, "###");
+      await editEmail(id, token, email);
+      setNewEmail("");
+      await getUsers(token);
+      navigate("/profile");
     } catch (error) {
       console.log(error);
     }
@@ -22,43 +36,78 @@ function EditProfile({ token }) {
 
   return (
     <div className="formContainer">
-      <h1 className="pageTitle">Edit Username & Email</h1>
-      <form
-        className="defaultForm"
-        onSubmit={(event) => {
-          event.preventDefault();
-          changeProfile(location.state.id, newUsername, newEmail);
-        }}
-      >
-        <label className="formLabel">
-          Username:
-          <input
-            className="inputtext"
-            name="username"
-            type="text"
-            required
-            value={newUsername}
-            onChange={(event) => {
-              setNewUsername(event.target.value);
+      {displayEditUsername ? (
+        <h1 className="pageTitle">Edit Username</h1>
+      ) : (
+        <h1 className="pageTitle">Edit Email</h1>
+      )}
+      {displayEditUsername ? (
+        <div>
+          <form
+            className="defaultForm"
+            onSubmit={(event) => {
+              event.preventDefault();
+              changeUsername(location.state.id, newUsername);
             }}
-          />
-        </label>
-        <label className="formLabel">
-          Email:
-          <input
-            className="inputtext"
-            name="email"
-            type="text"
-            required
-            value={newEmail}
-            onChange={(event) => {
-              setNewEmail(event.target.value);
+          >
+            <label className="formLabel">
+              Change Username:
+              <input
+                className="inputtext"
+                name="username"
+                type="text"
+                required
+                value={newUsername}
+                onChange={(event) => {
+                  setNewUsername(event.target.value);
+                }}
+              />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+          <button
+            type="button"
+            onClick={() => {
+              setDisplayEditUsername(false);
             }}
-          />
-        </label>
-
-        <button type="submit">Submit</button>
-      </form>
+          >
+            Edit Email
+          </button>
+        </div>
+      ) : (
+        <div>
+          <form
+            className="defaultForm"
+            onSubmit={(event) => {
+              event.preventDefault();
+              changeEmail(location.state.id, newEmail);
+            }}
+          >
+            <label className="formLabel">
+              Change Email:
+              <input
+                className="inputtext"
+                name="email"
+                type="text"
+                required
+                value={newEmail}
+                onChange={(event) => {
+                  setNewEmail(event.target.value);
+                }}
+              />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+          <button
+            type="button"
+            onClick={() => {
+              setDisplayEditUsername(true);
+            }}
+          >
+            Edit Username
+          </button>
+        </div>
+      )}
     </div>
   );
 }

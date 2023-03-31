@@ -92,7 +92,7 @@ const Main = () => {
           <Route path="/profile" element={<UserProfile user={user} />} />
           <Route
             path="/profile/edit-profile/:id"
-            element={<EditProfile user={user} token={token} />}
+            element={<EditProfile user={user} token={token} getUsers={getUsers}/>}
           />
         </Routes>
       </div>

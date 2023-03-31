@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
+
 const UserProfile = ({ token, user }) => {
+
+ 
+
+
   return (
     <div id="profile">
       <h1>{user.name}'s Profile</h1>
