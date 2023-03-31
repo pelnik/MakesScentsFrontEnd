@@ -21,9 +21,14 @@ function Products({ token, user, setSelectedProduct }) {
     }
   }
 
-  async function removeProduct() {
+  async function removeProduct(product) {
     try {
-      const result = await deleteProduct;
+      const result = await deleteProduct(token, product_id);
+      if (result.success === true) {
+        const productsCopy = [...products].filter((n, idx) => {
+          return n.id !== product_id
+        })
+      }
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +36,7 @@ function Products({ token, user, setSelectedProduct }) {
 
   useEffect(() => {
     getAllProductsPage();
-  }, [token]);
+  }, []);
 
   return (
     <div id='products-page-container'>
@@ -103,7 +108,7 @@ function Products({ token, user, setSelectedProduct }) {
                   >
                     Edit
                   </button>
-                  <button>Delete</button>
+                  <button type='submit' onClick={() => {removeProduct()}}>Delete</button>
                 </div>
               </div>
             );

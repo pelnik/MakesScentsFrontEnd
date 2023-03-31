@@ -8,10 +8,10 @@ function SingleProduct({ selectedProduct, setSelectedProduct }) {
   async function getSingleProductPage() {
     try {
       const result = await getSingleProduct(product_id);
-      if (result.success === true) {
+      if (result.success) {
         console.log(result, 'result for single here');
-        setProduct(result.products);
-        return result
+        setProduct(result.product);
+        return result;
       }
     } catch (error) {
       console.log(error);
@@ -20,14 +20,19 @@ function SingleProduct({ selectedProduct, setSelectedProduct }) {
 
   useEffect(() => {
     getSingleProductPage();
-  }, [])
+  }, []);
 
   return (
     <div>
-      <h1>Item Detail</h1>
+      <h3>Item Detail</h3>
+      <img src={product.pic_url} id='product-pic' />
       <h2>{product.name}</h2>
+      <h3>{product.description}</h3>
+      <h3>Size: {product.size}</h3>
+      <h3>{product.price}</h3>
+      <h3>Fragrance: {product.fragrance}</h3>
+      <h3>Color: {product.color}</h3>
     </div>
-
   );
 }
 
