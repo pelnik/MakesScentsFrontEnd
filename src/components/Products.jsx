@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { getAllProducts, deleteProduct } from '../apiAdapters';
 
 function Products({ token, user }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   async function getAllProductsPage() {
     try {
@@ -20,7 +21,7 @@ function Products({ token, user }) {
 
   async function removeProduct() {
     try {
-      const result = await deleteProduct
+      const result = await deleteProduct;
     } catch (error) {
       console.log(error);
     }
@@ -28,15 +29,22 @@ function Products({ token, user }) {
 
   useEffect(() => {
     getAllProductsPage();
-  }, []);
+  }, [token]);
 
   return (
     <div id='products-page-container'>
       <div id='products-header'>
         <h1>Products</h1>
-        {user.is_admin === true ? 
-          <button className='add-product-button' onClick={() => {navigate('/products/new')}}>Add New Product</button> 
-          : null}
+        {user.is_admin === true ? (
+          <button
+            className='add-product-button'
+            onClick={() => {
+              navigate('/products/new');
+            }}
+          >
+            Add New Product
+          </button>
+        ) : null}
       </div>
       <div id='side-by-side'>
         <div id='products-filter'>
@@ -81,8 +89,9 @@ function Products({ token, user }) {
                 <div className='product-buttons'>
                   <button
                     onClick={() => {
-                      navigate('/products/:product_id')
-                    }}>
+                      navigate('/products/:product_id');
+                    }}
+                  >
                     Edit
                   </button>
                   <button>Delete</button>
