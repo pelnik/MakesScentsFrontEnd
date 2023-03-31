@@ -50,7 +50,6 @@ export const usersMe = async (token) => {
     });
 
     const result = await response.json();
-    console.log('usersMe', result);
     return result;
   } catch (error) {
     console.log(error);
@@ -91,6 +90,45 @@ export const editEmail= async (id, token, email) => {
     });
     const result = await response.json();
     console.log(result, 'editprofile');
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllUsers = async (token) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    console.log('all users', result);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editUserStatus= async (id, token, is_active, is_admin) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/admin/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        is_active: is_active,
+        is_admin: is_admin,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, 'editUserStatus');
     return result;
   } catch (error) {
     console.log(error);

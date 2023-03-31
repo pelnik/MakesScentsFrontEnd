@@ -85,6 +85,7 @@ const LoginRegister = (props) => {
             <button type="submit" className="redButton">
               Log In
             </button>
+            <p>{error}</p>
           </form>
           <button
             type="button"
@@ -156,6 +157,7 @@ const LoginRegister = (props) => {
             <button type="submit" className="redButton">
               Register
             </button>
+            <p>{error}</p>
           </form>
           <button
             type="button"

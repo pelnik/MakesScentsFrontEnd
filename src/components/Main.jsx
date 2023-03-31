@@ -12,6 +12,8 @@ import {
   NewProduct,
   UserProfile,
   EditProfile,
+  AdminUsersPage,
+  EditUser,
 } from './';
 
 import { usersMe } from '../apiAdapters';
@@ -148,7 +150,20 @@ const Main = () => {
               <EditProfile user={user} token={token} getUsers={getUsers} />
             }
           />
+             <Route
+            path="/admin-users"
+            element={
+              <AdminUsersPage token={token}/>
+            }
+          />
+          <Route
+            path="/admin-users/edit-user/:id"
+            element={
+              <EditUser user={user} token={token} getUsers={getUsers} />
+            }
+          />
         </Routes>
+        
       </div>
     </div>
   );
