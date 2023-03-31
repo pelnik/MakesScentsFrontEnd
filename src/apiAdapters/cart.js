@@ -62,3 +62,24 @@ export async function deleteCartItem(token, cart_product_id) {
     console.error('Error getting cart', error);
   }
 }
+
+export async function checkout(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/carts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        status: 'Processing',
+      }),
+    });
+
+    const result = await response.json();
+    console.log('cart product post', result);
+    return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}

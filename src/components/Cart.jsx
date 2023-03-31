@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  getActiveCart,
-  updateCartQuantity,
-  deleteCartItem,
-} from '../apiAdapters';
+import { updateCartQuantity, deleteCartItem } from '../apiAdapters';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Cart({ token, cart, setCart }) {
-  const [cartQuantities, setCartQuantities] = useState({});
+  const defaultCartQuantity = {};
+  const [cartQuantities, setCartQuantities] = useState(defaultCartQuantity);
 
   const navigate = useNavigate();
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
+  const hasCartQuantities = Object.keys(cartQuantities).length > 0;
 
   const total = hasItems
     ? cart.items.reduce((x, y) => {
@@ -120,7 +118,6 @@ function Cart({ token, cart, setCart }) {
   }
 
   function handleShowEditClick(evt, itemId) {
-    const newValue = evt.target.value;
     const newQuantityObject = cartQuantities[itemId];
 
     const cartQuantityCopy = {
@@ -134,35 +131,22 @@ function Cart({ token, cart, setCart }) {
     setCartQuantities(cartQuantityCopy);
   }
 
-  async function getCart(token) {
-    try {
-      if (token) {
-        const response = await getActiveCart(token);
-        const cart = response.cart;
-        console.log('cart', cart);
-
-        if (response.success) {
-          setCart(cart);
-          initializeCartQuantities(cart);
-        }
-      }
-    } catch (error) {
-      console.error('error getting cart', error);
-    }
-  }
-
   function handleCheckoutClick() {
     navigate('/checkout');
   }
-
+  // Work on this
   useEffect(() => {
-    getCart(token);
-  }, [token]);
+    if (hasCart) {
+      initializeCartQuantities(cart);
+    } else if (cartQuantities !== defaultCartQuantity) {
+      setCartQuantities(defaultCartQuantity);
+    }
+  }, [cart]);
 
   return (
     <div id="full-cart-page">
       <div id="cart-container">
-        {hasItems ? (
+        {hasItems && hasCartQuantities ? (
           [...cart.items]
             .sort((first, second) => {
               return first.id < second.id;

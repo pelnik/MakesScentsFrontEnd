@@ -14,7 +14,7 @@ import {
   EditProfile,
 } from './';
 
-import { usersMe } from '../apiAdapters';
+import { usersMe, getActiveCart } from '../apiAdapters';
 
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
@@ -79,6 +79,20 @@ const Main = () => {
     }
   }
 
+  async function getCart(token) {
+    try {
+      const response = await getActiveCart(token);
+      const cart = response.cart;
+      console.log('cart', cart);
+
+      if (response.success) {
+        setCart(cart);
+      }
+    } catch (error) {
+      console.error('error getting cart', error);
+    }
+  }
+
   async function tokenChange() {
     if (user !== defaultUser) {
       setUser(defaultUser);
@@ -87,6 +101,7 @@ const Main = () => {
       const userUpdated = await getUsers(token);
       if (userUpdated) {
         saveToLocalStorage(token);
+        getCart(token);
       }
     }
   }
