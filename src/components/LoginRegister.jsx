@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { registerNewUser, logUserIn } from '../apiAdapters';
 import { useNavigate } from 'react-router-dom';
-import { saveToLocalStorage } from '../utils';
+
 
 const LoginRegister = (props) => {
   const navigate = useNavigate();

@@ -56,3 +56,43 @@ export const usersMe = async (token) => {
     console.log(error);
   }
 };
+
+export const editUsername = async (id, token, username) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        username: username,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, 'editprofile');
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editEmail= async (id, token, email) => {
+  try {
+    const response = await fetch(`${BASE_URL}/users/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
+    });
+    const result = await response.json();
+    console.log(result, 'editprofile');
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
