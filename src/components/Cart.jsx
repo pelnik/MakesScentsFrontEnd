@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getActiveCart, updateCartQuantity } from '../apiAdapters';
+import {
+  getActiveCart,
+  updateCartQuantity,
+  deleteCartItem,
+} from '../apiAdapters';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -92,6 +96,29 @@ function Cart({ token, cart, setCart }) {
     setCartQuantities(cartQuantityCopy);
   }
 
+  async function handleDeleteClick(evt, itemId) {
+    try {
+      const response = await deleteCartItem(token, itemId);
+      console.log('delete response', response);
+
+      if (response.success) {
+        const item = response.cartItem;
+        const responseId = item.id;
+
+        const cartCopy = {
+          ...cart,
+          items: [...cart.items].filter((item) => {
+            return item.id !== responseId;
+          }),
+        };
+
+        setCart(cartCopy);
+      }
+    } catch (error) {
+      console.error('error deleting item', error);
+    }
+  }
+
   function handleShowEditClick(evt, itemId) {
     const newValue = evt.target.value;
     const newQuantityObject = cartQuantities[itemId];
@@ -179,7 +206,11 @@ function Cart({ token, cart, setCart }) {
                       ? 'Update Quantity'
                       : `Don't update`}
                   </button>
-                  <DeleteIcon />
+                  <DeleteIcon
+                    onClick={(evt) => {
+                      handleDeleteClick(evt, item.id);
+                    }}
+                  />
                 </div>
               );
             })
