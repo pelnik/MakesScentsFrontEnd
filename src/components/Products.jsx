@@ -11,7 +11,7 @@ function Products({ token, user, setSelectedProduct }) {
   async function getAllProductsPage() {
     try {
       const result = await getAllProducts();
-      if (result.success === true) {
+      if (result.success) {
         console.log('getting all products', result);
         setProducts(result.products);
         return result;
@@ -24,10 +24,11 @@ function Products({ token, user, setSelectedProduct }) {
   async function removeProduct(product) {
     try {
       const result = await deleteProduct(token, product_id);
-      if (result.success === true) {
+      if (result.success) {
         const productsCopy = [...products].filter((n, idx) => {
-          return n.id !== product_id
-        })
+          return n.id !== product_id;
+        });
+        setProducts(productsCopy);
       }
     } catch (error) {
       console.log(error);
@@ -87,28 +88,36 @@ function Products({ token, user, setSelectedProduct }) {
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div
-                id='products-container'
-                key={`products${idx}`}
-                onClick={() => {
-                  setSelectedProduct({product_id: product.id})
-                  navigate(`/products/${product.id}`);
-                }}
-              >
-                <img src={product.pic_url} id='product-pic' />
-                <h3>{product.name}</h3>
-                <h5>{product.description}</h5>
-                <h4>Size: {product.size}</h4>
-                <h3>{product.price}</h3>
+              <div id='products-container' key={`products${idx}`}>
+                <div
+                  className='product-detail'
+                  onClick={() => {
+                    setSelectedProduct({ product_id: product.id });
+                    navigate(`/products/${product.id}`);
+                  }}
+                >
+                  <img src={product.pic_url} id='product-pic' />
+                  <h3>{product.name}</h3>
+                  <h5>{product.description}</h5>
+                  <h4>Size: {product.size}</h4>
+                  <h3>{product.price}</h3>
+                </div>
                 <div className='product-buttons'>
                   <button
                     onClick={() => {
-                      navigate('/products/:product_id');
+                      navigate(`/products/edit/${product.id}`);
                     }}
                   >
                     Edit
                   </button>
-                  <button type='submit' onClick={() => {removeProduct()}}>Delete</button>
+                  <button
+                    onClick={() => {
+                      console.log(product.id, "check to see if it's");
+                      removeProduct(product.id);
+                    }}
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
             );

@@ -12,6 +12,7 @@ import {
   NewProduct,
   UserProfile,
   EditProfile,
+  EditProduct,
 } from './';
 
 import { usersMe } from '../apiAdapters';
@@ -141,6 +142,7 @@ const Main = () => {
             path="/products/new"
             element={<NewProduct token={token} user={user} />}
           />
+          <Route path='/products/edit/:product_id' element={<EditProduct />}/>
           <Route path="/profile" element={<UserProfile user={user} />} />
           <Route
             path="/profile/edit-profile/:id"
