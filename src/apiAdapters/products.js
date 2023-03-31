@@ -15,7 +15,6 @@ export async function getAllProducts() {
   }
 }
 
-// I forgot to make API path for this function *********
 export async function getSingleProduct(product_id) {
   try {
     const response = await fetch(`${BASE_URL}/products/${product_id}`, {
