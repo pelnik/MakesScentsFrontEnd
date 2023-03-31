@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-
 import {
   Navbar,
   Home,
   LoginRegister,
   Cart,
+  Checkout,
   Products,
   SingleProduct,
+  NewProduct,
   UserProfile,
   EditProfile,
 } from './';
@@ -30,6 +31,7 @@ const Main = () => {
   const [cart, setCart] = useState({});
   const [token, setToken] = useState('');
   const [user, setUser] = useState(defaultUser);
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   async function checkUser(token) {
     try {
@@ -98,26 +100,46 @@ const Main = () => {
   }, [token]);
 
   return (
-    <div id="main">
+    <div id='main'>
       <Navbar />
-      <div id="page">
+      <div id='page'>
         <Routes>
-          <Route exact path="/" element={<Home token={token} user={user} />} />
+          <Route exact path='/' element={<Home token={token} user={user} />} />
           <Route
-            path="/loginregister"
+            path='/loginregister'
             element={<LoginRegister setToken={setToken} setUser={setUser} />}
           />
 
           <Route
-            path="/cart"
+            path='/cart'
             element={<Cart token={token} cart={cart} setCart={setCart} />}
           />
           <Route
-            path="/checkout"
+            path='/checkout'
             element={<Checkout token={token} cart={cart} setCart={setCart} />}
           />
-          <Route path='/products' element={<Products token={token} user={user}/>}/>
-          <Route path='/products/:product_id' element={<SingleProduct />}/>
+          <Route
+            path='/products'
+            element={
+              <Products
+                token={token}
+                user={user}
+                setSelectedProduct={setSelectedProduct}
+              />
+            }
+          />
+          <Route
+            path='/products/:product_id'
+            element={
+              <SingleProduct
+                selectedProduct={selectedProduct}
+                setSelectedProduct={setSelectedProduct}
+              />
+            }
+          />
+          <Route
+            path='/products/new'
+            element={<NewProduct token={token} user={user} />}
            <Route path="/profile" element={<UserProfile user={user} />} />
           <Route
             path="/profile/edit-profile/:id"

@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { getAllProducts, deleteProduct } from '../apiAdapters';
 
-function Products({ token, user }) {
+function Products({ token, user, setSelectedProduct }) {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   async function getAllProductsPage() {
     try {
       const result = await getAllProducts();
-      console.log(result, 'result here');
-      setProducts(result.products);
-      return result;
+      if (result.success === true) {
+        console.log('getting all products', result);
+        setProducts(result.products);
+        return result;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -20,7 +23,7 @@ function Products({ token, user }) {
 
   async function removeProduct() {
     try {
-      const result = await deleteProduct
+      const result = await deleteProduct;
     } catch (error) {
       console.log(error);
     }
@@ -28,15 +31,22 @@ function Products({ token, user }) {
 
   useEffect(() => {
     getAllProductsPage();
-  }, []);
+  }, [token]);
 
   return (
     <div id='products-page-container'>
       <div id='products-header'>
         <h1>Products</h1>
-        {user.is_admin === true ? 
-          <button className='add-product-button' onClick={() => {navigate('/products/new')}}>Add New Product</button> 
-          : null}
+        {user.is_admin === true ? (
+          <button
+            className='add-product-button'
+            onClick={() => {
+              navigate('/products/new');
+            }}
+          >
+            Add New Product
+          </button>
+        ) : null}
       </div>
       <div id='side-by-side'>
         <div id='products-filter'>
@@ -72,7 +82,14 @@ function Products({ token, user }) {
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div id='products-container' key={`products${idx}`}>
+              <div
+                id='products-container'
+                key={`products${idx}`}
+                onClick={() => {
+                  setSelectedProduct({product_id: product.id})
+                  navigate(`/products/${product.id}`);
+                }}
+              >
                 <img src={product.pic_url} id='product-pic' />
                 <h3>{product.name}</h3>
                 <h5>{product.description}</h5>
@@ -81,8 +98,9 @@ function Products({ token, user }) {
                 <div className='product-buttons'>
                   <button
                     onClick={() => {
-                      navigate('/products/:product_id')
-                    }}>
+                      navigate('/products/:product_id');
+                    }}
+                  >
                     Edit
                   </button>
                   <button>Delete</button>
