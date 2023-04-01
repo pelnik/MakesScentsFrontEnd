@@ -19,22 +19,22 @@ import {
 } from './';
 
 import { usersMe, getActiveCart } from '../apiAdapters';
-
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
+let loads = 0;
+
+// React docs recommend checking the first load like this
+// https://react.dev/learn/you-might-not-need-an-effect
+let initialLoad = true;
+const initialLocalToken = getTokenFromLocalStorage();
+
 const Main = () => {
-  const defaultUser = {
-    email: null,
-    id: null,
-    is_active: null,
-    is_admin: null,
-    name: null,
-    username: null,
-  };
+  loads += 1;
+  console.log('loads', loads);
 
   const [cart, setCart] = useState({});
-  const [token, setToken] = useState('');
-  const [user, setUser] = useState(defaultUser);
+  const [token, setToken] = useState(initialLocalToken);
+  const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
   async function checkUser(token) {
@@ -54,32 +54,18 @@ const Main = () => {
     }
   }
 
-  async function getUsers(token) {
+  async function getUser(token) {
     try {
-      if (token) {
-        const result = await usersMe(token);
+      const result = await usersMe(token);
 
-        if (result.success) {
-          setUser(result.user);
-          return true;
-        } else {
-          console.error('Token in LS but user API failed.');
-          return false;
-        }
+      if (result.success) {
+        return result.user;
+      } else {
+        console.error('Could not get user.');
+        return {};
       }
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  async function firstLoad() {
-    const localStorageToken = getTokenFromLocalStorage();
-
-    if (localStorageToken) {
-      const userUpdated = await checkUser(localStorageToken);
-      if (userUpdated) {
-        setToken(localStorageToken);
-      }
     }
   }
 
@@ -87,10 +73,12 @@ const Main = () => {
     try {
       const response = await getActiveCart(token);
       const cart = response.cart;
-      console.log('cart', cart);
 
       if (response.success) {
-        setCart(cart);
+        return cart;
+      } else {
+        console.error('error getting cart');
+        return {};
       }
     } catch (error) {
       console.error('error getting cart', error);
@@ -110,13 +98,25 @@ const Main = () => {
     }
   }
 
+  async function firstLoad() {
+    let user = {};
+    let cart = {};
+
+    if (token) {
+      user = await getUser(token);
+      if (user) {
+        cart = await getCart(token);
+      }
+      setUser(user);
+      setCart(cart);
+    }
+    loading = false;
+    console.log('loading', loading);
+  }
+
   useEffect(() => {
     firstLoad();
   }, []);
-
-  useEffect(() => {
-    tokenChange();
-  }, [token]);
 
   return (
     <div id="main">
@@ -170,7 +170,7 @@ const Main = () => {
           <Route
             path="/profile/edit-profile/:id"
             element={
-              <EditProfile user={user} token={token} getUsers={getUsers} />
+              <EditProfile user={user} token={token} getUser={getUser} />
             }
           />
           <Route
@@ -179,7 +179,7 @@ const Main = () => {
           />
           <Route
             path="/admin-users/edit-user/:id"
-            element={<EditUser user={user} token={token} getUsers={getUsers} />}
+            element={<EditUser user={user} token={token} getUser={getUser} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
