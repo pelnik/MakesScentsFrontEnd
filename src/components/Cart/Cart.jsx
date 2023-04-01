@@ -14,10 +14,6 @@ function Cart({ token, cart, setCart }) {
     createCartQuantities(cart)
   );
 
-  // setCartQuantities(createCartQuantities(cart));
-  console.log('cart', cart);
-  console.log('cart quantities', cartQuantities);
-
   const total = hasItems
     ? cart.items.reduce((x, y) => {
         const cleanY = y.product_price.slice(1);

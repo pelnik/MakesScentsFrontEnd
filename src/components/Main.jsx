@@ -21,17 +21,12 @@ import {
 import { usersMe, getActiveCart } from '../apiAdapters';
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
-let loads = 0;
-
 // React docs recommend checking the first load like this
 // https://react.dev/learn/you-might-not-need-an-effect
 let initialLoad = true;
 const initialLocalToken = getTokenFromLocalStorage();
 
 const Main = () => {
-  loads += 1;
-  console.log('loads', loads);
-
   const [cart, setCart] = useState({});
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
@@ -81,8 +76,6 @@ const Main = () => {
     const user = allPromises[0];
     const cart = allPromises[1];
 
-    console.log('user', user, 'cart', cart);
-
     setToken(token);
     setCart(cart);
     setUser(user);
@@ -102,7 +95,6 @@ const Main = () => {
       setCart(cart);
     }
     initialLoad = false;
-    console.log('loading', initialLoad);
   }
 
   useEffect(() => {
