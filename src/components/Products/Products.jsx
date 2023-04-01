@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { getAllProducts, deleteProduct } from '../../apiAdapters';
 
@@ -103,6 +104,7 @@ function Products({ token, user, setSelectedProduct }) {
                   <h3>{product.price}</h3>
                 </div>
                 <div className="product-buttons">
+                  <AddShoppingCartIcon />
                   <button
                     onClick={() => {
                       setSelectedProduct({
