@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateProduct } from '../apiAdapters';
+import { updateProduct } from '../../apiAdapters';
 
 function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   const [name, setName] = useState(selectedProduct.name);
@@ -28,7 +28,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         pic_url,
         inventory
       );
-      console.log(result, "result from editing product")
+      console.log(result, 'result from editing product');
       if (result.success) {
         setSelectedProduct({});
       }
@@ -37,7 +37,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
     }
   }
   return (
-    <div className='new-product-form'>
+    <div className="new-product-form">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -45,12 +45,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         }}
       >
         <h1>Edit Product</h1>
-        <div className='input-group'>
+        <div className="input-group">
           <label>
             Name:
             <input
-              type='text'
-              name='name'
+              type="text"
+              name="name"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -58,12 +58,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             />
           </label>
         </div>
-        <div className='input-group'>
+        <div className="input-group">
           <label>
             Description:
             <input
-              type='text'
-              name='description'
+              type="text"
+              name="description"
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -71,12 +71,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             />
           </label>
         </div>
-        <div className='input-group'>
+        <div className="input-group">
           <label>
             Price: $
             <input
-              type='text'
-              name='price'
+              type="text"
+              name="price"
               value={price}
               onChange={(e) => {
                 setPrice(e.target.value);
@@ -84,12 +84,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             />
           </label>
         </div>
-        <div className='input-group'>
+        <div className="input-group">
           <label>
             Picture:
             <input
-              type='url'
-              name='pic_url'
+              type="url"
+              name="pic_url"
               value={pic_url}
               onChange={(e) => {
                 setPic_url(e.target.value);
@@ -97,21 +97,21 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             />
           </label>
         </div>
-        <div className='input-group'>
+        <div className="input-group">
           <label>
             Inventory:
             <input
-              type='number'
-              name='inventory'
+              type="number"
+              name="inventory"
               value={inventory}
-              min='0'
+              min="0"
               onChange={(e) => {
                 setInventory(e.target.value);
               }}
             />
           </label>
         </div>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
