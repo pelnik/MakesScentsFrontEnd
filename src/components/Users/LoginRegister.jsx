@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { registerNewUser, logUserIn } from '../../apiAdapters';
 import { useNavigate } from 'react-router-dom';
 
+import { saveToLocalStorage } from '../../utils';
+
 const LoginRegister = (props) => {
   const navigate = useNavigate();
 
@@ -13,14 +15,17 @@ const LoginRegister = (props) => {
   const [error, setError] = useState('');
 
   const setToken = props.setToken;
+  const setUser = props.setUser;
+  const mainLogUserIn = props.mainLogUserIn;
+
   async function registerUser() {
     try {
       const response = await registerNewUser(name, email, username, password);
       if (!response.success) {
         setError(`${response.message}`);
       } else {
-        setToken(response.token);
-        navigate('/');
+        await mainLogUserIn(response.token);
+        navigate(-1);
       }
     } catch (error) {
       console.log(error);
@@ -33,8 +38,8 @@ const LoginRegister = (props) => {
       if (!response.success) {
         setError(`${response.message}`);
       } else {
-        setToken(response.token);
-        navigate('/');
+        await mainLogUserIn(response.token);
+        navigate(-1);
       }
     } catch (error) {
       console.log(error);

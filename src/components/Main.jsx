@@ -68,6 +68,27 @@ const Main = () => {
     }
   }
 
+  async function logUserOut() {
+    setToken('');
+    setCart({});
+    setUser({});
+    saveToLocalStorage('');
+  }
+
+  async function mainLogUserIn(token) {
+    const allPromises = await Promise.all([getUser(token), getCart(token)]);
+
+    const user = allPromises[0];
+    const cart = allPromises[1];
+
+    console.log('user', user, 'cart', cart);
+
+    setToken(token);
+    setCart(cart);
+    setUser(user);
+    saveToLocalStorage(token);
+  }
+
   async function firstLoad() {
     let user = {};
     let cart = {};
@@ -90,13 +111,19 @@ const Main = () => {
 
   return (
     <div id="main">
-      <Navbar />
+      <Navbar logUserOut={logUserOut} token={token} />
       <div id="page">
         <Routes>
           <Route exact path="/" element={<Home token={token} user={user} />} />
           <Route
             path="/loginregister"
-            element={<LoginRegister setToken={setToken} setUser={setUser} />}
+            element={
+              <LoginRegister
+                setToken={setToken}
+                setUser={setUser}
+                mainLogUserIn={mainLogUserIn}
+              />
+            }
           />
 
           <Route

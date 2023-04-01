@@ -50,6 +50,7 @@ export const usersMe = async (token) => {
     });
 
     const result = await response.json();
+    console.log('usersMe', result);
     return result;
   } catch (error) {
     console.log(error);
@@ -76,7 +77,7 @@ export const editUsername = async (id, token, username) => {
   }
 };
 
-export const editEmail= async (id, token, email) => {
+export const editEmail = async (id, token, email) => {
   try {
     const response = await fetch(`${BASE_URL}/users/${id}`, {
       method: 'PATCH',
@@ -114,7 +115,7 @@ export const getAllUsers = async (token) => {
   }
 };
 
-export const editUserStatus= async (id, token, is_active, is_admin) => {
+export const editUserStatus = async (id, token, is_active, is_admin) => {
   try {
     const response = await fetch(`${BASE_URL}/users/admin/${id}`, {
       method: 'PATCH',
