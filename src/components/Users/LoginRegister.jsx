@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { registerNewUser, logUserIn } from '../apiAdapters';
+import { registerNewUser, logUserIn } from '../../apiAdapters';
 import { useNavigate } from 'react-router-dom';
-
 
 const LoginRegister = (props) => {
   const navigate = useNavigate();
