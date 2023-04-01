@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { editUsername, editEmail } from '../../apiAdapters';
 
-function EditProfile({ token, getUser }) {
+function EditProfile({ token, getUser, setUser }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [displayEditUsername, setDisplayEditUsername] = useState(true);
@@ -17,7 +17,7 @@ function EditProfile({ token, getUser }) {
       setNewUsername('');
       const userResponse = await getUser(token);
       if (userResponse.success) {
-        setNewUsername(userResponse.)
+        setUser(userResponse.user);
       }
       navigate('/profile');
     } catch (error) {

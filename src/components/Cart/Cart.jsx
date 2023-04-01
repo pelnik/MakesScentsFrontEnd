@@ -5,14 +5,18 @@ import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 function Cart({ token, cart, setCart }) {
-  const defaultCartQuantity = {};
-  const [cartQuantities, setCartQuantities] = useState(defaultCartQuantity);
-
   const navigate = useNavigate();
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
-  const hasCartQuantities = Object.keys(cartQuantities).length > 0;
+
+  const [cartQuantities, setCartQuantities] = useState(
+    createCartQuantities(cart)
+  );
+
+  // setCartQuantities(createCartQuantities(cart));
+  console.log('cart', cart);
+  console.log('cart quantities', cartQuantities);
 
   const total = hasItems
     ? cart.items.reduce((x, y) => {
@@ -25,19 +29,22 @@ function Cart({ token, cart, setCart }) {
 
   const dollarTotal = `$${total.toFixed(2)}`;
 
-  function initializeCartQuantities(cart) {
-    const items = cart.items;
-    const newCartQuantity = {};
+  function createCartQuantities(cart) {
+    console.log('hasCart', hasCart);
+    if (hasCart) {
+      const items = cart.items;
+      const newCartQuantity = {};
 
-    items.forEach((item) => {
-      newCartQuantity[item.id] = {
-        quantity: item.quantity,
-        showEdit: false,
-      };
-    });
-
-    console.log('cart quantity', newCartQuantity);
-    setCartQuantities(newCartQuantity);
+      items.forEach((item) => {
+        newCartQuantity[item.id] = {
+          quantity: item.quantity,
+          showEdit: false,
+        };
+      });
+      return newCartQuantity;
+    } else {
+      return {};
+    }
   }
 
   async function handleQuantityChangeSubmit(evt, itemId) {
@@ -134,19 +141,11 @@ function Cart({ token, cart, setCart }) {
   function handleCheckoutClick() {
     navigate('/checkout');
   }
-  // Work on this
-  useEffect(() => {
-    if (hasCart) {
-      initializeCartQuantities(cart);
-    } else if (cartQuantities !== defaultCartQuantity) {
-      setCartQuantities(defaultCartQuantity);
-    }
-  }, [cart]);
 
   return (
     <div id="full-cart-page">
       <div id="cart-container">
-        {hasItems && hasCartQuantities ? (
+        {hasItems ? (
           [...cart.items]
             .sort((first, second) => {
               return first.id < second.id;

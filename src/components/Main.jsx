@@ -37,23 +37,6 @@ const Main = () => {
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
-  async function checkUser(token) {
-    try {
-      if (token) {
-        const result = await usersMe(token);
-
-        if (result.success) {
-          return true;
-        } else {
-          console.error('Token in LS but user API failed.');
-          return false;
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function getUser(token) {
     try {
       const result = await usersMe(token);
@@ -85,19 +68,6 @@ const Main = () => {
     }
   }
 
-  async function tokenChange() {
-    if (user !== defaultUser) {
-      setUser(defaultUser);
-    }
-    if (token) {
-      const userUpdated = await getUsers(token);
-      if (userUpdated) {
-        saveToLocalStorage(token);
-        getCart(token);
-      }
-    }
-  }
-
   async function firstLoad() {
     let user = {};
     let cart = {};
@@ -110,8 +80,8 @@ const Main = () => {
       setUser(user);
       setCart(cart);
     }
-    loading = false;
-    console.log('loading', loading);
+    initialLoad = false;
+    console.log('loading', initialLoad);
   }
 
   useEffect(() => {
@@ -131,7 +101,14 @@ const Main = () => {
 
           <Route
             path="/cart"
-            element={<Cart token={token} cart={cart} setCart={setCart} />}
+            element={
+              <Cart
+                token={token}
+                cart={cart}
+                setCart={setCart}
+                key={cart?.id}
+              />
+            }
           />
           <Route
             path="/checkout"
@@ -170,7 +147,12 @@ const Main = () => {
           <Route
             path="/profile/edit-profile/:id"
             element={
-              <EditProfile user={user} token={token} getUser={getUser} />
+              <EditProfile
+                user={user}
+                token={token}
+                getUser={getUser}
+                setUser={setUser}
+              />
             }
           />
           <Route
@@ -179,7 +161,7 @@ const Main = () => {
           />
           <Route
             path="/admin-users/edit-user/:id"
-            element={<EditUser user={user} token={token} getUser={getUser} />}
+            element={<EditUser user={user} token={token} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
