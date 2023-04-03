@@ -9,6 +9,8 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   const [pic_url, setPic_url] = useState(selectedProduct.pic_url);
   const [inventory, setInventory] = useState(selectedProduct.inventory);
   const product_id = Number(selectedProduct.product_id);
+  const [error, setError] = useState('');
+
   const navigate = useNavigate();
 
   async function updateSelectedProduct(
@@ -19,18 +21,24 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
     inventory
   ) {
     try {
-      const result = await updateProduct(
-        token,
-        product_id,
-        name,
-        description,
-        price,
-        pic_url,
-        inventory
-      );
-      console.log(result, "result from editing product")
-      if (result.success) {
-        setSelectedProduct({});
+      if (user.is_admin) {
+        const result = await updateProduct(
+          token,
+          product_id,
+          name,
+          description,
+          price,
+          pic_url,
+          inventory
+        );
+        console.log('name change', name);
+        console.log(result, 'result from editing product');
+        if (result.success) {
+          setSelectedProduct({});
+          navigate('/products')
+        }
+      } else {
+        setError('You have to be an admin to edit a product.');
       }
     } catch (error) {
       console.log(error);
@@ -41,7 +49,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          updateSelectedProduct();
+          updateSelectedProduct(name, description, price, pic_url, inventory);
         }}
       >
         <h1>Edit Product</h1>
