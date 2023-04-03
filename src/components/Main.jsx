@@ -32,6 +32,8 @@ const Main = () => {
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
+  console.log('cart', cart);
+
   async function getUser(token) {
     try {
       const result = await usersMe(token);
@@ -138,6 +140,8 @@ const Main = () => {
             element={
               <Products
                 token={token}
+                setCart={setCart}
+                getCart={getCart}
                 user={user}
                 setSelectedProduct={setSelectedProduct}
               />

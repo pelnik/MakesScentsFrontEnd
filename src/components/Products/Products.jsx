@@ -4,7 +4,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
 
-function Products({ token, user, setSelectedProduct }) {
+function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]); // need to make API route to get list of categories and use it to display the category filter
   const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
@@ -39,10 +39,12 @@ function Products({ token, user, setSelectedProduct }) {
 
   async function handleShoppingCartClick(evt, product_id, quantity) {
     try {
-      console.log('token', token);
       const result = await addCartItem(token, product_id, quantity);
 
       if (result.success) {
+        const cartResult = await getCart(token);
+        console.log('cartResult', cartResult);
+        setCart(cartResult);
       }
     } catch (err) {
       console.log(err);
