@@ -26,7 +26,6 @@ function Cart({ token, cart, setCart }) {
   const dollarTotal = `$${total.toFixed(2)}`;
 
   function createCartQuantities(cart) {
-    console.log('hasCart', hasCart);
     if (hasCart) {
       const items = cart.items;
       const newCartQuantity = {};
@@ -35,6 +34,7 @@ function Cart({ token, cart, setCart }) {
         newCartQuantity[item.id] = {
           quantity: item.quantity,
           showEdit: false,
+          error: '',
         };
       });
       return newCartQuantity;
@@ -48,7 +48,6 @@ function Cart({ token, cart, setCart }) {
       const newQuantity = cartQuantities[itemId].quantity;
 
       const response = await updateCartQuantity(token, itemId, newQuantity);
-      console.log('quantity response', response);
 
       if (response.success) {
         const cartCopy = {
@@ -83,16 +82,29 @@ function Cart({ token, cart, setCart }) {
 
   // Updates cart on the back end as well when request is made
   function handleQuantityChange(evt, itemId) {
-    const newValue = evt.target.value;
+    let newValue = evt.target.value;
+    newValue = Number(newValue);
     const newQuantityObject = cartQuantities[itemId];
+    let cartQuantityCopy;
 
-    const cartQuantityCopy = {
-      ...cartQuantities,
-      [itemId]: {
-        ...newQuantityObject,
-        quantity: newValue,
-      },
-    };
+    if (newValue < 1) {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          error: 'Quantity cannot be less than 1.',
+        },
+      };
+    } else {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          quantity: newValue,
+          error: '',
+        },
+      };
+    }
 
     setCartQuantities(cartQuantityCopy);
   }
@@ -100,7 +112,6 @@ function Cart({ token, cart, setCart }) {
   async function handleDeleteClick(evt, itemId) {
     try {
       const response = await deleteCartItem(token, itemId);
-      console.log('delete response', response);
 
       if (response.success) {
         const item = response.cartItem;
@@ -190,6 +201,9 @@ function Cart({ token, cart, setCart }) {
                       handleDeleteClick(evt, item.id);
                     }}
                   />
+                  {cartQuantities[item.id].error ? (
+                    <p>{cartQuantities[item.id].error}</p>
+                  ) : null}
                 </div>
               );
             })

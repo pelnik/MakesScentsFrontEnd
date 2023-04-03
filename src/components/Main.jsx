@@ -32,8 +32,6 @@ const Main = () => {
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
-  console.log('cart', cart);
-
   async function getUser(token) {
     try {
       const result = await usersMe(token);
@@ -127,13 +125,20 @@ const Main = () => {
                 token={token}
                 cart={cart}
                 setCart={setCart}
-                key={cart?.items}
+                key={cart?.id}
               />
             }
           />
           <Route
             path="/checkout"
-            element={<Checkout token={token} cart={cart} setCart={setCart} />}
+            element={
+              <Checkout
+                token={token}
+                cart={cart}
+                setCart={setCart}
+                getCart={getCart}
+              />
+            }
           />
           <Route
             path="/products"

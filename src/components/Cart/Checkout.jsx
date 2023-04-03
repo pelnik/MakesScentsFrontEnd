@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { checkout } from '../../apiAdapters';
 
-function Checkout({ token, cart, setCart }) {
+function Checkout({ token, cart, setCart, getCart }) {
+  const navigate = useNavigate();
+
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
 
@@ -11,17 +14,20 @@ function Checkout({ token, cart, setCart }) {
         const cleanY = y.product_price.slice(1);
         const numY = parseFloat(cleanY);
 
-        return x + numY;
+        return x + numY * y.quantity;
       }, 0)
     : 0;
+
+  const dollarTotal = `$${total.toFixed(2)}`;
 
   async function handleCheckoutClick() {
     try {
       if (token) {
-        const response = await checkout(token);
-        console.log('checkout response', response);
+        const checkoutResponse = await checkout(token);
 
-        if (response.success) {
+        if (checkoutResponse.success) {
+          setCart(await getCart(token));
+          navigate('/');
         }
       }
     } catch (error) {
@@ -43,7 +49,7 @@ function Checkout({ token, cart, setCart }) {
         </div>
       ) : (
         <div className="checkout-total" id="checkout-with-items">
-          <p>Your total is: {total}</p>
+          <p>Your total is: {dollarTotal}</p>
           <button onClick={handleCheckoutClick}>Checkout</button>
         </div>
       )}
