@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { checkout } from '../../apiAdapters';
 
 function Checkout({ token, cart, setCart, getCart }) {
+  const navigate = useNavigate();
+
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
 
@@ -21,10 +24,10 @@ function Checkout({ token, cart, setCart, getCart }) {
     try {
       if (token) {
         const checkoutResponse = await checkout(token);
-        console.log('checkout response', checkoutResponse);
 
         if (checkoutResponse.success) {
           setCart(await getCart(token));
+          navigate('/');
         }
       }
     } catch (error) {

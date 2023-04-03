@@ -26,7 +26,6 @@ function Cart({ token, cart, setCart }) {
   const dollarTotal = `$${total.toFixed(2)}`;
 
   function createCartQuantities(cart) {
-    console.log('hasCart', hasCart);
     if (hasCart) {
       const items = cart.items;
       const newCartQuantity = {};
@@ -47,11 +46,8 @@ function Cart({ token, cart, setCart }) {
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
       const newQuantity = cartQuantities[itemId].quantity;
-      console.log('type of quantity', typeof newQuantity);
-      console.log('cart quantities', cartQuantities);
 
       const response = await updateCartQuantity(token, itemId, newQuantity);
-      console.log('quantity response', response);
 
       if (response.success) {
         const cartCopy = {
@@ -116,7 +112,6 @@ function Cart({ token, cart, setCart }) {
   async function handleDeleteClick(evt, itemId) {
     try {
       const response = await deleteCartItem(token, itemId);
-      console.log('delete response', response);
 
       if (response.success) {
         const item = response.cartItem;
