@@ -1,22 +1,25 @@
-import { Password } from "@mui/icons-material";
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { editUsername, editEmail } from "../apiAdapters";
+import { Password } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { editUsername, editEmail } from '../../apiAdapters';
 
-function EditProfile({ token , getUsers }) {
+function EditProfile({ token, getUser, setUser }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [displayEditUsername, setDisplayEditUsername] = useState(true);
   let [newUsername, setNewUsername] = useState(location.state.username);
   let [newEmail, setNewEmail] = useState(location.state.email);
- 
+
   async function changeUsername(id, username) {
     try {
-      console.log(id, token, username, "###");
+      console.log(id, token, username, '###');
       await editUsername(id, token, username);
-      setNewUsername("");
-      await getUsers(token);
-      navigate("/profile");
+      setNewUsername('');
+      const userResponse = await getUser(token);
+      if (userResponse.success) {
+        setUser(userResponse.user);
+      }
+      navigate('/profile');
     } catch (error) {
       console.log(error);
     }
@@ -24,11 +27,11 @@ function EditProfile({ token , getUsers }) {
 
   async function changeEmail(id, email) {
     try {
-      console.log(id, token, email, "###");
+      console.log(id, token, email, '###');
       await editEmail(id, token, email);
-      setNewEmail("");
+      setNewEmail('');
       await getUsers(token);
-      navigate("/profile");
+      navigate('/profile');
     } catch (error) {
       console.log(error);
     }

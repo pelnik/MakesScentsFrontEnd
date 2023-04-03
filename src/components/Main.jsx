@@ -12,74 +12,38 @@ import {
   NewProduct,
   UserProfile,
   EditProfile,
-
+  NotFound,
   AdminUsersPage,
   EditUser,
   EditProduct,
 } from './';
 
 import { usersMe, getActiveCart } from '../apiAdapters';
-
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
-const Main = () => {
-  const defaultUser = {
-    email: null,
-    id: null,
-    is_active: null,
-    is_admin: null,
-    name: null,
-    username: null,
-  };
+// React docs recommend checking the first load like this
+// https://react.dev/learn/you-might-not-need-an-effect
+let initialLoad = true;
+const initialLocalToken = getTokenFromLocalStorage();
 
+const Main = () => {
   const [cart, setCart] = useState({});
-  const [token, setToken] = useState('');
-  const [user, setUser] = useState(defaultUser);
+  const [token, setToken] = useState(initialLocalToken);
+  const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
 
-  async function checkUser(token) {
+  async function getUser(token) {
     try {
-      if (token) {
-        const result = await usersMe(token);
+      const result = await usersMe(token);
 
-        if (result.success) {
-          return true;
-        } else {
-          console.error('Token in LS but user API failed.');
-          return false;
-        }
+      if (result.success) {
+        return result.user;
+      } else {
+        console.error('Could not get user.');
+        return {};
       }
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  async function getUsers(token) {
-    try {
-      if (token) {
-        const result = await usersMe(token);
-
-        if (result.success) {
-          setUser(result.user);
-          return true;
-        } else {
-          console.error('Token in LS but user API failed.');
-          return false;
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async function firstLoad() {
-    const localStorageToken = getTokenFromLocalStorage();
-
-    if (localStorageToken) {
-      const userUpdated = await checkUser(localStorageToken);
-      if (userUpdated) {
-        setToken(localStorageToken);
-      }
     }
   }
 
@@ -87,58 +51,90 @@ const Main = () => {
     try {
       const response = await getActiveCart(token);
       const cart = response.cart;
-      console.log('cart', cart);
 
       if (response.success) {
-        setCart(cart);
+        return cart;
+      } else {
+        console.error('error getting cart');
+        return {};
       }
     } catch (error) {
       console.error('error getting cart', error);
     }
   }
 
-  async function tokenChange() {
-    if (user !== defaultUser) {
-      setUser(defaultUser);
-    }
+  async function logUserOut() {
+    setToken('');
+    setCart({});
+    setUser({});
+    saveToLocalStorage('');
+  }
+
+  async function mainLogUserIn(token) {
+    const allPromises = await Promise.all([getUser(token), getCart(token)]);
+
+    const user = allPromises[0];
+    const cart = allPromises[1];
+
+    setToken(token);
+    setCart(cart);
+    setUser(user);
+    saveToLocalStorage(token);
+  }
+
+  async function firstLoad() {
+    let user = {};
+    let cart = {};
+
     if (token) {
-      const userUpdated = await getUsers(token);
-      if (userUpdated) {
-        saveToLocalStorage(token);
-        getCart(token);
+      user = await getUser(token);
+      if (user) {
+        cart = await getCart(token);
       }
+      setUser(user);
+      setCart(cart);
     }
+    initialLoad = false;
   }
 
   useEffect(() => {
     firstLoad();
   }, []);
 
-  useEffect(() => {
-    tokenChange();
-  }, [token]);
-
   return (
-    <div id='main'>
-      <Navbar />
-      <div id='page'>
+    <div id="main">
+      <Navbar logUserOut={logUserOut} token={token} />
+      <div id="page">
         <Routes>
-          <Route exact path='/' element={<Home token={token} user={user} />} />
+          <Route exact path="/" element={<Home token={token} user={user} />} />
           <Route
-            path='/loginregister'
-            element={<LoginRegister setToken={setToken} setUser={setUser} />}
+            path="/loginregister"
+            element={
+              <LoginRegister
+                setToken={setToken}
+                setUser={setUser}
+                mainLogUserIn={mainLogUserIn}
+              />
+            }
           />
 
           <Route
-            path='/cart'
-            element={<Cart token={token} cart={cart} setCart={setCart} />}
+            path="/cart"
+            element={
+              <Cart
+                token={token}
+                cart={cart}
+                setCart={setCart}
+                key={cart?.id}
+              />
+            }
           />
           <Route
-            path='/checkout'
+            path="/checkout"
             element={<Checkout token={token} cart={cart} setCart={setCart} />}
           />
           <Route
-            path='/products'
+            path="/products"
             element={
               <Products
                 token={token}
@@ -148,19 +144,15 @@ const Main = () => {
             }
           />
           <Route
-            path='/products/:product_id'
-            element={
-              <SingleProduct
-                selectedProduct={selectedProduct}
-              />
-            }
+            path="/products/:product_id"
+            element={<SingleProduct selectedProduct={selectedProduct} />}
           />
           <Route
-            path='/products/new'
+            path="/products/new"
             element={<NewProduct token={token} user={user} />}
           />
           <Route
-            path='/products/edit/:product_id'
+            path="/products/edit/:product_id"
             element={
               <EditProduct
                 token={token}
@@ -170,27 +162,28 @@ const Main = () => {
               />
             }
           />
-          <Route path='/profile' element={<UserProfile user={user} />} />
+          <Route path="/profile" element={<UserProfile user={user} />} />
           <Route
-            path='/profile/edit-profile/:id'
+            path="/profile/edit-profile/:id"
             element={
-              <EditProfile user={user} token={token} getUsers={getUsers} />
+              <EditProfile
+                user={user}
+                token={token}
+                getUser={getUser}
+                setUser={setUser}
+              />
             }
           />
-             <Route
+          <Route
             path="/admin-users"
-            element={
-              <AdminUsersPage token={token}/>
-            }
+            element={<AdminUsersPage token={token} />}
           />
           <Route
             path="/admin-users/edit-user/:id"
-            element={
-              <EditUser user={user} token={token} getUsers={getUsers} />
-            }
+            element={<EditUser user={user} token={token} />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-        
       </div>
     </div>
   );

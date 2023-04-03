@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { checkout } from '../apiAdapters';
+import { checkout } from '../../apiAdapters';
 
 function Checkout({ token, cart, setCart }) {
   const hasCart = Object.keys(cart).length > 0;

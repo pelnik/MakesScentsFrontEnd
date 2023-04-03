@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getSingleProduct } from '../apiAdapters';
+import { getSingleProduct } from '../../apiAdapters';
 
 function SingleProduct({ selectedProduct }) {
   const [product, setProduct] = useState([]);
@@ -25,7 +25,7 @@ function SingleProduct({ selectedProduct }) {
   return (
     <div>
       <h3>Item Detail</h3>
-      <img src={product.pic_url} id='product-pic' />
+      <img src={product.pic_url} id="product-pic" />
       <h2>{product.name}</h2>
       <h3>{product.description}</h3>
       <h3>Size: {product.size}</h3>
