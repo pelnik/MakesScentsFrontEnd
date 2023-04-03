@@ -35,6 +35,7 @@ function Cart({ token, cart, setCart }) {
         newCartQuantity[item.id] = {
           quantity: item.quantity,
           showEdit: false,
+          error: '',
         };
       });
       return newCartQuantity;
@@ -46,6 +47,8 @@ function Cart({ token, cart, setCart }) {
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
       const newQuantity = cartQuantities[itemId].quantity;
+      console.log('type of quantity', typeof newQuantity);
+      console.log('cart quantities', cartQuantities);
 
       const response = await updateCartQuantity(token, itemId, newQuantity);
       console.log('quantity response', response);
@@ -83,16 +86,29 @@ function Cart({ token, cart, setCart }) {
 
   // Updates cart on the back end as well when request is made
   function handleQuantityChange(evt, itemId) {
-    const newValue = evt.target.value;
+    let newValue = evt.target.value;
+    newValue = Number(newValue);
     const newQuantityObject = cartQuantities[itemId];
+    let cartQuantityCopy;
 
-    const cartQuantityCopy = {
-      ...cartQuantities,
-      [itemId]: {
-        ...newQuantityObject,
-        quantity: newValue,
-      },
-    };
+    if (newValue < 1) {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          error: 'Quantity cannot be less than 1.',
+        },
+      };
+    } else {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          quantity: newValue,
+          error: '',
+        },
+      };
+    }
 
     setCartQuantities(cartQuantityCopy);
   }
@@ -190,6 +206,9 @@ function Cart({ token, cart, setCart }) {
                       handleDeleteClick(evt, item.id);
                     }}
                   />
+                  {cartQuantities[item.id].error ? (
+                    <p>{cartQuantities[item.id].error}</p>
+                  ) : null}
                 </div>
               );
             })
