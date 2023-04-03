@@ -103,7 +103,7 @@ const Main = () => {
 
   return (
     <div id="main">
-      <Navbar logUserOut={logUserOut} token={token} />
+      <Navbar logUserOut={logUserOut} token={token} user={user} />
       <div id="page">
         <Routes>
           <Route exact path="/" element={<Home token={token} user={user} />} />

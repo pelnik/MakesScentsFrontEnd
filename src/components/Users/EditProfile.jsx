@@ -30,7 +30,7 @@ function EditProfile({ token, getUser, setUser }) {
       console.log(id, token, email, '###');
       await editEmail(id, token, email);
       setNewEmail('');
-      await getUsers(token);
+      await getUser(token);
       navigate('/profile');
     } catch (error) {
       console.log(error);

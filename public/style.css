@@ -67,3 +67,10 @@
   width: 200px;
   height: 300px;
 }
+.navLink{
+  text-decoration: none;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bolder;
+  padding: 0px 10px 0px;
+}
