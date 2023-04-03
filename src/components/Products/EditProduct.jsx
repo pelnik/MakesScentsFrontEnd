@@ -86,6 +86,8 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
               type='number'
               name='price'
               value={price}
+              min='0.00'
+              step='0.01'
               onChange={(e) => {
                 setPrice(e.target.value);
               }}
