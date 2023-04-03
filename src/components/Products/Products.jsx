@@ -65,18 +65,13 @@ function Products({ token, user, setSelectedProduct }) {
           <h2>Filter</h2>
           <form>
             <input
-<<<<<<< HEAD:src/components/Products/Products.jsx
               type="checkbox"
               id="category1"
               name="category1"
               value="Candle"
-=======
-              type='checkbox'
-              id='category1'
-              name='category1'
-              value='Candle'
-              onClick={(e) => {console.log(e.target.value)}}
->>>>>>> origin/main:src/components/Products.jsx
+              onClick={(e) => {
+                console.log(e.target.value);
+              }}
             />
             <label htmlFor="category1">Candle</label>
             <br />
@@ -116,35 +111,9 @@ function Products({ token, user, setSelectedProduct }) {
                   <h4>Size: {product.size}</h4>
                   <h3>{product.price}</h3>
                 </div>
-<<<<<<< HEAD:src/components/Products/Products.jsx
-                <div className="product-buttons">
-                  <AddShoppingCartIcon />
-                  <button
-                    onClick={() => {
-                      setSelectedProduct({
-                        product_id: product.id,
-                        name: product.name,
-                        description: product.description,
-                        price: product.price,
-                        pic_url: product.pic_url,
-                        inventory: product.inventory,
-                      });
-                      navigate(`/products/edit/${product.id}`);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      removeProduct(product.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-=======
                 {user.is_admin ? (
-                  <div className='product-buttons'>
+                  <div className="product-buttons">
+                    <AddShoppingCartIcon />
                     <button
                       onClick={() => {
                         setSelectedProduct({
@@ -169,7 +138,6 @@ function Products({ token, user, setSelectedProduct }) {
                     </button>
                   </div>
                 ) : null}
->>>>>>> origin/main:src/components/Products.jsx
               </div>
             );
           })}
