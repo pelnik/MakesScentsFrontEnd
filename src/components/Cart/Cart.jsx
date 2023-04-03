@@ -16,7 +16,6 @@ function Cart({ token, cart, setCart }) {
 
   const total = hasItems
     ? cart.items.reduce((x, y, idx) => {
-        console.log('idx', idx, 'x', x, 'y', y);
         const cleanY = y.product_price.slice(1);
         const numY = parseFloat(cleanY);
 

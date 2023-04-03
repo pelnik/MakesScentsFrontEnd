@@ -125,7 +125,7 @@ const Main = () => {
                 token={token}
                 cart={cart}
                 setCart={setCart}
-                key={cart?.id}
+                key={cart?.items}
               />
             }
           />

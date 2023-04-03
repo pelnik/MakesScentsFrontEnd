@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { getAllProducts, deleteProduct } from '../../apiAdapters';
+import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
 
 function Products({ token, user, setSelectedProduct }) {
   const [products, setProducts] = useState([]);
@@ -34,6 +34,18 @@ function Products({ token, user, setSelectedProduct }) {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleShoppingCartClick(evt, product_id, quantity) {
+    try {
+      console.log('token', token);
+      const result = await addCartItem(token, product_id, quantity);
+
+      if (result.success) {
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -111,9 +123,13 @@ function Products({ token, user, setSelectedProduct }) {
                   <h4>Size: {product.size}</h4>
                   <h3>{product.price}</h3>
                 </div>
+                <AddShoppingCartIcon
+                  onClick={(evt) => {
+                    handleShoppingCartClick(evt, product.id, 1);
+                  }}
+                />
                 {user.is_admin ? (
                   <div className="product-buttons">
-                    <AddShoppingCartIcon />
                     <button
                       onClick={() => {
                         setSelectedProduct({

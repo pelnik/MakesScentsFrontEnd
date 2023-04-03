@@ -83,3 +83,24 @@ export async function checkout(token) {
     console.error('Error getting cart', error);
   }
 }
+
+export async function addCartItem(token, product_id, quantity) {
+  try {
+    const response = await fetch(`${BASE_URL}/cart_products/${product_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        quantity,
+      }),
+    });
+
+    const result = await response.json();
+    console.log('add cart item post', result);
+    return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}
