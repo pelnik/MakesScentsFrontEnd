@@ -46,7 +46,7 @@ function NewProduct({ token, user }) {
           navigate('/products');
         } else {
           setError(result.message);
-          console.log('creating new product failed error'); // need to add error message
+          console.log('creating new product failed error');
         }
       } else {
         setError('You have to be an admin to add a new product.');
