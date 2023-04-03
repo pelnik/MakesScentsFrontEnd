@@ -32,6 +32,7 @@ function NewProduct({ token, user }) {
           color,
           fragrance
         );
+        console.log(result, 'result');
         if (result.success === true) {
           setName('');
           setDescription('');
@@ -44,6 +45,7 @@ function NewProduct({ token, user }) {
           setFragrance('');
           navigate('/products');
         } else {
+          setError(result.message);
           console.log('creating new product failed error'); // need to add error message
         }
       } else {
@@ -54,7 +56,7 @@ function NewProduct({ token, user }) {
     }
   }
   return (
-    <div className="new-product-form">
+    <div className='new-product-form'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -62,12 +64,12 @@ function NewProduct({ token, user }) {
         }}
       >
         <h1>Add New Product</h1>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Name:
             <input
-              type="text"
-              name="name"
+              type='text'
+              name='name'
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -75,12 +77,12 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Description:
             <input
-              type="text"
-              name="description"
+              type='text'
+              name='description'
               value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -88,25 +90,27 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Price: $
             <input
-              type="text"
-              name="price"
+              type='number'
+              name='price'
               value={price}
+              min='0.00'
+              step='0.01'
               onChange={(e) => {
                 setPrice(e.target.value);
               }}
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Picture:
             <input
-              type="url"
-              name="pic_url"
+              type='url'
+              name='pic_url'
               value={pic_url}
               onChange={(e) => {
                 setPic_url(e.target.value);
@@ -114,12 +118,12 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Size:
             <input
-              type="text"
-              name="size"
+              type='text'
+              name='size'
               value={size}
               onChange={(e) => {
                 setSize(e.target.value);
@@ -127,21 +131,21 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Inventory:
             <input
-              type="number"
-              name="inventory"
+              type='number'
+              name='inventory'
               value={inventory}
-              min="0"
+              min='0'
               onChange={(e) => {
                 setInventory(e.target.value);
               }}
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Category:
             <select
@@ -150,18 +154,18 @@ function NewProduct({ token, user }) {
                 setCategory_id(Number(e.target.value));
               }}
             >
-              <option value="1">Candle</option>
-              <option value="2">Diffuser</option>
-              <option value="3">Car</option>
+              <option value='1'>Candle</option>
+              <option value='2'>Diffuser</option>
+              <option value='3'>Car</option>
             </select>
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Color:
             <input
-              type="text"
-              name="color"
+              type='text'
+              name='color'
               value={color}
               onChange={(e) => {
                 setColor(e.target.value);
@@ -169,12 +173,12 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <label>
             Fragrance:
             <input
-              type="text"
-              name="fragrance"
+              type='text'
+              name='fragrance'
               value={fragrance}
               onChange={(e) => {
                 setFragrance(e.target.value);
@@ -182,7 +186,8 @@ function NewProduct({ token, user }) {
             />
           </label>
         </div>
-        <button type="submit">Submit</button>
+        <button type='submit'>Submit</button>
+        <p className='error-message'>{error}</p>
       </form>
     </div>
   );
