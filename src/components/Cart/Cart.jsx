@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
@@ -15,7 +15,7 @@ function Cart({ token, cart, setCart }) {
   );
 
   const total = hasItems
-    ? cart.items.reduce((x, y, idx) => {
+    ? cart.items.reduce((x, y) => {
         const cleanY = y.product_price.slice(1);
         const numY = parseFloat(cleanY);
 
