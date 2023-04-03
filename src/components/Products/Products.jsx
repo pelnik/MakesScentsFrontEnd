@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { getAllProducts, deleteProduct } from '../../apiAdapters';
+import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
 
-function Products({ token, user, setSelectedProduct }) {
+function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]); // need to make API route to get list of categories and use it to display the category filter
   const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
@@ -34,6 +34,20 @@ function Products({ token, user, setSelectedProduct }) {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleShoppingCartClick(evt, product_id, quantity) {
+    try {
+      const result = await addCartItem(token, product_id, quantity);
+
+      if (result.success) {
+        const cartResult = await getCart(token);
+        console.log('cartResult', cartResult);
+        setCart(cartResult);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -111,9 +125,13 @@ function Products({ token, user, setSelectedProduct }) {
                   <h4>Size: {product.size}</h4>
                   <h3>{product.price}</h3>
                 </div>
+                <AddShoppingCartIcon
+                  onClick={(evt) => {
+                    handleShoppingCartClick(evt, product.id, 1);
+                  }}
+                />
                 {user.is_admin ? (
                   <div className="product-buttons">
-                    <AddShoppingCartIcon />
                     <button
                       onClick={() => {
                         setSelectedProduct({
