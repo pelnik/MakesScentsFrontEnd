@@ -6,7 +6,8 @@ import { getAllProducts, deleteProduct } from '../../apiAdapters';
 
 function Products({ token, user, setSelectedProduct }) {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]); // need to make API route to get list of categories and use it to display the category filter
+  const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -36,6 +37,10 @@ function Products({ token, user, setSelectedProduct }) {
     }
   }
 
+  // function selectFilter() {
+
+  // }
+
   useEffect(() => {
     getAllProductsPage();
   }, []);
@@ -44,7 +49,7 @@ function Products({ token, user, setSelectedProduct }) {
     <div id="products-page-container">
       <div id="products-header">
         <h1>Products</h1>
-        {user.is_admin === true ? (
+        {user.is_admin ? (
           <button
             className="add-product-button"
             onClick={() => {
@@ -60,10 +65,18 @@ function Products({ token, user, setSelectedProduct }) {
           <h2>Filter</h2>
           <form>
             <input
+<<<<<<< HEAD:src/components/Products/Products.jsx
               type="checkbox"
               id="category1"
               name="category1"
               value="Candle"
+=======
+              type='checkbox'
+              id='category1'
+              name='category1'
+              value='Candle'
+              onClick={(e) => {console.log(e.target.value)}}
+>>>>>>> origin/main:src/components/Products.jsx
             />
             <label htmlFor="category1">Candle</label>
             <br />
@@ -103,6 +116,7 @@ function Products({ token, user, setSelectedProduct }) {
                   <h4>Size: {product.size}</h4>
                   <h3>{product.price}</h3>
                 </div>
+<<<<<<< HEAD:src/components/Products/Products.jsx
                 <div className="product-buttons">
                   <AddShoppingCartIcon />
                   <button
@@ -128,6 +142,34 @@ function Products({ token, user, setSelectedProduct }) {
                     Delete
                   </button>
                 </div>
+=======
+                {user.is_admin ? (
+                  <div className='product-buttons'>
+                    <button
+                      onClick={() => {
+                        setSelectedProduct({
+                          product_id: product.id,
+                          name: product.name,
+                          description: product.description,
+                          price: product.price,
+                          pic_url: product.pic_url,
+                          inventory: product.inventory,
+                        });
+                        navigate(`/products/edit/${product.id}`);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        removeProduct(product.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ) : null}
+>>>>>>> origin/main:src/components/Products.jsx
               </div>
             );
           })}
