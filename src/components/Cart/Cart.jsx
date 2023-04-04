@@ -133,70 +133,77 @@ function Cart({
 
   return (
     <div id="full-cart-page">
-      <div id="cart-container">
-        {hasItems ? (
-          [...cart.items]
-            .sort((first, second) => {
-              return first.id < second.id;
-            })
-            .map((item) => {
-              return (
-                <div key={`cartKey ${item.id}`} className="cart-item">
-                  <img src={item.product_pic_url} />
-                  <div>{item.product_name}</div>
-                  <div>{item.product_price}</div>
-                  <div>{item.product_size}</div>
-                  {!cartQuantities[item.id].showEdit ? (
-                    <div>{item.quantity}</div>
-                  ) : (
-                    <>
-                      <input
-                        name="quantity"
-                        type="number"
-                        value={cartQuantities[item.id].quantity}
-                        onChange={(evt) => {
-                          handleQuantityChange(evt, item.id);
-                        }}
-                      />
+      {!token ? (
+        <p>Please log in to use the cart.</p>
+      ) : (
+        <>
+          {' '}
+          <div id="cart-container">
+            {hasItems ? (
+              [...cart.items]
+                .sort((first, second) => {
+                  return first.id < second.id;
+                })
+                .map((item) => {
+                  return (
+                    <div key={`cartKey ${item.id}`} className="cart-item">
+                      <img src={item.product_pic_url} />
+                      <div>{item.product_name}</div>
+                      <div>{item.product_price}</div>
+                      <div>{item.product_size}</div>
+                      {!cartQuantities[item.id].showEdit ? (
+                        <div>{item.quantity}</div>
+                      ) : (
+                        <>
+                          <input
+                            name="quantity"
+                            type="number"
+                            value={cartQuantities[item.id].quantity}
+                            onChange={(evt) => {
+                              handleQuantityChange(evt, item.id);
+                            }}
+                          />
+                          <button
+                            onClick={(evt) => {
+                              handleQuantityChangeSubmit(evt, item.id);
+                            }}
+                            type="submit"
+                          >
+                            Submit
+                          </button>
+                        </>
+                      )}
+
                       <button
                         onClick={(evt) => {
-                          handleQuantityChangeSubmit(evt, item.id);
+                          handleShowEditClick(evt, item.id);
                         }}
-                        type="submit"
                       >
-                        Submit
+                        {!cartQuantities[item.id].showEdit
+                          ? 'Update Quantity'
+                          : `Don't update`}
                       </button>
-                    </>
-                  )}
-
-                  <button
-                    onClick={(evt) => {
-                      handleShowEditClick(evt, item.id);
-                    }}
-                  >
-                    {!cartQuantities[item.id].showEdit
-                      ? 'Update Quantity'
-                      : `Don't update`}
-                  </button>
-                  <DeleteIcon
-                    onClick={(evt) => {
-                      handleDeleteClick(evt, item.id);
-                    }}
-                  />
-                  {cartQuantities[item.id].error ? (
-                    <p>{cartQuantities[item.id].error}</p>
-                  ) : null}
-                </div>
-              );
-            })
-        ) : (
-          <div>No items in cart!</div>
-        )}
-      </div>
-      <div>Total: {dollarTotal}</div>
-      {hasItems ? (
-        <button onClick={handleCheckoutClick}>Checkout</button>
-      ) : null}
+                      <DeleteIcon
+                        onClick={(evt) => {
+                          handleDeleteClick(evt, item.id);
+                        }}
+                      />
+                      {cartQuantities[item.id].error ? (
+                        <p>{cartQuantities[item.id].error}</p>
+                      ) : null}
+                    </div>
+                  );
+                })
+            ) : (
+              <div>No items in cart!</div>
+            )}
+          </div>
+          <div>Total: {dollarTotal}</div>
+          {hasItems ? (
+            <button onClick={handleCheckoutClick}>Checkout</button>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }

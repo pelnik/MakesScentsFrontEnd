@@ -24,13 +24,30 @@ function Navbar({ logUserOut, token, user }) {
         />
       </div>
       <div className="sub-navbar" id="mid-navbar">
-          <Link to="/products" className="navLink" >Store</Link>
-          {token && <Link to="/profile" className="navLink" >Profile</Link>}
-          {user.is_admin && <Link to="/admin-users" className="navLink" >Admin</Link>}
+        <Link to="/products" className="navLink">
+          Store
+        </Link>
+        {token && (
+          <Link to="/profile" className="navLink">
+            Profile
+          </Link>
+        )}
+        {user.is_admin && (
+          <Link to="/admin-users" className="navLink">
+            Admin
+          </Link>
+        )}
       </div>
       <div className="sub-navbar" id="right-navbar">
         {token ? (
-          <LogoutIcon onClick={logUserOut} />
+          <>
+            <LogoutIcon onClick={logUserOut} />
+            <ShoppingCartIcon
+              onClick={() => {
+                navigate('/cart');
+              }}
+            />
+          </>
         ) : (
           <LoginIcon
             onClick={() => {
@@ -38,11 +55,6 @@ function Navbar({ logUserOut, token, user }) {
             }}
           />
         )}
-        <ShoppingCartIcon
-          onClick={() => {
-            navigate('/cart');
-          }}
-        />
       </div>
     </div>
   );
