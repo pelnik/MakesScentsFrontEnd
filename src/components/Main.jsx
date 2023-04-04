@@ -182,6 +182,8 @@ const Main = () => {
                 getCart={getCart}
                 user={user}
                 setSelectedProduct={setSelectedProduct}
+                cartQuantities={cartQuantities}
+                setCartQuantities={setCartQuantities}
               />
             }
           />

@@ -6,6 +6,7 @@ import { CheckoutConfirmation } from '..';
 
 function Checkout({ token, cart, setCart, getCart }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [error, setError] = useState('');
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
@@ -30,6 +31,8 @@ function Checkout({ token, cart, setCart, getCart }) {
           setCart(await getCart(token));
           setShowConfirmation(true);
         }
+      } else {
+        setError('Error checking out your cart');
       }
     } catch (error) {
       console.error('error getting cart', error);
@@ -58,6 +61,7 @@ function Checkout({ token, cart, setCart, getCart }) {
               <button onClick={handleCheckoutClick}>Checkout</button>
             </div>
           )}
+          {error ? <p></p> : null}
         </div>
       )}
     </div>
