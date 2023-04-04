@@ -125,11 +125,13 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                   <h4>Size: {product.size}</h4>
                   <h3>{product.price}</h3>
                 </div>
-                <AddShoppingCartIcon
-                  onClick={(evt) => {
-                    handleShoppingCartClick(evt, product.id, 1);
-                  }}
-                />
+                {token ? (
+                  <AddShoppingCartIcon
+                    onClick={(evt) => {
+                      handleShoppingCartClick(evt, product.id, 1);
+                    }}
+                  />
+                ) : null}
                 {user.is_admin ? (
                   <div className="product-buttons">
                     <button
