@@ -170,8 +170,9 @@ function Cart({
                         </div>
                         <div className="cart-item-pricing">
                           <p>{item.product_price}</p>
+
                           {!cartQuantities[item.id].showEdit ? (
-                            <p>{item.quantity}</p>
+                            <p>Quantity: {item.quantity}</p>
                           ) : (
                             <>
                               <input
@@ -192,21 +193,23 @@ function Cart({
                               </button>
                             </>
                           )}
+                          <div className="cart-quantity-container">
+                            <button
+                              onClick={(evt) => {
+                                handleShowEditClick(evt, item.id);
+                              }}
+                            >
+                              {!cartQuantities[item.id].showEdit
+                                ? 'Update Quantity'
+                                : `Don't update`}
+                            </button>
+                            <DeleteIcon
+                              onClick={(evt) => {
+                                handleDeleteClick(evt, item.id);
+                              }}
+                            />
+                          </div>
 
-                          <button
-                            onClick={(evt) => {
-                              handleShowEditClick(evt, item.id);
-                            }}
-                          >
-                            {!cartQuantities[item.id].showEdit
-                              ? 'Update Quantity'
-                              : `Don't update`}
-                          </button>
-                          <DeleteIcon
-                            onClick={(evt) => {
-                              handleDeleteClick(evt, item.id);
-                            }}
-                          />
                           {cartQuantities[item.id].error ? (
                             <p>{cartQuantities[item.id].error}</p>
                           ) : null}
@@ -214,7 +217,7 @@ function Cart({
                       </div>
                       <div className="cart-item-subtotal cart-subitem">
                         <p className="cart-subtotal">
-                          Subtotal:{' '}
+                          Subtotal:
                           {`$${(
                             cartQuantities[item.id].quantity *
                             parseFloat(item.product_price.slice(1))

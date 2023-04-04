@@ -174,3 +174,15 @@
 .other-product-info {
   font-size: 0.9rem;
 }
+
+.cart-item-pricing {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.cart-quantity-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
