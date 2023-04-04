@@ -13,11 +13,13 @@ function Navbar({ logUserOut, token, user }) {
     <div id="Navbar">
       <div className="sub-navbar" id="left-navbar">
         <ArrowBackIcon
+          className="navbar-icon"
           onClick={() => {
             navigate(-1);
           }}
         />
         <HomeIcon
+          className="navbar-icon"
           onClick={() => {
             navigate('/');
           }}
@@ -41,8 +43,9 @@ function Navbar({ logUserOut, token, user }) {
       <div className="sub-navbar" id="right-navbar">
         {token ? (
           <>
-            <LogoutIcon onClick={logUserOut} />
+            <LogoutIcon className="navbar-icon" onClick={logUserOut} />
             <ShoppingCartIcon
+              className="navbar-icon"
               onClick={() => {
                 navigate('/cart');
               }}
@@ -50,6 +53,7 @@ function Navbar({ logUserOut, token, user }) {
           </>
         ) : (
           <LoginIcon
+            className="navbar-icon"
             onClick={() => {
               navigate('/loginregister');
             }}

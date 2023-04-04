@@ -137,8 +137,7 @@ function Cart({
         <p>Please log in to use the cart.</p>
       ) : (
         <>
-          {' '}
-          <div id="cart-container">
+          <div className="flex-card" id="cart-container">
             {hasItems ? (
               [...cart.items]
                 .sort((first, second) => {
