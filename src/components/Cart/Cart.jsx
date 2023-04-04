@@ -23,7 +23,15 @@ function Cart({
       }, 0)
     : 0;
 
+  console.log('cart quantities', cartQuantities);
+
   const dollarTotal = `$${total.toFixed(2)}`;
+
+  const sizeDict = {
+    S: 'Small',
+    M: 'Medium',
+    L: 'Large',
+  };
 
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
@@ -137,7 +145,7 @@ function Cart({
         <p>Please log in to use the cart.</p>
       ) : (
         <>
-          <div className="flex-card" id="cart-container">
+          <div className="horizontal-flex" id="cart-container">
             {hasItems ? (
               [...cart.items]
                 .sort((first, second) => {
@@ -146,50 +154,73 @@ function Cart({
                 .map((item) => {
                   return (
                     <div key={`cartKey ${item.id}`} className="cart-item">
-                      <img src={item.product_pic_url} />
-                      <div>{item.product_name}</div>
-                      <div>{item.product_price}</div>
-                      <div>{item.product_size}</div>
-                      {!cartQuantities[item.id].showEdit ? (
-                        <div>{item.quantity}</div>
-                      ) : (
-                        <>
-                          <input
-                            name="quantity"
-                            type="number"
-                            value={cartQuantities[item.id].quantity}
-                            onChange={(evt) => {
-                              handleQuantityChange(evt, item.id);
-                            }}
-                          />
+                      <img
+                        className="cart-image cart-subitem"
+                        src={item.product_pic_url}
+                      />
+                      <div className="cart-content cart-subitem">
+                        <div className="cart-item-information">
+                          <h3 className="cart-title">{item.product_name}</h3>
+                          <p className="other-product-info">
+                            Product Size: {sizeDict[item.product_size]}
+                          </p>
+                          <p className="other-product-info">
+                            Product Fragrance: {item.product_fragrance}
+                          </p>
+                        </div>
+                        <div className="cart-item-pricing">
+                          <p>{item.product_price}</p>
+                          {!cartQuantities[item.id].showEdit ? (
+                            <p>{item.quantity}</p>
+                          ) : (
+                            <>
+                              <input
+                                name="quantity"
+                                type="number"
+                                value={cartQuantities[item.id].quantity}
+                                onChange={(evt) => {
+                                  handleQuantityChange(evt, item.id);
+                                }}
+                              />
+                              <button
+                                onClick={(evt) => {
+                                  handleQuantityChangeSubmit(evt, item.id);
+                                }}
+                                type="submit"
+                              >
+                                Submit
+                              </button>
+                            </>
+                          )}
+
                           <button
                             onClick={(evt) => {
-                              handleQuantityChangeSubmit(evt, item.id);
+                              handleShowEditClick(evt, item.id);
                             }}
-                            type="submit"
                           >
-                            Submit
+                            {!cartQuantities[item.id].showEdit
+                              ? 'Update Quantity'
+                              : `Don't update`}
                           </button>
-                        </>
-                      )}
-
-                      <button
-                        onClick={(evt) => {
-                          handleShowEditClick(evt, item.id);
-                        }}
-                      >
-                        {!cartQuantities[item.id].showEdit
-                          ? 'Update Quantity'
-                          : `Don't update`}
-                      </button>
-                      <DeleteIcon
-                        onClick={(evt) => {
-                          handleDeleteClick(evt, item.id);
-                        }}
-                      />
-                      {cartQuantities[item.id].error ? (
-                        <p>{cartQuantities[item.id].error}</p>
-                      ) : null}
+                          <DeleteIcon
+                            onClick={(evt) => {
+                              handleDeleteClick(evt, item.id);
+                            }}
+                          />
+                          {cartQuantities[item.id].error ? (
+                            <p>{cartQuantities[item.id].error}</p>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="cart-item-subtotal cart-subitem">
+                        <p className="cart-subtotal">
+                          Subtotal:{' '}
+                          {`$${(
+                            cartQuantities[item.id].quantity *
+                            parseFloat(item.product_price.slice(1))
+                          ).toFixed(2)}`}
+                        </p>
+                      </div>
                     </div>
                   );
                 })
