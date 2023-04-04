@@ -7,11 +7,12 @@ import {
   deleteProduct,
   addCartItem,
   getAllCategories,
+  createCategory,
 } from '../../apiAdapters';
+import AddNewCategory from './AddNewCategory';
 
 function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]); // need to make API route to get list of categories and use it to display the category filter
   const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
   const navigate = useNavigate();
 
@@ -56,25 +57,12 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
     }
   }
 
-  async function getAllCategoryFilter() {
-    try {
-      const result = await getAllCategories();
-      if (result.success) {
-        console.log('getting all categories', result);
-        setCategories(result.categories);
-        return result;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
   // function selectFilter() {
 
   // }
 
   useEffect(() => {
     getAllProductsPage();
-    getAllCategoryFilter();
   }, []);
 
   return (
@@ -93,24 +81,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         ) : null}
       </div>
       <div id='side-by-side'>
-        <div id='products-filter'>
-          <h2>Filter</h2>
-          {user.is_admin ? (<button>Add New Category</button>) : null}
-          {categories.map((category, idx) => {
-            return (
-              <form>
-                <input
-                  type='checkbox'
-                  id='category'
-                  name='category'
-                  value={category.category_name}
-                />
-                <label htmlFor='category1'>{category.category_name}</label>
-                <br />
-              </form>
-            );
-          })}
-        </div>
+        <AddNewCategory user={user} />
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
