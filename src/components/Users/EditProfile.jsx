@@ -9,17 +9,19 @@ function EditProfile({ token, getUser, setUser }) {
   const [displayEditUsername, setDisplayEditUsername] = useState(true);
   let [newUsername, setNewUsername] = useState(location.state.username);
   let [newEmail, setNewEmail] = useState(location.state.email);
+  let [error, setError] = useState('')
 
   async function changeUsername(id, username) {
     try {
-      console.log(id, token, username, '###');
-      await editUsername(id, token, username);
+    const response = await editUsername(id, token, username);
+    if (response.id) {
       setNewUsername('');
       const userResponse = await getUser(token);
-      if (userResponse.success) {
-        setUser(userResponse.user);
-      }
+      setUser(userResponse);
       navigate('/profile');
+    } else {
+      setError(`${response.message}`);
+    }
     } catch (error) {
       console.log(error);
     }
@@ -27,11 +29,15 @@ function EditProfile({ token, getUser, setUser }) {
 
   async function changeEmail(id, email) {
     try {
-      console.log(id, token, email, '###');
-      await editEmail(id, token, email);
-      setNewEmail('');
-      await getUser(token);
-      navigate('/profile');
+      const response = await editEmail(id, token, email);
+      if (response.id) {
+        setNewEmail('');
+        const userResponse = await getUser(token);
+        setUser(userResponse);
+        navigate('/profile');
+      } else {
+        setError(`${response.message}`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,6 +73,7 @@ function EditProfile({ token, getUser, setUser }) {
               />
             </label>
             <button type="submit">Submit</button>
+            <p>{error}</p>
           </form>
           <button
             type="button"
@@ -100,6 +107,7 @@ function EditProfile({ token, getUser, setUser }) {
               />
             </label>
             <button type="submit">Submit</button>
+            <p>{error}</p>
           </form>
           <button
             type="button"

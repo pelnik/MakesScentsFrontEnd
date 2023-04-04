@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate} from 'react-router-dom';
 
 import {
   Navbar,
@@ -34,6 +34,8 @@ const Main = () => {
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
+  const navigate = useNavigate();
+
   const [cartQuantities, setCartQuantities] = useState(
     createCartQuantities(cart)
   );
@@ -99,6 +101,7 @@ const Main = () => {
     setCart({});
     setUser({});
     saveToLocalStorage('');
+    navigate("/loginregister")
   }
 
   async function mainLogUserIn(token) {

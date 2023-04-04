@@ -50,7 +50,6 @@ export const usersMe = async (token) => {
     });
 
     const result = await response.json();
-    console.log('usersMe', result);
     return result;
   } catch (error) {
     console.log(error);
