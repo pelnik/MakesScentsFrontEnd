@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import {
-  getAllProducts,
-  deleteProduct,
-  addCartItem,
-  getAllCategories,
-  createCategory,
-} from '../../apiAdapters';
-import AddNewCategory from './AddNewCategory';
+import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
+import { CategoryFilter } from '..';
 
 function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
@@ -81,7 +75,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         ) : null}
       </div>
       <div id='side-by-side'>
-        <AddNewCategory user={user} />
+        <CategoryFilter token={token} user={user} />
         <div id='products-list'>
           {products.map((product, idx) => {
             return (

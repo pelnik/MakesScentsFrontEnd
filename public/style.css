@@ -31,10 +31,11 @@
 /* PRODUCTS CSS */
 .category-list {
   list-style-type: none;
+  width: 100px;
 }
 
-#category {
-  list-style-type: none;
+#products-filter {
+  padding: 10px;
 }
 
 #products-page-container {

@@ -19,7 +19,7 @@ function NewProduct({ token, user }) {
 
   async function postNewProduct() {
     try {
-      if (user.is_admin === true) {
+      if (user.is_admin) {
         const result = await createProduct(
           token,
           name,
