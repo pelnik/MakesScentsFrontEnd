@@ -1,10 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { checkout } from '../../apiAdapters';
 
+import { CheckoutConfirmation } from '..';
+
 function Checkout({ token, cart, setCart, getCart }) {
-  const navigate = useNavigate();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [error, setError] = useState('');
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
@@ -22,13 +24,15 @@ function Checkout({ token, cart, setCart, getCart }) {
 
   async function handleCheckoutClick() {
     try {
-      if (token) {
+      if (token && hasItems) {
         const checkoutResponse = await checkout(token);
 
         if (checkoutResponse.success) {
           setCart(await getCart(token));
-          navigate('/');
+          setShowConfirmation(true);
         }
+      } else {
+        setError('Error checking out your cart');
       }
     } catch (error) {
       console.error('error getting cart', error);
@@ -37,20 +41,27 @@ function Checkout({ token, cart, setCart, getCart }) {
 
   return (
     <div id="checkout-full-page">
-      <h1>Checkout</h1>
-      <p>Thank you for shopping with us!</p>
-      {!hasItems ? (
-        <div className="checkout-total" id="checkout-no-items">
-          <p>It looks like you don't have any items!</p>
-          <p>
-            Click any buttons in the Navbar to go back, or{' '}
-            <Link to="/">click here</Link> to go back.
-          </p>
-        </div>
+      {showConfirmation ? (
+        <CheckoutConfirmation setShowConfirmation={setShowConfirmation} />
       ) : (
-        <div className="checkout-total" id="checkout-with-items">
-          <p>Your total is: {dollarTotal}</p>
-          <button onClick={handleCheckoutClick}>Checkout</button>
+        <div id="checkout-start-page">
+          <h1>Checkout</h1>
+          <p>Thank you for shopping with us!</p>
+          {!hasItems ? (
+            <div className="checkout-total" id="checkout-no-items">
+              <p>It looks like you don't have any items!</p>
+              <p>
+                Click any buttons in the Navbar to go back, or{' '}
+                <Link to="/">click here</Link> to go back.
+              </p>
+            </div>
+          ) : (
+            <div className="checkout-total" id="checkout-with-items">
+              <p>Your total is: {dollarTotal}</p>
+              <button onClick={handleCheckoutClick}>Checkout</button>
+            </div>
+          )}
+          {error ? <p></p> : null}
         </div>
       )}
     </div>
