@@ -116,6 +116,77 @@
   padding: 0px 10px 0px;
 }
 
+/* Matt */
+
+.horizontal-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.horizontal-flex > * {
+  padding: 10px 0px;
+  border-bottom: 2px solid var(--gray);
+}
+
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+  padding-bottom: none;
+}
+
+.cart-item img {
+  border-radius: 5px;
+  max-width: 200px;
+}
+
+.cart-title {
+  font-size: 1.25rem;
+}
+
+.cart-subitem {
+  flex: 300px 1 1;
+}
+
+.cart-item-subtotal {
+  flex-basis: min-content;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.cart-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.other-product-info {
+  font-size: 0.9rem;
+}
+
+.cart-item-pricing {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.cart-quantity-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+
+
 /* Admin Page Css */
 
 #AllUserCards{
