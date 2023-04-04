@@ -106,17 +106,35 @@
   display: flex;
   flex-flow: row wrap;
   gap: 30px;
+  justify-content: center;
+  align-items: center;
 }
 
 #products-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  background-color: #EDE8DD;
+  box-shadow: 2px 2px 1px var(--gray);
+  border-radius: 10px;
+  gap: 20px;
+  width: 250px;
+  padding: 10px;
 }
 
 #product-pic {
-  width: 200px;
-  height: 300px;
+  display: flex;
+  width: 230px;
+  height: 250px;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 0px;
+}
+
+.product-text-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 20px;
 }
 /* END OF PRODUCTS CSS */
 
