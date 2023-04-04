@@ -28,9 +28,15 @@ const initialLocalToken = getTokenFromLocalStorage();
 
 const Main = () => {
   const [cart, setCart] = useState({});
+  const hasCart = Object.keys(cart).length > 0;
+  const hasItems = hasCart && cart.items.length > 0;
+
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [cartQuantities, setCartQuantities] = useState(
+    createCartQuantities(cart)
+  );
 
   async function getUser(token) {
     try {
@@ -44,6 +50,31 @@ const Main = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  // Cart stuff
+  const [prevCartItems, setPrevCartItems] = useState(cart?.items);
+  if (cart?.items !== prevCartItems) {
+    setPrevCartItems(cart?.items);
+    setCartQuantities(createCartQuantities(cart));
+  }
+
+  function createCartQuantities(cart) {
+    if (hasCart) {
+      const items = cart.items;
+      const newCartQuantity = {};
+
+      items.forEach((item) => {
+        newCartQuantity[item.id] = {
+          quantity: item.quantity,
+          showEdit: false,
+          error: '',
+        };
+      });
+      return newCartQuantity;
+    } else {
+      return {};
     }
   }
 
@@ -125,7 +156,9 @@ const Main = () => {
                 token={token}
                 cart={cart}
                 setCart={setCart}
-                key={cart?.id}
+                hasItems={hasItems}
+                cartQuantities={cartQuantities}
+                setCartQuantities={setCartQuantities}
               />
             }
           />

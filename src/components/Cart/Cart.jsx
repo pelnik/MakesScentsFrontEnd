@@ -4,15 +4,15 @@ import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function Cart({ token, cart, setCart }) {
+function Cart({
+  token,
+  cart,
+  setCart,
+  cartQuantities,
+  setCartQuantities,
+  hasItems,
+}) {
   const navigate = useNavigate();
-
-  const hasCart = Object.keys(cart).length > 0;
-  const hasItems = hasCart && cart.items.length > 0;
-
-  const [cartQuantities, setCartQuantities] = useState(
-    createCartQuantities(cart)
-  );
 
   const total = hasItems
     ? cart.items.reduce((x, y) => {
@@ -24,24 +24,6 @@ function Cart({ token, cart, setCart }) {
     : 0;
 
   const dollarTotal = `$${total.toFixed(2)}`;
-
-  function createCartQuantities(cart) {
-    if (hasCart) {
-      const items = cart.items;
-      const newCartQuantity = {};
-
-      items.forEach((item) => {
-        newCartQuantity[item.id] = {
-          quantity: item.quantity,
-          showEdit: false,
-          error: '',
-        };
-      });
-      return newCartQuantity;
-    } else {
-      return {};
-    }
-  }
 
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
