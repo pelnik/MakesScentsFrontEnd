@@ -72,7 +72,7 @@ export async function checkout(token) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        status: 'Processing',
+        status: 'Completed',
       }),
     });
 
