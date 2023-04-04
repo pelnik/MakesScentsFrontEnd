@@ -46,28 +46,28 @@ function AdminUsersPage({ token }) {
   }, [token]);
 
   return (
-    <div>
-      <h1>
-        Users
-        <input
+    <div> 
+      <div id='AdminPageHeader'>
+      <h1 id='AdminPageTitle'>Admin Users Page</h1>
+      <input
           id="searchBox"
           type="text"
           placeholder="Search for User"
           value={searchTerm}
           onChange={searchHandle}
         />
-      </h1>
-    <div id="users-list">
+        </div>
+    <div id="AllUserCards">
       {usersToDisplay.length ? usersToDisplay.map((user, idx) => {
         return (
-          <div key={`users` + idx}>
-            <h2>Name: {user.name}</h2>
-            <h3>Username: {user.username}</h3>
-            <h3>Email: {user.email}</h3>
-            {user.is_admin ? <h3>Role: Admin</h3> : <h3>Role: User</h3>}
-            {user.is_active ? <h3>Active</h3> : <h3>Inactive</h3>}
+          <div className='UserCard' key={`users` + idx}>
+            <h2 className='UserInfo'>Name: <span className='Info'>{user.name}</span></h2>
+            <h3 className='UserInfo'>Username: <span className='Info'>{user.username}</span></h3>
+            <h3 className='UserInfo'>Email: <span className='Info'>{user.email}</span></h3>
+            {user.is_admin ? <h3 className='UserInfo'>Role: <span className='Info'>Admin</span></h3> : <h3 className='UserInfo'>Role: <span className='Info'>User</span></h3>}
+            {user.is_active ? <h3 className='UserInfo'>Active</h3> : <h3 className='UserInfo'>Inactive</h3>}
             <Link to={`edit-user/${user.id}`} state={user}>
-              <button>Edit User Status</button>
+              <button className='EditButton'>Edit User Status</button>
             </Link>
           </div>
         );
