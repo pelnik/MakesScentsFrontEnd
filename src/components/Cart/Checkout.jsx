@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { checkout } from '../../apiAdapters';
 
@@ -7,8 +6,6 @@ import { CheckoutConfirmation } from '..';
 
 function Checkout({ token, cart, setCart, getCart }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
-
-  const navigate = useNavigate();
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
@@ -42,7 +39,7 @@ function Checkout({ token, cart, setCart, getCart }) {
   return (
     <div id="checkout-full-page">
       {showConfirmation ? (
-        <CheckoutConfirmation />
+        <CheckoutConfirmation setShowConfirmation={setShowConfirmation} />
       ) : (
         <div id="checkout-start-page">
           <h1>Checkout</h1>

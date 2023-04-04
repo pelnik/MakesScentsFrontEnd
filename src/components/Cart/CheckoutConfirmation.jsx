@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function CheckoutConfirmation() {
+function CheckoutConfirmation({ setShowConfirmation }) {
   const navigate = useNavigate();
 
   return (
@@ -12,7 +12,15 @@ function CheckoutConfirmation() {
       </p>
       <button
         onClick={() => {
+          setShowConfirmation(false);
+        }}
+      >
+        Back to Cart
+      </button>
+      <button
+        onClick={() => {
           navigate('/');
+          setShowConfirmation(false);
         }}
       >
         Home
