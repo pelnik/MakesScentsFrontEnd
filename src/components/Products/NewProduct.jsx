@@ -19,7 +19,7 @@ function NewProduct({ token, user }) {
 
   async function postNewProduct() {
     try {
-      if (user.is_admin === true) {
+      if (user.is_admin) {
         const result = await createProduct(
           token,
           name,
@@ -46,7 +46,7 @@ function NewProduct({ token, user }) {
           navigate('/products');
         } else {
           setError(result.message);
-          console.log('creating new product failed error'); // need to add error message
+          console.log('creating new product failed error');
         }
       } else {
         setError('You have to be an admin to add a new product.');

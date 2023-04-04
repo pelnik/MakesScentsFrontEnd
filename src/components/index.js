@@ -13,4 +13,5 @@ export { default as EditProfile } from './Users/EditProfile';
 export { default as AdminUsersPage } from './Users/AdminUsersPage';
 export { default as EditUser } from './Users/EditUser';
 export { default as EditProduct } from './Products/EditProduct';
+export { default as CategoryFilter } from './Products/CategoryFilter';
 export { default as NotFound } from './NotFound';

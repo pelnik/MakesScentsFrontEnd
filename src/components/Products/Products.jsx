@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
+import { CategoryFilter } from '..';
 
 function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]); // need to make API route to get list of categories and use it to display the category filter
   const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
   const navigate = useNavigate();
 
@@ -60,12 +60,12 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   }, []);
 
   return (
-    <div id="products-page-container">
-      <div id="products-header">
+    <div id='products-page-container'>
+      <div id='products-header'>
         <h1>Products</h1>
         {user.is_admin ? (
           <button
-            className="add-product-button"
+            className='add-product-button'
             onClick={() => {
               navigate('/products/new');
             }}
@@ -74,52 +74,20 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
           </button>
         ) : null}
       </div>
-      <div id="side-by-side">
-        <div id="products-filter">
-          <h2>Filter</h2>
-          <form>
-            <input
-              type="checkbox"
-              id="category1"
-              name="category1"
-              value="Candle"
-              onClick={(e) => {
-                console.log(e.target.value);
-              }}
-            />
-            <label htmlFor="category1">Candle</label>
-            <br />
-
-            <input
-              type="checkbox"
-              id="category2"
-              name="category2"
-              value="Diffuser"
-            />
-            <label htmlFor="category2">Diffuser</label>
-            <br />
-
-            <input
-              type="checkbox"
-              id="category3"
-              name="category3"
-              value="Car"
-            />
-            <label htmlFor="category3">Car</label>
-          </form>
-        </div>
-        <div id="products-list">
+      <div id='side-by-side'>
+        <CategoryFilter token={token} user={user} />
+        <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div id="products-container" key={`products${idx}`}>
+              <div id='products-container' key={`products${idx}`}>
                 <div
-                  className="product-detail"
+                  className='product-detail'
                   onClick={() => {
                     setSelectedProduct({ product_id: product.id });
                     navigate(`/products/${product.id}`);
                   }}
                 >
-                  <img src={product.pic_url} id="product-pic" />
+                  <img src={product.pic_url} id='product-pic' />
                   <h3>{product.name}</h3>
                   <h5>{product.description}</h5>
                   <h4>Size: {product.size}</h4>
@@ -133,7 +101,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                   />
                 ) : null}
                 {user.is_admin ? (
-                  <div className="product-buttons">
+                  <div className='product-buttons'>
                     <button
                       onClick={() => {
                         setSelectedProduct({

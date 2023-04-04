@@ -56,7 +56,18 @@
   flex-shrink: 1;
   max-width: 600px;
 }
- 
+
+
+/* PRODUCTS CSS */
+.category-list {
+  list-style-type: none;
+  width: 100px;
+}
+
+#products-filter {
+  padding: 5px;
+}
+
 #products-page-container {
   display: flex;
   flex-direction: column;
@@ -96,6 +107,8 @@
   width: 200px;
   height: 300px;
 }
+/* END OF PRODUCTS CSS */
+
 .navLink{
   text-decoration: none;
   color: black;
