@@ -87,7 +87,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                     navigate(`/products/${product.id}`);
                   }}
                 >
-                  <img src={product.pic_url} id='product-pic' />
+                  <img src={product.pic_url} id='product-pic' alt='pic of candle product'/>
                   <h3>{product.name}</h3>
                   <h5>{product.description}</h5>
                   <h4>Size: {product.size}</h4>
