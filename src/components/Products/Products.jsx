@@ -7,18 +7,11 @@ import {
   deleteProduct,
   addCartItem,
   getAllCategories,
+  cart,
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
-function Products({
-  token,
-  user,
-  setSelectedProduct,
-  setCart,
-  getCart,
-  cartQuantities,
-  setCartQuantities,
-}) {
+function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -57,17 +50,7 @@ function Products({
     }
   }
 
-  async function handleShoppingCartClick(evt, product_id, quantity) {
-    // try {
-    //   const result = await addCartItem(token, product_id, quantity);
-
-    //   if (result.success) {
-    //     const cartResult = await getCart(token);
-    //     setCart(cartResult);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  async function handleShoppingCartClick(evt, product_id) {
     setShowCart({
       ...showCart,
       [product_id]: {
@@ -106,6 +89,42 @@ function Products({
         amountToAdd: Number(evt.target.value),
       },
     });
+  }
+
+  console.log('the cart', cart);
+  async function handleCartInputSubmit(evt, productId) {
+    try {
+      const cartItem = cart.items.find((item) => {
+        return item.product_id === productId;
+      });
+
+      console.log('cartItem', cartItem);
+
+      if (!cartItem) {
+        const result = await addCartItem(
+          token,
+          productId,
+          showCart[productId].amountToAdd
+        );
+
+        if (result.success) {
+          const cartResult = await getCart(token);
+          setShowCart({
+            ...showCart,
+            [productId]: {
+              ...showCart[productId],
+              amountToAdd: 1,
+              show: false,
+            },
+          });
+          setCart(cartResult);
+        }
+      } else {
+        console.log('cartItem', cartItem);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function getAllCategoryFilter() {
@@ -216,14 +235,19 @@ function Products({
                 </div>
                 {token ? (
                   <div className="add-cart-container">
-                    <AddShoppingCartIcon
-                      className="add-shopping-cart-icon"
-                      onClick={(evt) => {
-                        handleShoppingCartClick(evt, product.id, 1);
-                      }}
-                    />
+                    <div className="add-shopping-cart-icon-container">
+                      <AddShoppingCartIcon
+                        className="add-shopping-cart-icon"
+                        onClick={(evt) => {
+                          handleShoppingCartClick(evt, product.id);
+                        }}
+                      />
+                      {showCart[product.id].show ? (
+                        <p>How many to add?</p>
+                      ) : null}
+                    </div>
                     {showCart[product.id].show ? (
-                      <div>
+                      <div className="show-cart-input">
                         <input
                           onChange={(evt) => {
                             handleCartInputChange(evt, product.id);
@@ -231,7 +255,15 @@ function Products({
                           type="number"
                           value={showCart[product.id].amountToAdd}
                         />
-                        <button type="submit">Submit</button>
+                        <button
+                          type="submit"
+                          className="cart-button"
+                          onClick={(evt) => {
+                            handleCartInputSubmit(evt, product.id);
+                          }}
+                        >
+                          Add
+                        </button>
                       </div>
                     ) : null}
                   </div>
