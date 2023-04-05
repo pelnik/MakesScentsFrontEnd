@@ -238,10 +238,14 @@ function Cart({
               <div>No items in cart!</div>
             )}
           </div>
-          <div>Total: {dollarTotal}</div>
-          {hasItems ? (
-            <button onClick={handleCheckoutClick}>Checkout</button>
-          ) : null}
+          <div id="cart-total-sticky">
+            <div id="cart-total-checkout-container">
+              <div>Total: {dollarTotal}</div>
+              {hasItems ? (
+                <button onClick={handleCheckoutClick}>Checkout</button>
+              ) : null}
+            </div>
+          </div>
         </>
       )}
     </div>
