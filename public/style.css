@@ -271,8 +271,8 @@
   gap: 10px;
 }
 
-#full-cart-page button,
-#checkout-full-page button {
+#full-cart-page button, #checkout-full-page button, .cart-button {
+
   border: 4px solid var(--green);
   background-color: var(--green);
   font-family: inherit;
@@ -283,8 +283,7 @@
   cursor: pointer;
 }
 
-#full-cart-page button:hover,
-#checkout-full-page button:hover {
+#full-cart-page button:hover, #checkout-full-page button:hover, .cart-button:hover {
   background-color: var(--yellow);
   border: 4px solid var(--green);
   color: var(--green);
@@ -359,6 +358,12 @@
   width: 2rem;
 }
 
+.add-shopping-cart-icon {
+    color: var(--green);
+    height: 2rem;
+    width: 2rem;
+}
+
 .quantity-container {
   display: flex;
   flex-direction: row;
@@ -427,6 +432,36 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+
+.add-cart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-shopping-cart-icon-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.add-shopping-cart-icon-container p {
+  color: var(--green)
+}
+
+.show-cart-input {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.show-cart-input input {
+  flex-grow: 1;
+}
+
+.cart-button {
+  font-size: 1em;
 }
 
 @media (max-width: 968px) {

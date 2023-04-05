@@ -186,12 +186,11 @@ const Main = () => {
             element={
               <Products
                 token={token}
+                cart={cart}
                 setCart={setCart}
                 getCart={getCart}
                 user={user}
                 setSelectedProduct={setSelectedProduct}
-                cartQuantities={cartQuantities}
-                setCartQuantities={setCartQuantities}
               />
             }
           />
