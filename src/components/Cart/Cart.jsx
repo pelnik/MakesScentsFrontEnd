@@ -123,15 +123,37 @@ function Cart({
   }
 
   function handleShowEditClick(evt, itemId) {
+    console.log('showEdit evt', evt);
     const newQuantityObject = cartQuantities[itemId];
+    let cartQuantityCopy = {};
+    let currentQuantity = 1;
 
-    const cartQuantityCopy = {
-      ...cartQuantities,
-      [itemId]: {
-        ...newQuantityObject,
-        showEdit: !cartQuantities[itemId].showEdit,
-      },
-    };
+    if (evt.target.innerText === "Don't update") {
+      const cartItem = cart.items.find((item) => {
+        return item.id === itemId;
+      });
+
+      console.log('cart quantities', cartQuantities);
+      console.log('cartItem', cartItem);
+      currentQuantity = cartItem.quantity;
+      console.log('currentQuantity', currentQuantity);
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          quantity: currentQuantity,
+          showEdit: !cartQuantities[itemId].showEdit,
+        },
+      };
+    } else {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          showEdit: !cartQuantities[itemId].showEdit,
+        },
+      };
+    }
 
     setCartQuantities(cartQuantityCopy);
   }
