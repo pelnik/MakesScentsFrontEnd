@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate} from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import {
   Navbar,
@@ -101,7 +101,7 @@ const Main = () => {
     setCart({});
     setUser({});
     saveToLocalStorage('');
-    navigate("/loginregister")
+    navigate('/loginregister');
   }
 
   async function mainLogUserIn(token) {
@@ -137,7 +137,12 @@ const Main = () => {
 
   return (
     <div id="main">
-      <Navbar logUserOut={logUserOut} token={token} user={user} />
+      <Navbar
+        logUserOut={logUserOut}
+        token={token}
+        user={user}
+        cartQuantities={cartQuantities}
+      />
       <div id="page">
         <Routes>
           <Route exact path="/" element={<Home token={token} user={user} />} />
