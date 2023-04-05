@@ -6,8 +6,24 @@ import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 
-function Navbar({ logUserOut, token, user }) {
+function Navbar({ logUserOut, token, user, cartQuantities }) {
   const navigate = useNavigate();
+
+  function calculateCartAmount() {
+    const keys = Object.keys(cartQuantities);
+    let total = 0;
+
+    if (keys.length === 0) {
+      return 0;
+    }
+
+    keys.forEach((key) => {
+      total += cartQuantities[key].quantity;
+    });
+    return total;
+  }
+
+  const cartAmount = calculateCartAmount();
 
   return (
     <div id="Navbar">
@@ -44,12 +60,19 @@ function Navbar({ logUserOut, token, user }) {
         {token ? (
           <>
             <LogoutIcon className="navbar-icon" onClick={logUserOut} />
-            <ShoppingCartIcon
-              className="navbar-icon"
-              onClick={() => {
-                navigate('/cart');
-              }}
-            />
+            <div id="shopping-cart-icon-container">
+              {cartAmount === 0 ? null : (
+                <div id="shopping-cart-number">
+                  {cartAmount > 9 ? '9+' : cartAmount}
+                </div>
+              )}
+              <ShoppingCartIcon
+                className="navbar-icon"
+                onClick={() => {
+                  navigate('/cart');
+                }}
+              />
+            </div>
           </>
         ) : (
           <LoginIcon

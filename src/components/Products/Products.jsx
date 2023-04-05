@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { getAllProducts, deleteProduct, addCartItem } from '../../apiAdapters';
+import {
+  getAllProducts,
+  deleteProduct,
+  addCartItem,
+  getAllCategories,
+} from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
 function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
+  const [categories, setCategories] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState([]);
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -43,7 +49,6 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
 
       if (result.success) {
         const cartResult = await getCart(token);
-        console.log('cartResult', cartResult);
         setCart(cartResult);
       }
     } catch (err) {
@@ -51,21 +56,60 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
     }
   }
 
-  // function selectFilter() {
+  async function getAllCategoryFilter() {
+    try {
+      const result = await getAllCategories();
+      if (result.success) {
+        console.log('getting all categories', result);
+        setCategories(result.categories);
+        return result;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-  // }
+  // need to work on category filter
+  const filterHandler = (evt) => {
+    if (evt.target.checked) {
+      setSelectedFilter([...selectedFilter, evt.target.id]);
+    } else {
+      setSelectedFilter(
+        selectedFilter.filter((filterId) => filterId !== evt.target.id)
+      );
+    }
+  };
+
+  const matchFilter = (product, filterId) => {
+    if (product.category_id === filterId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const filteredProducts = products.filter((product) => {
+    selectedFilter.length > 0 ? matchFilter(product, selectedFilter) : products;
+  });
+
+  console.log(selectedFilter, 'filter');
+  console.log(filteredProducts);
 
   useEffect(() => {
     getAllProductsPage();
   }, []);
 
+  useEffect(() => {
+    getAllCategoryFilter();
+  }, []);
+
   return (
-    <div id='products-page-container'>
-      <div id='products-header'>
+    <div id="products-page-container">
+      <div id="products-header">
         <h1>Products</h1>
         {user.is_admin ? (
           <button
-            className='add-product-button'
+            className='add-button product-button'
+
             onClick={() => {
               navigate('/products/new');
             }}
@@ -75,13 +119,32 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         ) : null}
       </div>
       <div id='side-by-side'>
-        <CategoryFilter token={token} user={user} />
+        <div id='products-filter'>
+          <h2>Filter</h2>
+          <CategoryFilter token={token} user={user} />
+          <ul className='category-list'>
+            {categories.map((category, idx) => {
+              return (
+                <li key={`category${idx}`}>
+                  <input
+                    type='checkbox'
+                    id={category.id}
+                    name={category.category_name}
+                    value={category.category_name}
+                    onChange={filterHandler}
+                  />
+                  <label htmlFor='category'>{category.category_name}</label>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div id='products-container' key={`products${idx}`}>
+              <div id="products-container" key={`products${idx}`}>
                 <div
-                  className='product-detail'
+                  className="product-detail"
                   onClick={() => {
                     setSelectedProduct({ product_id: product.id });
                     navigate(`/products/${product.id}`);
@@ -89,13 +152,15 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                 >
                   <img
                     src={product.pic_url}
-                    id='product-pic'
-                    alt='pic of candle product'
+                    id="product-pic"
+                    alt="pic of candle product"
                   />
-                  <div className='product-text-detail'>
+                  <div className="product-text-detail">
                     <h4>{product.name}</h4>
                     <h5>Size: {product.size}</h5>
-                    <h3>{product.price}</h3>
+                    <h3 className='important-product-detail'>
+                      {product.price}
+                    </h3>
                   </div>
                 </div>
                 {token ? (
@@ -106,8 +171,10 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                   />
                 ) : null}
                 {user.is_admin ? (
-                  <div className='product-buttons'>
+                  <div className='product-buttons-container'>
+
                     <button
+                      className='product-button'
                       onClick={() => {
                         setSelectedProduct({
                           product_id: product.id,
@@ -123,6 +190,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                       Edit
                     </button>
                     <button
+                      className='product-button'
                       onClick={() => {
                         removeProduct(product.id);
                       }}

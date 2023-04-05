@@ -10,21 +10,23 @@ function CheckoutConfirmation({ setShowConfirmation }) {
         You're gonna love these candles. You're checked out! Return to our
         homepage by hitting the button below.
       </p>
-      <button
-        onClick={() => {
-          setShowConfirmation(false);
-        }}
-      >
-        Back to Cart
-      </button>
-      <button
-        onClick={() => {
-          navigate('/');
-          setShowConfirmation(false);
-        }}
-      >
-        Home
-      </button>
+      <div id="checkout-confirm-buttons">
+        <button
+          onClick={() => {
+            setShowConfirmation(false);
+          }}
+        >
+          Back to Cart
+        </button>
+        <button
+          onClick={() => {
+            navigate('/');
+            setShowConfirmation(false);
+          }}
+        >
+          Home
+        </button>
+      </div>
     </div>
   );
 }
