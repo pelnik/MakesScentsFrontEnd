@@ -12,7 +12,7 @@ const LoginRegister = (props) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  let [error, setError] = useState('');
 
   const setToken = props.setToken;
   const setUser = props.setUser;
@@ -31,7 +31,6 @@ const LoginRegister = (props) => {
       console.log(error);
     }
   }
-
   async function loginUser() {
     try {
       const response = await logUserIn(username, password);
@@ -54,7 +53,7 @@ const LoginRegister = (props) => {
         <h1 className="pageTitle">Register</h1>
       )}
       {displayLogin ? (
-        <div>
+        <div className='Form'>
           <form
             className="defaultForm"
             onSubmit={(e) => {
@@ -63,46 +62,51 @@ const LoginRegister = (props) => {
             }}
           >
             <label className="formLabel">
-              Username:
+              Username: 
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={username}
                 name="username"
+                required
                 onChange={(event) => {
                   setUsername(event.target.value);
                 }}
               ></input>
             </label>
             <label className="formLabel">
-              Password:
+              Password: 
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={password}
                 name="password"
+                required
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
               ></input>
             </label>
-            <button type="submit" className="redButton">
+            <button type="submit" className="Button">
               Log In
             </button>
-            <p>{error}</p>
           </form>
+            {error==="" ? null : <p className='error'>Username or password is incorrect</p> }
           <button
             type="button"
-            className="redButton"
+            className="SwitchForm"
             onClick={() => {
               setDisplayLogin(false);
+              setError('')
             }}
           >
             Don't have an account? Sign up here
           </button>
         </div>
       ) : (
-        <div>
+        <div className='Form'> 
           <form
             className="defaultForm"
             onSubmit={(e) => {
@@ -113,10 +117,12 @@ const LoginRegister = (props) => {
             <label className="formLabel">
               Name:
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={name}
                 name="name"
+                required
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
@@ -125,10 +131,12 @@ const LoginRegister = (props) => {
             <label className="formLabel">
               Email:
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={email}
                 name="email"
+                required
                 onChange={(event) => {
                   setEmail(event.target.value);
                 }}
@@ -137,10 +145,12 @@ const LoginRegister = (props) => {
             <label className="formLabel">
               Username:
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={username}
                 name="username"
+                required
                 onChange={(event) => {
                   setUsername(event.target.value);
                 }}
@@ -149,25 +159,28 @@ const LoginRegister = (props) => {
             <label className="formLabel">
               Password:
               <input
+                id="textBox"
                 type="text"
                 className="inputtext"
                 value={password}
                 name="password"
+                required
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
               ></input>
             </label>
-            <button type="submit" className="redButton">
+            <button type="submit" className="Button">
               Register
             </button>
-            <p>{error}</p>
           </form>
+          {error==="" ? null : <p className='error'>{error}</p>}
           <button
             type="button"
-            className="redButton"
+            className="SwitchForm"
             onClick={() => {
               setDisplayLogin(true);
+              setError('')
             }}
           >
             Already have an account? Log in here

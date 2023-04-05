@@ -67,7 +67,7 @@ function AdminUsersPage({ token }) {
             {user.is_admin ? <h3 className='UserInfo'>Role: <span className='Info'>Admin</span></h3> : <h3 className='UserInfo'>Role: <span className='Info'>User</span></h3>}
             {user.is_active ? <h3 className='UserInfo'>Active</h3> : <h3 className='UserInfo'>Inactive</h3>}
             <Link to={`edit-user/${user.id}`} state={user}>
-              <button className='EditButton'>Edit User Status</button>
+              <button className='Button'>Edit User Status</button>
             </Link>
           </div>
         );
