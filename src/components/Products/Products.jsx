@@ -10,10 +10,19 @@ import {
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
-function Products({ token, user, setSelectedProduct, setCart, getCart }) {
+function Products({
+  token,
+  user,
+  setSelectedProduct,
+  setCart,
+  getCart,
+  cartQuantities,
+  setCartQuantities,
+}) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
+  const [showCart, setShowCart] = useState(initializeShowCart(products));
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -21,7 +30,10 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
       const result = await getAllProducts();
       if (result.success) {
         console.log('getting all products', result);
+        const showCartResult = initializeShowCart(result.products);
+
         setProducts(result.products);
+        setShowCart(showCartResult);
         return result;
       }
     } catch (error) {
@@ -36,6 +48,8 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         const productsCopy = [...products].filter((n, idx) => {
           return n.id !== product_id;
         });
+
+        setShowCart(removeShowCart(product_id));
         setProducts(productsCopy);
       }
     } catch (error) {
@@ -44,16 +58,54 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   }
 
   async function handleShoppingCartClick(evt, product_id, quantity) {
-    try {
-      const result = await addCartItem(token, product_id, quantity);
+    // try {
+    //   const result = await addCartItem(token, product_id, quantity);
 
-      if (result.success) {
-        const cartResult = await getCart(token);
-        setCart(cartResult);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    //   if (result.success) {
+    //     const cartResult = await getCart(token);
+    //     setCart(cartResult);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    setShowCart({
+      ...showCart,
+      [product_id]: {
+        ...showCart[product_id],
+        show: !showCart[product_id].show,
+      },
+    });
+  }
+
+  function initializeShowCart(products) {
+    const newShowCart = {};
+
+    products.forEach((product) => {
+      newShowCart[product.id] = {
+        show: false,
+        amountToAdd: 1,
+      };
+    });
+
+    return newShowCart;
+  }
+
+  function removeShowCart(productId) {
+    const showCartCopy = { ...showCart };
+
+    delete showCartCopy.productId;
+
+    return showCartCopy;
+  }
+
+  function handleCartInputChange(evt, productId) {
+    setShowCart({
+      ...showCart,
+      [productId]: {
+        ...showCart[productId],
+        amountToAdd: Number(evt.target.value),
+      },
+    });
   }
 
   async function getAllCategoryFilter() {
@@ -108,8 +160,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         <h1>Products</h1>
         {user.is_admin ? (
           <button
-            className='add-button product-button'
-
+            className="add-button product-button"
             onClick={() => {
               navigate('/products/new');
             }}
@@ -118,28 +169,28 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
           </button>
         ) : null}
       </div>
-      <div id='side-by-side'>
-        <div id='products-filter'>
+      <div id="side-by-side">
+        <div id="products-filter">
           <h2>Filter</h2>
           <CategoryFilter token={token} user={user} />
-          <ul className='category-list'>
+          <ul className="category-list">
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
                   <input
-                    type='checkbox'
+                    type="checkbox"
                     id={category.id}
                     name={category.category_name}
                     value={category.category_name}
                     onChange={filterHandler}
                   />
-                  <label htmlFor='category'>{category.category_name}</label>
+                  <label htmlFor="category">{category.category_name}</label>
                 </li>
               );
             })}
           </ul>
         </div>
-        <div id='products-list'>
+        <div id="products-list">
           {products.map((product, idx) => {
             return (
               <div id="products-container" key={`products${idx}`}>
@@ -158,23 +209,37 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                   <div className="product-text-detail">
                     <h4>{product.name}</h4>
                     <h5>Size: {product.size}</h5>
-                    <h3 className='important-product-detail'>
+                    <h3 className="important-product-detail">
                       {product.price}
                     </h3>
                   </div>
                 </div>
                 {token ? (
-                  <AddShoppingCartIcon
-                    onClick={(evt) => {
-                      handleShoppingCartClick(evt, product.id, 1);
-                    }}
-                  />
+                  <div className="add-cart-container">
+                    <AddShoppingCartIcon
+                      className="add-shopping-cart-icon"
+                      onClick={(evt) => {
+                        handleShoppingCartClick(evt, product.id, 1);
+                      }}
+                    />
+                    {showCart[product.id].show ? (
+                      <div>
+                        <input
+                          onChange={(evt) => {
+                            handleCartInputChange(evt, product.id);
+                          }}
+                          type="number"
+                          value={showCart[product.id].amountToAdd}
+                        />
+                        <button type="submit">Submit</button>
+                      </div>
+                    ) : null}
+                  </div>
                 ) : null}
                 {user.is_admin ? (
-                  <div className='product-buttons-container'>
-
+                  <div className="product-buttons-container">
                     <button
-                      className='product-button'
+                      className="product-button"
                       onClick={() => {
                         setSelectedProduct({
                           product_id: product.id,
@@ -190,7 +255,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                       Edit
                     </button>
                     <button
-                      className='product-button'
+                      className="product-button"
                       onClick={() => {
                         removeProduct(product.id);
                       }}

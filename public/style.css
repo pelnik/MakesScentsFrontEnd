@@ -308,6 +308,12 @@
   width: 2rem;
 }
 
+.add-shopping-cart-icon {
+    color: var(--green);
+    height: 2rem;
+    width: 2rem;
+}
+
 .quantity-container {
   display: flex;
   flex-direction: row;
@@ -373,6 +379,12 @@
 }
 
 #checkout-confirm-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.add-cart-container {
   display: flex;
   flex-direction: row;
   gap: 10px;
