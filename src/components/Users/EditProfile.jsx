@@ -46,12 +46,12 @@ function EditProfile({ token, getUser, setUser }) {
   return (
     <div className="formContainer">
       {displayEditUsername ? (
-        <h1 className="pageTitle">Edit Username</h1>
+        <h1 className="editTitle">Edit Username</h1>
       ) : (
-        <h1 className="pageTitle">Edit Email</h1>
+        <h1 className="editTitle">Edit Email</h1>
       )}
       {displayEditUsername ? (
-        <div>
+        <div className='Form'>
           <form
             className="defaultForm"
             onSubmit={(event) => {
@@ -62,7 +62,7 @@ function EditProfile({ token, getUser, setUser }) {
             <label className="formLabel">
               Change Username:
               <input
-                className="inputtext"
+                id="textBox"
                 name="username"
                 type="text"
                 required
@@ -72,20 +72,22 @@ function EditProfile({ token, getUser, setUser }) {
                 }}
               />
             </label>
-            <button type="submit">Submit</button>
-            <p>{error}</p>
+            <button type="submit" className='Button'>Submit</button>
           </form>
+          {error==="" ? null : <p className='error'>{error}</p>}
           <button
             type="button"
+            className='SwitchForm'
             onClick={() => {
               setDisplayEditUsername(false);
+              setError('')
             }}
           >
             Edit Email
           </button>
         </div>
       ) : (
-        <div>
+        <div className='Form'>
           <form
             className="defaultForm"
             onSubmit={(event) => {
@@ -96,7 +98,7 @@ function EditProfile({ token, getUser, setUser }) {
             <label className="formLabel">
               Change Email:
               <input
-                className="inputtext"
+                id="textBox"
                 name="email"
                 type="text"
                 required
@@ -106,13 +108,15 @@ function EditProfile({ token, getUser, setUser }) {
                 }}
               />
             </label>
-            <button type="submit">Submit</button>
-            <p>{error}</p>
+            <button className='Button' type="submit">Submit</button>
           </form>
+          {error==="" ? null : <p className='error'>{error}</p>}
           <button
             type="button"
+            className='SwitchForm'
             onClick={() => {
               setDisplayEditUsername(true);
+              setError('')
             }}
           >
             Edit Username

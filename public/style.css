@@ -545,3 +545,11 @@
   margin: 10px 10px;
   justify-content: center;
 }
+.editTitle {
+  display: flex;
+  justify-content: center;
+  font-size: 6vh;
+  color: var(--red);
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
