@@ -120,8 +120,9 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
       </div>
       <div id='side-by-side'>
         <div id='products-filter'>
-          <h2>Filter</h2>
+          <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
+          <br />
           <ul className='category-list'>
             {categories.map((category, idx) => {
               return (
