@@ -1,9 +1,9 @@
 :root {
-  --yellow: #FAF5E8;
-  --gray: #C7BFAD;
-  --green: #6A97A6;
-  --pink: #FFCDBA;
-  --red: #DB7C5A;
+  --yellow: #faf5e8;
+  --gray: #c7bfad;
+  --green: #6a97a6;
+  --pink: #ffcdba;
+  --red: #db7c5a;
 }
 
 * {
@@ -27,7 +27,6 @@
   min-height: 0;
   overflow-y: scroll;
 }
-
 
 #Navbar {
   display: flex;
@@ -123,7 +122,7 @@
 #products-container {
   display: flex;
   flex-direction: column;
-  background-color: #EDE8DD;
+  background-color: #ede8dd;
   box-shadow: 2px 2px 1px var(--gray);
   border-radius: 10px;
   gap: 20px;
@@ -131,7 +130,7 @@
   padding: 10px;
 }
 #products-container:hover {
-    background-color: var(--pink);
+  background-color: var(--pink);
 }
 
 #product-pic {
@@ -175,9 +174,31 @@
   border: 4px solid var(--green);
   color: var(--green);
 }
+
+#single-product-page {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5em;
+}
+#single-product-pic {
+  width: 300px;
+  height: 325px;
+}
+#single-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#single-top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 /* END OF PRODUCTS CSS */
 
-.navLink{
+.navLink {
   text-decoration: none;
   color: white;
   text-transform: uppercase;
@@ -192,7 +213,7 @@
 }
 
 #shopping-cart-number {
-  position:absolute;
+  position: absolute;
   top: -5px;
   right: -5px;
   font-size: x-small;
@@ -228,7 +249,8 @@
   gap: 10px;
 }
 
-#full-cart-page button, #checkout-full-page button {
+#full-cart-page button,
+#checkout-full-page button {
   border: 4px solid var(--green);
   background-color: var(--green);
   font-family: inherit;
@@ -239,7 +261,8 @@
   cursor: pointer;
 }
 
-#full-cart-page button:hover, #checkout-full-page button:hover {
+#full-cart-page button:hover,
+#checkout-full-page button:hover {
   background-color: var(--yellow);
   border: 4px solid var(--green);
   color: var(--green);
@@ -337,7 +360,7 @@
   gap: 15px;
   align-items: flex-start;
   background-color: var(--green);
-  align-self:flex-start;
+  align-self: flex-start;
   padding: 10px;
   border-radius: 5px;
   color: var(--yellow);
@@ -384,11 +407,9 @@
   gap: 10px;
 }
 
-
-
 @media (max-width: 968px) {
   #full-cart-page {
-    flex-direction:column-reverse;
+    flex-direction: column-reverse;
   }
 
   #cart-total-checkout-container {
@@ -400,7 +421,6 @@
     align-items: center;
     justify-content: center;
   }
-
 }
 
 /* Admin Page Css */
@@ -411,7 +431,7 @@
   justify-content: space-evenly;
 }
 
-.UserCard{
+.UserCard {
   width: 450px;
   border: 3px solid var(--green);
   color: var(--red);
@@ -422,11 +442,11 @@
   align-items: flex-start;
   box-shadow: 0 2px 5px -2px black;
   background-color: var(--yellow);
- }
- .UserInfo{
+}
+.UserInfo {
   padding: 10px 10px;
- }
-.EditButton:hover{
+}
+.EditButton:hover {
   background-color: var(--yellow);
   font-family: 'Roboto Slab', serif;
   border: 4px solid var(--green);
@@ -436,7 +456,7 @@
   cursor: pointer;
 }
 
-.EditButton{
+.EditButton {
   background-color: var(--green);
   font-family: 'Roboto Slab', serif;
   border: 4px solid var(--green);
@@ -448,7 +468,7 @@
   margin: 10px 10px;
 }
 
-.Info{
+.Info {
   font-weight: 100;
   color: black;
 }
@@ -460,12 +480,12 @@
   background-color: var(--yellow);
   color: var(--red);
 }
-#AdminPageHeader{
+#AdminPageHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-#AdminPageTitle{
+#AdminPageTitle {
   color: var(--red);
   font-size: 65px;
 }

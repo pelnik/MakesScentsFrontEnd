@@ -23,16 +23,24 @@ function SingleProduct({ selectedProduct }) {
   }, []);
 
   return (
-    <div>
-      <h3>Item Detail</h3>
-      <img src={product.pic_url} id="product-pic" />
-      <h2>{product.name}</h2>
-      <h3>{product.description}</h3>
-      <h3>Size: {product.size}</h3>
-      <h3>{product.price}</h3>
-      <h3>Fragrance: {product.fragrance}</h3>
-      <h3>Color: {product.color}</h3>
-      <h3>Category: {product.category_id}</h3>
+    <div id='single-product-page'>
+      <div id='single-left'>
+        <img src={product.pic_url} id='single-product-pic' />
+      </div>
+      <div id='single-right'>
+        <div id='single-top'>
+          <h2 className='important-product-detail'>{product.name}</h2>
+          <h3>Size: {product.size}</h3>
+          <h3 className='important-product-detail'>{product.price}</h3>
+        </div>
+        <hr />
+        <div id='single-bottom'>
+          <p>{product.description}</p>
+          <p>Fragrance: {product.fragrance}</p>
+          <p>Color: {product.color}</p>
+          <p>Category: {product.category_id}</p>
+        </div>
+      </div>
     </div>
   );
 }
