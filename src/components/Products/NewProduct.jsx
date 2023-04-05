@@ -71,6 +71,7 @@ function NewProduct({ token, user }) {
               type='text'
               name='name'
               value={name}
+              required
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -84,6 +85,7 @@ function NewProduct({ token, user }) {
               type='text'
               name='description'
               value={description}
+              required
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
@@ -97,6 +99,7 @@ function NewProduct({ token, user }) {
               type='number'
               name='price'
               value={price}
+              required
               min='0.00'
               step='0.01'
               onChange={(e) => {
@@ -112,6 +115,7 @@ function NewProduct({ token, user }) {
               type='url'
               name='pic_url'
               value={pic_url}
+              required
               onChange={(e) => {
                 setPic_url(e.target.value);
               }}
@@ -125,6 +129,7 @@ function NewProduct({ token, user }) {
               type='text'
               name='size'
               value={size}
+              required
               onChange={(e) => {
                 setSize(e.target.value);
               }}
@@ -138,6 +143,7 @@ function NewProduct({ token, user }) {
               type='number'
               name='inventory'
               value={inventory}
+              required
               min='0'
               onChange={(e) => {
                 setInventory(e.target.value);
@@ -167,6 +173,7 @@ function NewProduct({ token, user }) {
               type='text'
               name='color'
               value={color}
+              required
               onChange={(e) => {
                 setColor(e.target.value);
               }}
@@ -180,6 +187,7 @@ function NewProduct({ token, user }) {
               type='text'
               name='fragrance'
               value={fragrance}
+              required
               onChange={(e) => {
                 setFragrance(e.target.value);
               }}

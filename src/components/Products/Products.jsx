@@ -188,11 +188,12 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
           </button>
         ) : null}
       </div>
-      <div id="side-by-side">
-        <div id="products-filter">
-          <h2>Filter</h2>
+      <div id='side-by-side'>
+        <div id='products-filter'>
+          <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
-          <ul className="category-list">
+          <br />
+          <ul className='category-list'>
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
