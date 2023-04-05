@@ -76,6 +76,9 @@
 .category-button {
   white-space: nowrap;
 }
+.category-list label {
+  padding-left: 0.4em;
+}
 .add-button {
   height: 30px;
 }
