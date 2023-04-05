@@ -49,7 +49,6 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
 
       if (result.success) {
         const cartResult = await getCart(token);
-        console.log('cartResult', cartResult);
         setCart(cartResult);
       }
     } catch (err) {
@@ -104,12 +103,13 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   }, []);
 
   return (
-    <div id='products-page-container'>
-      <div id='products-header'>
+    <div id="products-page-container">
+      <div id="products-header">
         <h1>Products</h1>
         {user.is_admin ? (
           <button
             className='add-button product-button'
+
             onClick={() => {
               navigate('/products/new');
             }}
@@ -142,9 +142,9 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
         <div id='products-list'>
           {products.map((product, idx) => {
             return (
-              <div id='products-container' key={`products${idx}`}>
+              <div id="products-container" key={`products${idx}`}>
                 <div
-                  className='product-detail'
+                  className="product-detail"
                   onClick={() => {
                     setSelectedProduct({ product_id: product.id });
                     navigate(`/products/${product.id}`);
@@ -152,10 +152,10 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                 >
                   <img
                     src={product.pic_url}
-                    id='product-pic'
-                    alt='pic of candle product'
+                    id="product-pic"
+                    alt="pic of candle product"
                   />
-                  <div className='product-text-detail'>
+                  <div className="product-text-detail">
                     <h4>{product.name}</h4>
                     <h5>Size: {product.size}</h5>
                     <h3 className='important-product-detail'>
@@ -172,6 +172,7 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                 ) : null}
                 {user.is_admin ? (
                   <div className='product-buttons-container'>
+
                     <button
                       className='product-button'
                       onClick={() => {

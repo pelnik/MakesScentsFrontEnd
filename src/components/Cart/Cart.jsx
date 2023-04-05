@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
 
 function Cart({
   token,
@@ -22,8 +23,6 @@ function Cart({
         return x + numY * cartQuantities[y.id].quantity;
       }, 0)
     : 0;
-
-  console.log('cart quantities', cartQuantities);
 
   const dollarTotal = `$${total.toFixed(2)}`;
 
@@ -123,14 +122,32 @@ function Cart({
 
   function handleShowEditClick(evt, itemId) {
     const newQuantityObject = cartQuantities[itemId];
+    let cartQuantityCopy = {};
+    let currentQuantity = 1;
 
-    const cartQuantityCopy = {
-      ...cartQuantities,
-      [itemId]: {
-        ...newQuantityObject,
-        showEdit: !cartQuantities[itemId].showEdit,
-      },
-    };
+    if (evt.target.innerText === "Don't update") {
+      const cartItem = cart.items.find((item) => {
+        return item.id === itemId;
+      });
+
+      currentQuantity = cartItem.quantity;
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          quantity: currentQuantity,
+          showEdit: !cartQuantities[itemId].showEdit,
+        },
+      };
+    } else {
+      cartQuantityCopy = {
+        ...cartQuantities,
+        [itemId]: {
+          ...newQuantityObject,
+          showEdit: !cartQuantities[itemId].showEdit,
+        },
+      };
+    }
 
     setCartQuantities(cartQuantityCopy);
   }
@@ -169,30 +186,33 @@ function Cart({
                           </p>
                         </div>
                         <div className="cart-item-pricing">
-                          <p>{item.product_price}</p>
-
-                          {!cartQuantities[item.id].showEdit ? (
-                            <p>Quantity: {item.quantity}</p>
-                          ) : (
-                            <>
-                              <input
-                                name="quantity"
-                                type="number"
-                                value={cartQuantities[item.id].quantity}
-                                onChange={(evt) => {
-                                  handleQuantityChange(evt, item.id);
-                                }}
-                              />
-                              <button
-                                onClick={(evt) => {
-                                  handleQuantityChangeSubmit(evt, item.id);
-                                }}
-                                type="submit"
-                              >
-                                Submit
-                              </button>
-                            </>
-                          )}
+                          <div className="quantity-info">
+                            <p>{item.product_price}</p>
+                            {!cartQuantities[item.id].showEdit ? (
+                              <p>Quantity: {item.quantity}</p>
+                            ) : (
+                              <div className="quantity-container">
+                                <p>Quantity:</p>
+                                <input
+                                  name="quantity"
+                                  type="number"
+                                  className="quantity-input"
+                                  value={cartQuantities[item.id].quantity}
+                                  onChange={(evt) => {
+                                    handleQuantityChange(evt, item.id);
+                                  }}
+                                />
+                                <button
+                                  onClick={(evt) => {
+                                    handleQuantityChangeSubmit(evt, item.id);
+                                  }}
+                                  type="submit"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            )}
+                          </div>
                           <div className="cart-quantity-container">
                             <button
                               onClick={(evt) => {
@@ -203,11 +223,14 @@ function Cart({
                                 ? 'Update Quantity'
                                 : `Don't update`}
                             </button>
-                            <DeleteIcon
-                              onClick={(evt) => {
-                                handleDeleteClick(evt, item.id);
-                              }}
-                            />
+                            <Tooltip title="Remove">
+                              <DeleteIcon
+                                className="delete-icon"
+                                onClick={(evt) => {
+                                  handleDeleteClick(evt, item.id);
+                                }}
+                              />
+                            </Tooltip>
                           </div>
 
                           {cartQuantities[item.id].error ? (
@@ -217,7 +240,7 @@ function Cart({
                       </div>
                       <div className="cart-item-subtotal cart-subitem">
                         <p className="cart-subtotal">
-                          Subtotal:
+                          Subtotal:&nbsp;
                           {`$${(
                             cartQuantities[item.id].quantity *
                             parseFloat(item.product_price.slice(1))
@@ -231,10 +254,14 @@ function Cart({
               <div>No items in cart!</div>
             )}
           </div>
-          <div>Total: {dollarTotal}</div>
-          {hasItems ? (
-            <button onClick={handleCheckoutClick}>Checkout</button>
-          ) : null}
+          <div id="cart-total-sticky">
+            <div id="cart-total-checkout-container">
+              <div>Total: {dollarTotal}</div>
+              {hasItems ? (
+                <button onClick={handleCheckoutClick}>Checkout</button>
+              ) : null}
+            </div>
+          </div>
         </>
       )}
     </div>
