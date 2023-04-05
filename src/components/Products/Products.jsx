@@ -13,7 +13,7 @@ import { CategoryFilter } from '..';
 function Products({ token, user, setSelectedProduct, setCart, getCart }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState([]); // hold values of selected category filter
+  const [selectedFilter, setSelectedFilter] = useState([]);
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -70,9 +70,30 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
     }
   }
 
-  // function selectFilter() {
+  // need to work on category filter
+  const filterHandler = (evt) => {
+    if (evt.target.checked) {
+      setSelectedFilter([...selectedFilter, evt.target.id]);
+    } else {
+      setSelectedFilter(
+        selectedFilter.filter((filterId) => filterId !== evt.target.id)
+      );
+    }
+  };
 
-  // }
+  const matchFilter = (product, filterId) => {
+    if (product.category_id === filterId) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const filteredProducts = products.filter((product) => {
+    selectedFilter.length > 0 ? matchFilter(product, selectedFilter) : products;
+  });
+
+  console.log(selectedFilter, 'filter');
+  console.log(filteredProducts);
 
   useEffect(() => {
     getAllProductsPage();
@@ -107,9 +128,10 @@ function Products({ token, user, setSelectedProduct, setCart, getCart }) {
                 <li key={`category${idx}`}>
                   <input
                     type='checkbox'
-                    id='category'
+                    id={category.id}
                     name={category.category_name}
                     value={category.category_name}
+                    onChange={filterHandler}
                   />
                   <label htmlFor='category'>{category.category_name}</label>
                 </li>
