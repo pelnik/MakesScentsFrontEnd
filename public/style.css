@@ -206,6 +206,9 @@
   border-radius: 5px;
   color: white;
 }
+#single-product-bottom span {
+  font-size: 0.8em;
+}
 #product-name {
   font-size: xx-large;
 }

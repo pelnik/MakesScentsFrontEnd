@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getSingleProduct } from '../../apiAdapters';
+import { getSingleProduct, getAllCategories } from '../../apiAdapters';
 
 function SingleProduct({ selectedProduct }) {
   const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
   const product_id = selectedProduct.product_id;
 
   async function getSingleProductPage() {
@@ -18,8 +19,22 @@ function SingleProduct({ selectedProduct }) {
     }
   }
 
+  async function getAllCategoryFilter() {
+    try {
+      const result = await getAllCategories();
+      if (result.success) {
+        console.log('getting all categories', result);
+        setCategories(result.categories);
+        return result;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getSingleProductPage();
+    getAllCategoryFilter()
   }, []);
 
   return (
@@ -46,9 +61,15 @@ function SingleProduct({ selectedProduct }) {
       </div>
       <h4>Details:</h4>
       <div id='single-product-bottom'>
-        <p>Fragrance: {product.fragrance}</p>
-        <p>Color: {product.color}</p>
-        <p>Category: {product.category_id}</p>
+        <p>
+          <span className='detail-header'>Fragrance:</span> {product.fragrance}
+        </p>
+        <p>
+          <span className='detail-header'>Color:</span> {product.color}
+        </p>
+        <p>
+          <span className='detail-header'>Category:</span> {product.category_id}
+        </p>
       </div>
     </div>
   );
