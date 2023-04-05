@@ -24,8 +24,6 @@ function Cart({
       }, 0)
     : 0;
 
-  console.log('cart quantities', cartQuantities);
-
   const dollarTotal = `$${total.toFixed(2)}`;
 
   const sizeDict = {
@@ -123,7 +121,6 @@ function Cart({
   }
 
   function handleShowEditClick(evt, itemId) {
-    console.log('showEdit evt', evt);
     const newQuantityObject = cartQuantities[itemId];
     let cartQuantityCopy = {};
     let currentQuantity = 1;
@@ -133,10 +130,7 @@ function Cart({
         return item.id === itemId;
       });
 
-      console.log('cart quantities', cartQuantities);
-      console.log('cartItem', cartItem);
       currentQuantity = cartItem.quantity;
-      console.log('currentQuantity', currentQuantity);
       cartQuantityCopy = {
         ...cartQuantities,
         [itemId]: {
