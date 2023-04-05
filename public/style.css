@@ -292,6 +292,11 @@
   align-self: center;
 }
 
+#cart-total-checkout-container button:hover {
+  text-decoration: underline;
+  border: 4px solid var(--yellow);
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction:column-reverse;
