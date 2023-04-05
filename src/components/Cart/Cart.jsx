@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
 
 function Cart({
   token,
@@ -169,30 +170,33 @@ function Cart({
                           </p>
                         </div>
                         <div className="cart-item-pricing">
-                          <p>{item.product_price}</p>
-
-                          {!cartQuantities[item.id].showEdit ? (
-                            <p>Quantity: {item.quantity}</p>
-                          ) : (
-                            <>
-                              <input
-                                name="quantity"
-                                type="number"
-                                value={cartQuantities[item.id].quantity}
-                                onChange={(evt) => {
-                                  handleQuantityChange(evt, item.id);
-                                }}
-                              />
-                              <button
-                                onClick={(evt) => {
-                                  handleQuantityChangeSubmit(evt, item.id);
-                                }}
-                                type="submit"
-                              >
-                                Submit
-                              </button>
-                            </>
-                          )}
+                          <div className="quantity-info">
+                            <p>{item.product_price}</p>
+                            {!cartQuantities[item.id].showEdit ? (
+                              <p>Quantity: {item.quantity}</p>
+                            ) : (
+                              <div className="quantity-container">
+                                <p>Quantity:</p>
+                                <input
+                                  name="quantity"
+                                  type="number"
+                                  className="quantity-input"
+                                  value={cartQuantities[item.id].quantity}
+                                  onChange={(evt) => {
+                                    handleQuantityChange(evt, item.id);
+                                  }}
+                                />
+                                <button
+                                  onClick={(evt) => {
+                                    handleQuantityChangeSubmit(evt, item.id);
+                                  }}
+                                  type="submit"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            )}
+                          </div>
                           <div className="cart-quantity-container">
                             <button
                               onClick={(evt) => {
@@ -203,11 +207,14 @@ function Cart({
                                 ? 'Update Quantity'
                                 : `Don't update`}
                             </button>
-                            <DeleteIcon
-                              onClick={(evt) => {
-                                handleDeleteClick(evt, item.id);
-                              }}
-                            />
+                            <Tooltip title="Remove">
+                              <DeleteIcon
+                                className="delete-icon"
+                                onClick={(evt) => {
+                                  handleDeleteClick(evt, item.id);
+                                }}
+                              />
+                            </Tooltip>
                           </div>
 
                           {cartQuantities[item.id].error ? (
@@ -217,7 +224,7 @@ function Cart({
                       </div>
                       <div className="cart-item-subtotal cart-subitem">
                         <p className="cart-subtotal">
-                          Subtotal:
+                          Subtotal:&nbsp;
                           {`$${(
                             cartQuantities[item.id].quantity *
                             parseFloat(item.product_price.slice(1))
