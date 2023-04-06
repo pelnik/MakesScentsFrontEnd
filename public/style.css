@@ -223,7 +223,13 @@
 display: flex;
 flex-direction: column;
 align-items: center;
-
+}
+#select-drop{
+  color: var(--red);
+  border: none;
+    border-bottom: 4px solid var(--red);
+    font-size: 2vh;
+    background-color: var(--yellow);
 }
 /* END OF PRODUCTS CSS */
 

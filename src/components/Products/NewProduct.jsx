@@ -21,33 +21,42 @@ function NewProduct({ token, user, categoryList }) {
   async function postNewProduct() {
     try {
       if (user.is_admin) {
-        const result = await createProduct(
-          token,
-          name,
-          description,
-          price,
-          pic_url,
-          size,
-          inventory,
-          category_id,
-          color,
-          fragrance
-        );
-        console.log(result, 'result');
-        if (result.success === true) {
-          setName('');
-          setDescription('');
-          setPrice('');
-          setPic_url('');
-          setSize('');
-          setInventory(0);
-          setCategory_id(1);
-          setColor('');
-          setFragrance('');
-          navigate('/products');
+        if (price < 0.01 || inventory < 1) {
+          if (price < 0.01) {
+            setError('The price must be higher than $0.');
+          }
+          if (inventory < 1) {
+            setError('The inventory must be higher than 0.');
+          }
         } else {
-          setError(result.message);
-          console.log('creating new product failed error');
+          const result = await createProduct(
+            token,
+            name,
+            description,
+            price,
+            pic_url,
+            size,
+            inventory,
+            category_id,
+            color,
+            fragrance
+          );
+          console.log(result, 'result');
+          if (result.success === true) {
+            setName('');
+            setDescription('');
+            setPrice('');
+            setPic_url('');
+            setSize('');
+            setInventory(0);
+            setCategory_id(1);
+            setColor('');
+            setFragrance('');
+            navigate('/products');
+          } else {
+            setError(result.message);
+            console.log('creating new product failed error');
+          }
         }
       } else {
         setError('You have to be an admin to add a new product.');
@@ -156,15 +165,17 @@ function NewProduct({ token, user, categoryList }) {
         <label className='formLabel'>
           Category:
           <select
-            value={category_id}
+            id='select-drop'
             onChange={(e) => {
               setCategory_id(Number(e.target.value));
             }}
           >
             {categories.map((category, idx) => {
               return (
-                <option key={`new-product-category${idx}`}
-                value={category.category_id}>
+                <option
+                  key={`new-product-category${idx}`}
+                  value={category.category_id}
+                >
                   {category.category_name}
                 </option>
               );

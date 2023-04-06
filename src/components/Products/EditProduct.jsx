@@ -22,19 +22,28 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   ) {
     try {
       if (user.is_admin) {
-        const result = await updateProduct(
-          token,
-          product_id,
-          name,
-          description,
-          price,
-          pic_url,
-          inventory
-        );
-        console.log(result, 'result from editing product');
-        if (result.success) {
-          setSelectedProduct({});
-          navigate('/products');
+        if (price < 0.01 || inventory < 1) {
+          if (price < 0.01) {
+            setError('The price must be higher than $0.');
+          }
+          if (inventory < 1) {
+            setError('The inventory must be higher than 0.');
+          }
+        } else {
+          const result = await updateProduct(
+            token,
+            product_id,
+            name,
+            description,
+            price,
+            pic_url,
+            inventory
+          );
+          console.log(result, 'result from editing product');
+          if (result.success) {
+            setSelectedProduct({});
+            navigate('/products');
+          }
         }
       } else {
         setError('You have to be an admin to edit a product.');
@@ -123,7 +132,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         <button type='submit' className='Button'>
           Submit
         </button>
-        <p className='error-message error'>{error}</p>
+        {error === '' ? null : <p className='error'>{error}</p>}
       </form>
     </div>
   );
