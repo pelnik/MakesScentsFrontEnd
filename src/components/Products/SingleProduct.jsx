@@ -10,7 +10,6 @@ function SingleProduct({ selectedProduct }) {
     try {
       const result = await getSingleProduct(product_id);
       if (result.success) {
-        console.log(result, 'result for single here');
         setProduct(result.product);
         return result;
       }
@@ -23,13 +22,17 @@ function SingleProduct({ selectedProduct }) {
     try {
       const result = await getAllCategories();
       if (result.success) {
-        console.log('getting all categories', result);
         setCategories(result.categories);
         return result;
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const categoryIdToName = (id) => {
+    const pair = categories.filter((category) => {return category.id === id})
+    return pair.length > 0 ? pair[0].category_name : null
   }
 
   useEffect(() => {
@@ -68,7 +71,7 @@ function SingleProduct({ selectedProduct }) {
           <span className='detail-header'>Color:</span> {product.color}
         </p>
         <p>
-          <span className='detail-header'>Category:</span> {product.category_id}
+          <span className='detail-header'>Category:</span> {categoryIdToName(product.category_id)}
         </p>
       </div>
     </div>

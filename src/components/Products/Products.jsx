@@ -11,7 +11,7 @@ import {
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
-function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
+function Products({ token, user, setSelectedProduct, cart, setCart, getCart, setCategoryList }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -131,8 +131,8 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
     try {
       const result = await getAllCategories();
       if (result.success) {
-        console.log('getting all categories', result);
-        setCategories(result.categories);
+        setCategories(result.categories)
+        setCategoryList(result.categories);
         return result;
       }
     } catch (error) {
