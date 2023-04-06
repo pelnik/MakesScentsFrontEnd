@@ -65,7 +65,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             }}
           />
         </label>
-        
+
         <label className='formLabel'>
           Description:
           <input
