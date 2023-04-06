@@ -86,7 +86,7 @@
 #products-filter {
   padding: 20px;
   background-color: var(--pink);
-  width: 200px;
+  min-width: 200px;
   height: fit-content;
   position: relative;
 }
@@ -106,7 +106,7 @@
 #side-by-side {
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 40px;
 }
 
 #products-filter {
@@ -188,6 +188,7 @@
 }
 .category-submit {
   font-size: 0.5em;
+  margin-right: 0.6em;
 }
 
 #single-product-top {
