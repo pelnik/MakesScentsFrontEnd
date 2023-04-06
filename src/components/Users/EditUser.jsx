@@ -22,14 +22,14 @@ function EditProfile({ token }) {
 
   return (
     <div className="formContainer">
-      <h1 className="pageTitle">Edit User Status </h1>
-
-      <h1>Name: {location.state.name}</h1>
-      <h2>Username: {location.state.username}</h2>
-      <h2>Email: {location.state.email}</h2>
-      {location.state.is_admin ? <h2>Role: Admin</h2> : <h2>Role: User</h2>}
-      {location.state.is_active ? <h2>Active</h2> : <h2>Inactive</h2>}
-
+      <h1 className="EditUserPageTitle">Edit User Status </h1>
+<div className='EditUserCard'>
+<h2 className='EditUserInfo'>Name: <span className='Info'>{location.state.name}</span></h2>
+            <h3 className='EditUserInfo'>Username: <span className='Info'>{location.state.username}</span></h3>
+            <h3 className='EditUserInfo'>Email: <span className='Info'>{location.state.email}</span></h3>
+            {location.state.is_admin ? <h3 className='EditUserInfo'>Role: <span className='Info'>Admin</span></h3> : <h3 className='EditUserInfo'>Role: <span className='Info'>User</span></h3>}
+            {location.state.is_active ? <h3 className='EditUserInfo'>Active</h3> : <h3 className='EditUserInfo'>Inactive</h3>}
+      </div>
       <form
         className="defaultForm"
         onSubmit={(event) => {
@@ -37,6 +37,7 @@ function EditProfile({ token }) {
           changeUserStatus(location.state.id, newIsActive, newIsAdmin);
         }}
       >
+        <div className='checkboxes'>
         <label id="checkboxLabel">
           Active:
           <input
@@ -63,8 +64,8 @@ function EditProfile({ token }) {
             }}
           />
         </label>
-
-        <button type="submit">Submit</button>
+        </div>
+        <button className='Button' type="submit">Submit</button>
       </form>
     </div>
   );
