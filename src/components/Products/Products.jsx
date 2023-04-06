@@ -8,6 +8,7 @@ import {
   addCartItem,
   getAllCategories,
   cart,
+  updateCartQuantity,
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
@@ -67,6 +68,7 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
       newShowCart[product.id] = {
         show: false,
         amountToAdd: 1,
+        error: '',
       };
     });
 
@@ -91,14 +93,11 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
     });
   }
 
-  console.log('the cart', cart);
   async function handleCartInputSubmit(evt, productId) {
     try {
       const cartItem = cart.items.find((item) => {
         return item.product_id === productId;
       });
-
-      console.log('cartItem', cartItem);
 
       if (!cartItem) {
         const result = await addCartItem(
@@ -118,9 +117,42 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
             },
           });
           setCart(cartResult);
+        } else {
+          setShowCart({
+            ...showCart,
+            [productId]: {
+              ...showCart[productId],
+              error: 'Error updating cart',
+            },
+          });
         }
       } else {
-        console.log('cartItem', cartItem);
+        const result = await updateCartQuantity(
+          token,
+          cartItem.id,
+          cartItem.quantity + showCart[productId].amountToAdd
+        );
+
+        if (result.success) {
+          const cartResult = await getCart(token);
+          setShowCart({
+            ...showCart,
+            [productId]: {
+              ...showCart[productId],
+              amountToAdd: 1,
+              show: false,
+            },
+          });
+          setCart(cartResult);
+        } else {
+          setShowCart({
+            ...showCart,
+            [productId]: {
+              ...showCart[productId],
+              error: 'Error updating cart',
+            },
+          });
+        }
       }
     } catch (err) {
       console.log(err);
@@ -188,12 +220,12 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
           </button>
         ) : null}
       </div>
-      <div id='side-by-side'>
-        <div id='products-filter'>
+      <div id="side-by-side">
+        <div id="products-filter">
           <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
           <br />
-          <ul className='category-list'>
+          <ul className="category-list">
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
@@ -266,6 +298,9 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
                           Add
                         </button>
                       </div>
+                    ) : null}
+                    {showCart[product.id].error ? (
+                      <p>showCart[product.id].error</p>
                     ) : null}
                   </div>
                 ) : null}
