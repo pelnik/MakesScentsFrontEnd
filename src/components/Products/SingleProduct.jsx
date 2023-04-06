@@ -22,7 +22,6 @@ function SingleProduct({ selectedProduct }) {
     try {
       const result = await getAllCategories();
       if (result.success) {
-        console.log('getting all categories', result);
         setCategories(result.categories);
         return result;
       }

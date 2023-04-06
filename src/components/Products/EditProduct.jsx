@@ -45,84 +45,85 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   }
   return (
     <div className='new-product-form'>
+      <h1 className='pageTitle'>Edit Product</h1>
       <form
+        className='defaultForm'
         onSubmit={(e) => {
           e.preventDefault();
-            updateSelectedProduct(name, description, price, pic_url, inventory);
-          }
-        }
+          updateSelectedProduct(name, description, price, pic_url, inventory);
+        }}
       >
-        <h1>Edit Product</h1>
-        <div className='input-group'>
-          <label>
-            Name:
-            <input
-              type='text'
-              name='name'
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </label>
-        </div>
-        <div className='input-group'>
-          <label>
-            Description:
-            <input
-              type='text'
-              name='description'
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-            />
-          </label>
-        </div>
-        <div className='input-group'>
-          <label>
-            Price: $
-            <input
-              type='number'
-              name='price'
-              value={price}
-              min='0.00'
-              step='0.01'
-              onChange={(e) => {
-                setPrice(e.target.value);
-              }}
-            />
-          </label>
-        </div>
-        <div className='input-group'>
-          <label>
-            Picture:
-            <input
-              type='url'
-              name='pic_url'
-              value={pic_url}
-              onChange={(e) => {
-                setPic_url(e.target.value);
-              }}
-            />
-          </label>
-        </div>
-        <div className='input-group'>
-          <label>
-            Inventory:
-            <input
-              type='number'
-              name='inventory'
-              value={inventory}
-              min='0'
-              onChange={(e) => {
-                setInventory(e.target.value);
-              }}
-            />
-          </label>
-        </div>
-        <button type='submit'>Submit</button>
-        <p className='error-message'>{error}</p>
+        <label className='formLabel'>
+          Name:
+          <input
+            id='textBox'
+            type='text'
+            name='name'
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </label>
+        
+        <label className='formLabel'>
+          Description:
+          <input
+            id='textBox'
+            type='text'
+            name='description'
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+        </label>
+
+        <label className='formLabel'>
+          Price: $
+          <input
+            id='textBox'
+            type='number'
+            name='price'
+            value={price}
+            min='0.00'
+            step='0.01'
+            onChange={(e) => {
+              setPrice(e.target.value);
+            }}
+          />
+        </label>
+
+        <label className='formLabel'>
+          Picture:
+          <input
+            id='textBox'
+            type='url'
+            name='pic_url'
+            value={pic_url}
+            onChange={(e) => {
+              setPic_url(e.target.value);
+            }}
+          />
+        </label>
+
+        <label className='formLabel'>
+          Inventory:
+          <input
+            id='textBox'
+            type='number'
+            name='inventory'
+            value={inventory}
+            min='0'
+            onChange={(e) => {
+              setInventory(e.target.value);
+            }}
+          />
+        </label>
+        <button type='submit' className='Button'>
+          Submit
+        </button>
+        <p className='error-message error'>{error}</p>
       </form>
     </div>
   );

@@ -218,6 +218,13 @@
 #product-description {
   color: var(--green);
 }
+
+.new-product-form {
+display: flex;
+flex-direction: column;
+align-items: center;
+
+}
 /* END OF PRODUCTS CSS */
 
 .navLink {
