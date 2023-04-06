@@ -38,16 +38,17 @@ function CategoryFilter({ token, user }) {
         </button>
       ) : null}
       {showForm ? (
-        <div>
+        <div id='add-category-form'>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               postNewCategory();
             }}
           >
-            <label>
+            <label className='add-category-name'>
               Name:
               <input
+                id='add-category-input'
                 type='text'
                 name='category_name'
                 value={category_name}
@@ -56,7 +57,11 @@ function CategoryFilter({ token, user }) {
                 }}
               />
             </label>
-            <button type='submit'>Submit</button>
+            <div id='add-category-button'>
+              <button className='product-button category-submit' type='submit'>
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       ) : null}
