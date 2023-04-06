@@ -21,12 +21,15 @@ function NewProduct({ token, user, categoryList }) {
   async function postNewProduct() {
     try {
       if (user.is_admin) {
-        if (price < 0.01 || inventory < 1) {
+        if (price < 0.01 || inventory < 1 || !pic_url.match('https://.*')) {
           if (price < 0.01) {
             setError('The price must be higher than $0.');
           }
           if (inventory < 1) {
             setError('The inventory must be higher than 0.');
+          }
+          if (!pic_url.match('https://.*')) {
+            setError('Invalid URL');
           }
         } else {
           const result = await createProduct(
