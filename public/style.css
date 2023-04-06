@@ -464,6 +464,11 @@
   font-size: 1em;
 }
 
+.cart-warning {
+  font-weight: bold;
+  color: var(--red);
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;

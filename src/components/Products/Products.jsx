@@ -84,74 +84,101 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
   }
 
   function handleCartInputChange(evt, productId) {
-    setShowCart({
-      ...showCart,
-      [productId]: {
-        ...showCart[productId],
-        amountToAdd: Number(evt.target.value),
-      },
-    });
+    const numEvtValue = Number(evt.target.value);
+    if (numEvtValue > 0) {
+      setShowCart({
+        ...showCart,
+        [productId]: {
+          ...showCart[productId],
+          amountToAdd: numEvtValue,
+          error: '',
+        },
+      });
+    } else {
+      setShowCart({
+        ...showCart,
+        [productId]: {
+          ...showCart[productId],
+          error: 'Value must be greater than 1',
+        },
+      });
+    }
   }
 
   async function handleCartInputSubmit(evt, productId) {
     try {
-      const cartItem = cart.items.find((item) => {
-        return item.product_id === productId;
-      });
-
-      if (!cartItem) {
-        const result = await addCartItem(
-          token,
-          productId,
-          showCart[productId].amountToAdd
-        );
-
-        if (result.success) {
-          const cartResult = await getCart(token);
-          setShowCart({
-            ...showCart,
-            [productId]: {
-              ...showCart[productId],
-              amountToAdd: 1,
-              show: false,
-            },
-          });
-          setCart(cartResult);
-        } else {
-          setShowCart({
-            ...showCart,
-            [productId]: {
-              ...showCart[productId],
-              error: 'Error updating cart',
-            },
-          });
-        }
+      if (
+        showCart[productId].amountToAdd < 1 ||
+        typeof showCart[productId].amountToAdd !== 'number'
+      ) {
+        setShowCart({
+          ...showCart,
+          [productId]: {
+            ...showCart[productId],
+            error: 'Quantity cannot be less than 1',
+          },
+        });
       } else {
-        const result = await updateCartQuantity(
-          token,
-          cartItem.id,
-          cartItem.quantity + showCart[productId].amountToAdd
-        );
+        const cartItem = cart.items.find((item) => {
+          return item.product_id === productId;
+        });
 
-        if (result.success) {
-          const cartResult = await getCart(token);
-          setShowCart({
-            ...showCart,
-            [productId]: {
-              ...showCart[productId],
-              amountToAdd: 1,
-              show: false,
-            },
-          });
-          setCart(cartResult);
+        if (!cartItem) {
+          const result = await addCartItem(
+            token,
+            productId,
+            showCart[productId].amountToAdd
+          );
+
+          if (result.success) {
+            const cartResult = await getCart(token);
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                amountToAdd: 1,
+                show: false,
+                error: '',
+              },
+            });
+            setCart(cartResult);
+          } else {
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                error: 'Error updating cart',
+              },
+            });
+          }
         } else {
-          setShowCart({
-            ...showCart,
-            [productId]: {
-              ...showCart[productId],
-              error: 'Error updating cart',
-            },
-          });
+          const result = await updateCartQuantity(
+            token,
+            cartItem.id,
+            cartItem.quantity + showCart[productId].amountToAdd
+          );
+
+          if (result.success) {
+            const cartResult = await getCart(token);
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                amountToAdd: 1,
+                show: false,
+                error: '',
+              },
+            });
+            setCart(cartResult);
+          } else {
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                error: 'Error updating cart',
+              },
+            });
+          }
         }
       }
     } catch (err) {
@@ -300,7 +327,9 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart }) {
                       </div>
                     ) : null}
                     {showCart[product.id].error ? (
-                      <p>showCart[product.id].error</p>
+                      <p className="cart-warning">
+                        {showCart[product.id].error}
+                      </p>
                     ) : null}
                   </div>
                 ) : null}
