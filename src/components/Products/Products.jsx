@@ -166,9 +166,6 @@ function Products({
       : products;
   });
 
-  console.log(selectedFilter, 'filter');
-  console.log(filteredProducts);
-
   useEffect(() => {
     getAllProductsPage();
   }, []);
