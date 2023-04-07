@@ -268,6 +268,8 @@ function Products({
       ? searchedDisplay
       : products;
 
+console.log(showCart, '###')
+
   useEffect(() => {
     getAllProductsPage();
   }, []);
@@ -373,6 +375,7 @@ function Products({
                                 handleCartInputChange(evt, product.id);
                               }}
                               type='number'
+                              max={product.inventory}
                               value={showCart[product.id].amountToAdd}
                             />
                             <button
