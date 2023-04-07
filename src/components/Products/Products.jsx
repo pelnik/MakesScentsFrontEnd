@@ -11,7 +11,15 @@ import {
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
-function Products({ token, user, setSelectedProduct, cart, setCart, getCart, setCategoryList }) {
+function Products({
+  token,
+  user,
+  setSelectedProduct,
+  cart,
+  setCart,
+  getCart,
+  setCategoryList,
+}) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
@@ -131,7 +139,7 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
     try {
       const result = await getAllCategories();
       if (result.success) {
-        setCategories(result.categories)
+        setCategories(result.categories);
         setCategoryList(result.categories);
         return result;
       }
@@ -140,7 +148,6 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
     }
   }
 
-  // need to work on category filter
   const filterHandler = (evt) => {
     if (evt.target.checked) {
       setSelectedFilter([...selectedFilter, evt.target.id]);
@@ -151,15 +158,12 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
     }
   };
 
-  const matchFilter = (product, filterId) => {
-    if (product.category_id === filterId) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   const filteredProducts = products.filter((product) => {
-    selectedFilter.length > 0 ? matchFilter(product, selectedFilter) : products;
+    return selectedFilter.length > 0
+      ? selectedFilter.some((filter) => {
+          return product.category_id === Number(filter);
+        })
+      : products;
   });
 
   console.log(selectedFilter, 'filter');
@@ -174,12 +178,12 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
   }, []);
 
   return (
-    <div id="products-page-container">
-      <div id="products-header">
+    <div id='products-page-container'>
+      <div id='products-header'>
         <h1>Products</h1>
         {user.is_admin ? (
           <button
-            className="add-button product-button"
+            className='add-button product-button'
             onClick={() => {
               navigate('/products/new');
             }}
@@ -198,24 +202,24 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
               return (
                 <li key={`category${idx}`}>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     id={category.id}
                     name={category.category_name}
                     value={category.category_name}
                     onChange={filterHandler}
                   />
-                  <label htmlFor="category">{category.category_name}</label>
+                  <label htmlFor='category'>{category.category_name}</label>
                 </li>
               );
             })}
           </ul>
         </div>
-        <div id="products-list">
-          {products.map((product, idx) => {
+        <div id='products-list'>
+          {filteredProducts.map((product, idx) => {
             return (
-              <div id="products-container" key={`products${idx}`}>
+              <div id='products-container' key={`products${idx}`}>
                 <div
-                  className="product-detail"
+                  className='product-detail'
                   onClick={() => {
                     setSelectedProduct({ product_id: product.id });
                     navigate(`/products/${product.id}`);
@@ -223,22 +227,22 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
                 >
                   <img
                     src={product.pic_url}
-                    id="product-pic"
-                    alt="pic of candle product"
+                    id='product-pic'
+                    alt='pic of candle product'
                   />
-                  <div className="product-text-detail">
+                  <div className='product-text-detail'>
                     <h4>{product.name}</h4>
                     <h5>Size: {product.size}</h5>
-                    <h3 className="important-product-detail">
+                    <h3 className='important-product-detail'>
                       {product.price}
                     </h3>
                   </div>
                 </div>
                 {token ? (
-                  <div className="add-cart-container">
-                    <div className="add-shopping-cart-icon-container">
+                  <div className='add-cart-container'>
+                    <div className='add-shopping-cart-icon-container'>
                       <AddShoppingCartIcon
-                        className="add-shopping-cart-icon"
+                        className='add-shopping-cart-icon'
                         onClick={(evt) => {
                           handleShoppingCartClick(evt, product.id);
                         }}
@@ -248,17 +252,17 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
                       ) : null}
                     </div>
                     {showCart[product.id].show ? (
-                      <div className="show-cart-input">
+                      <div className='show-cart-input'>
                         <input
                           onChange={(evt) => {
                             handleCartInputChange(evt, product.id);
                           }}
-                          type="number"
+                          type='number'
                           value={showCart[product.id].amountToAdd}
                         />
                         <button
-                          type="submit"
-                          className="cart-button"
+                          type='submit'
+                          className='cart-button'
                           onClick={(evt) => {
                             handleCartInputSubmit(evt, product.id);
                           }}
@@ -270,9 +274,9 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
                   </div>
                 ) : null}
                 {user.is_admin ? (
-                  <div className="product-buttons-container">
+                  <div className='product-buttons-container'>
                     <button
-                      className="product-button"
+                      className='product-button'
                       onClick={() => {
                         setSelectedProduct({
                           product_id: product.id,
@@ -288,7 +292,7 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
                       Edit
                     </button>
                     <button
-                      className="product-button"
+                      className='product-button'
                       onClick={() => {
                         removeProduct(product.id);
                       }}
