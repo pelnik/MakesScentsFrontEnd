@@ -589,7 +589,8 @@ flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+
+  pointer-events: none;
 }
 
 .full-loading-screen {
