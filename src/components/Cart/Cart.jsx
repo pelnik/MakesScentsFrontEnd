@@ -13,6 +13,7 @@ function Cart({
   cartQuantities,
   setCartQuantities,
   hasItems,
+  initialLoad,
 }) {
   const navigate = useNavigate();
 
@@ -224,6 +225,22 @@ function Cart({
     <div id="full-cart-page">
       {!token ? (
         <p>Please log in to use the cart.</p>
+      ) : true ? (
+        <div className="full-loading-screen">
+          <Oval
+            className="loading-spinner"
+            height={'4em'}
+            width={'4em'}
+            color="#db7c5a"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#db7c5a"
+            strokeWidth={20}
+            strokeWidthSecondary={20}
+          />
+        </div>
       ) : (
         <>
           <div className="horizontal-flex" id="cart-container">

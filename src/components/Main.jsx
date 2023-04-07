@@ -170,6 +170,7 @@ const Main = () => {
                 hasItems={hasItems}
                 cartQuantities={cartQuantities}
                 setCartQuantities={setCartQuantities}
+                initialLoad={initialLoad}
               />
             }
           />

@@ -548,6 +548,13 @@ align-items: center;
   align-items: center;
 }
 
+.full-loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;
