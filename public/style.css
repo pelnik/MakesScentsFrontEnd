@@ -327,6 +327,8 @@ flex-grow: 1;
 }
 
 #checkout-full-page {
+  display: flex;
+
   flex-grow: 1;
 }
 
@@ -554,6 +556,7 @@ flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .full-loading-screen {
@@ -580,6 +583,10 @@ flex-grow: 1;
 }
 
 /* Admin Page Css */
+
+#profile {
+  flex-grow: 1;
+}
 
 #AllUserCards {
   display: flex;

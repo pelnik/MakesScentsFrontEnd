@@ -182,6 +182,7 @@ const Main = () => {
                 cart={cart}
                 setCart={setCart}
                 getCart={getCart}
+                initialLoad={initialLoad}
               />
             }
           />
