@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
+import { Oval } from 'react-loader-spinner';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
 
@@ -32,8 +33,21 @@ function Cart({
     L: 'Large',
   };
 
+  console.log('cart quantities', cartQuantities);
+
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
+      setCartQuantities({
+        ...cartQuantities,
+        [itemId]: {
+          ...cartQuantities[itemId],
+          loaders: {
+            ...cartQuantities[itemId].loaders,
+            edit: true,
+          },
+        },
+      });
+
       const newQuantity = cartQuantities[itemId].quantity;
 
       const response = await updateCartQuantity(token, itemId, newQuantity);
@@ -59,10 +73,27 @@ function Cart({
           [itemId]: {
             ...cartQuantities[itemId],
             showEdit: !cartQuantities[itemId].showEdit,
+            error: '',
+            loaders: {
+              ...cartQuantities[itemId].loaders,
+              edit: false,
+            },
           },
         };
 
         setCartQuantities(cartQuantityCopy);
+      } else {
+        setCartQuantities({
+          ...cartQuantities,
+          [itemId]: {
+            ...cartQuantities[itemId],
+            error: 'Quantity change was not successful',
+            loaders: {
+              ...cartQuantities[itemId].loaders,
+              edit: false,
+            },
+          },
+        });
       }
     } catch (error) {
       console.error('error updating back end cart quantity', error);
@@ -202,14 +233,43 @@ function Cart({
                                     handleQuantityChange(evt, item.id);
                                   }}
                                 />
-                                <button
-                                  onClick={(evt) => {
-                                    handleQuantityChangeSubmit(evt, item.id);
-                                  }}
-                                  type="submit"
-                                >
-                                  Submit
-                                </button>
+                                <div className="loader-container">
+                                  <button
+                                    className={
+                                      cartQuantities[item.id].loaders.edit
+                                        ? 'fade-loader'
+                                        : null
+                                    }
+                                    onClick={(evt) => {
+                                      handleQuantityChangeSubmit(evt, item.id);
+                                    }}
+                                    type="submit"
+                                  >
+                                    Submit
+                                  </button>
+                                  <div
+                                    onClick={(evt) => {
+                                      handleQuantityChangeSubmit(evt, item.id);
+                                    }}
+                                    className="spinner-container"
+                                  >
+                                    {cartQuantities[item.id].loaders.edit ? (
+                                      <Oval
+                                        className="loading-spinner"
+                                        height={'1em'}
+                                        width={'1em'}
+                                        color="#db7c5a"
+                                        wrapperStyle={{}}
+                                        wrapperClass=""
+                                        visible={true}
+                                        ariaLabel="oval-loading"
+                                        secondaryColor="#db7c5a"
+                                        strokeWidth={20}
+                                        strokeWidthSecondary={20}
+                                      />
+                                    ) : null}
+                                  </div>
+                                </div>
                               </div>
                             )}
                           </div>

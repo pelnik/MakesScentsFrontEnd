@@ -524,6 +524,26 @@ align-items: center;
   max-width: 6ch;
 }
 
+.loader-container {
+  position: relative;
+}
+
+.fade-loader {
+  filter: grayscale(80%) blur(2px);
+}
+
+.spinner-container {
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;

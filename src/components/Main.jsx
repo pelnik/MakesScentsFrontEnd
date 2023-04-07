@@ -72,6 +72,9 @@ const Main = () => {
           quantity: item.quantity,
           showEdit: false,
           error: '',
+          loaders: {
+            edit: false,
+          },
         };
       });
       return newCartQuantity;
@@ -181,7 +184,7 @@ const Main = () => {
             }
           />
           <Route
-            path='/'
+            path="/"
             element={
               <Products
                 token={token}
