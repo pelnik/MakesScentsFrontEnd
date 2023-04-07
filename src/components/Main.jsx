@@ -74,6 +74,7 @@ const Main = () => {
           error: '',
           loaders: {
             edit: false,
+            delete: false,
           },
         };
       });

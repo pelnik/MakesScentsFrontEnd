@@ -131,6 +131,17 @@ function Cart({
 
   async function handleDeleteClick(evt, itemId) {
     try {
+      setCartQuantities({
+        ...cartQuantities,
+        [itemId]: {
+          ...cartQuantities[itemId],
+          loaders: {
+            ...cartQuantities[itemId].loaders,
+            delete: true,
+          },
+        },
+      });
+
       const response = await deleteCartItem(token, itemId);
 
       if (response.success) {
@@ -145,6 +156,28 @@ function Cart({
         };
 
         setCart(cartCopy);
+        setCartQuantities({
+          ...cartQuantities,
+          [itemId]: {
+            ...cartQuantities[itemId],
+            loaders: {
+              ...cartQuantities[itemId].loaders,
+              delete: false,
+            },
+          },
+        });
+      } else {
+        setCartQuantities({
+          ...cartQuantities,
+          [itemId]: {
+            ...cartQuantities[itemId],
+            error: 'Error deleting item from cart.',
+            loaders: {
+              ...cartQuantities[itemId].loaders,
+              delete: true,
+            },
+          },
+        });
       }
     } catch (error) {
       console.error('error deleting item', error);
@@ -241,16 +274,28 @@ function Cart({
                                         : null
                                     }
                                     onClick={(evt) => {
-                                      handleQuantityChangeSubmit(evt, item.id);
+                                      cartQuantities[item.id].loaders.edit
+                                        ? null
+                                        : handleQuantityChangeSubmit(
+                                            evt,
+                                            item.id
+                                          );
                                     }}
                                     type="submit"
                                   >
                                     Submit
                                   </button>
                                   <div
-                                    onClick={(evt) => {
-                                      handleQuantityChangeSubmit(evt, item.id);
-                                    }}
+                                    onClick={
+                                      cartQuantities[item.id].loaders.edit
+                                        ? null
+                                        : (evt) => {
+                                            handleQuantityChangeSubmit(
+                                              evt,
+                                              item.id
+                                            );
+                                          }
+                                    }
                                     className="spinner-container"
                                   >
                                     {cartQuantities[item.id].loaders.edit ? (
@@ -284,12 +329,46 @@ function Cart({
                                 : `Don't update`}
                             </button>
                             <Tooltip title="Remove">
-                              <DeleteIcon
-                                className="delete-icon"
-                                onClick={(evt) => {
-                                  handleDeleteClick(evt, item.id);
-                                }}
-                              />
+                              <div className="loader-container">
+                                <DeleteIcon
+                                  className={
+                                    cartQuantities[item.id].loaders.delete
+                                      ? 'delete-icon fade-loader'
+                                      : 'delete-icon'
+                                  }
+                                  onClick={(evt) => {
+                                    cartQuantities[item.id].loaders.delete
+                                      ? null
+                                      : handleDeleteClick(evt, item.id);
+                                  }}
+                                />
+                                <div
+                                  onClick={
+                                    cartQuantities[item.id].loaders.delete
+                                      ? null
+                                      : (evt) => {
+                                          handleDeleteClick(evt, item.id);
+                                        }
+                                  }
+                                  className="spinner-container"
+                                >
+                                  {cartQuantities[item.id].loaders.delete ? (
+                                    <Oval
+                                      className="loading-spinner"
+                                      height={'1em'}
+                                      width={'1em'}
+                                      color="#6a97a6"
+                                      wrapperStyle={{}}
+                                      wrapperClass=""
+                                      visible={true}
+                                      ariaLabel="oval-loading"
+                                      secondaryColor="#6a97a6"
+                                      strokeWidth={20}
+                                      strokeWidthSecondary={20}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
                             </Tooltip>
                           </div>
 
