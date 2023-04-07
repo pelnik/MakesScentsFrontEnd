@@ -71,10 +71,10 @@ function NewProduct({ token, user, categoryList }) {
   }
 
   return (
-    <div className='new-product-form'>
+    <div className='new-product-form-container'>
       <h1 className='pageTitle'>Add New Product</h1>
       <form
-        className='defaultForm'
+        className='product-form'
         onSubmit={(e) => {
           e.preventDefault();
           postNewProduct();

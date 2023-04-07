@@ -56,10 +56,10 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
     }
   }
   return (
-    <div className='new-product-form'>
+    <div className='new-product-form-container'>
       <h1 className='pageTitle'>Edit Product</h1>
       <form
-        className='defaultForm'
+        className='product-form'
         onSubmit={(e) => {
           e.preventDefault();
           updateSelectedProduct(name, description, price, pic_url, inventory);
