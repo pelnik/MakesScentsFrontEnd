@@ -11,7 +11,7 @@ export async function getActiveCart(token) {
     });
 
     const result = await response.json();
-    console.log(result);
+    console.log('get active cart result', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -99,6 +99,24 @@ export async function addCartItem(token, product_id, quantity) {
 
     const result = await response.json();
     console.log('add cart item post', result);
+    return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}
+
+export async function getOrders(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/carts/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    console.log('get orders result', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
