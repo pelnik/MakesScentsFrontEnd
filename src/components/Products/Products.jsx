@@ -25,6 +25,8 @@ function Products({
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
   const [showCart, setShowCart] = useState(initializeShowCart(products));
+  const [searchTerm, setSearchTerm] = useState('');
+  const [lowerSearchTerm, setLowerSearchTerm] = useState('');
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -225,6 +227,44 @@ function Products({
       : products;
   });
 
+  function productMatches(product, text) {
+    if (
+      product.name.toLowerCase().includes(text) ||
+      product.size.toLowerCase().includes(text) ||
+      product.description.toLowerCase().includes(text) ||
+      product.fragrance.toLowerCase().includes(text) ||
+      product.color.toLowerCase().includes(text)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  const searchedProducts = products.filter((product) =>
+    productMatches(product, lowerSearchTerm)
+  );
+  const searchedDisplay = searchTerm.length ? searchedProducts : products;
+
+  const searchHandle = (e) => {
+    setSearchTerm(e.target.value);
+    setLowerSearchTerm(e.target.value.toLowerCase());
+  };
+
+  const bothFilter = searchedProducts.filter((product) => {
+    return selectedFilter.length > 0
+    ? selectedFilter.some((filter) => {
+      return product.category_id === Number(filter)
+    }) : products
+  })
+
+  const productsList = (
+    searchTerm.length && selectedFilter.length ? bothFilter :
+    !searchTerm.length && selectedFilter.length ? filteredProducts :
+    searchTerm.length && !selectedFilter.length ? searchedDisplay :
+    products
+  )
+
   useEffect(() => {
     getAllProductsPage();
   }, []);
@@ -234,12 +274,21 @@ function Products({
   }, []);
 
   return (
-    <div id="products-page-container">
-      <div id="products-header">
-        <h1>Products</h1>
+    <div id='products-page-container'>
+      <div id='products-header'>
+        <div id='products-header-left'>
+          <h1>Products</h1>
+          <input
+            id='products-search'
+            type='text'
+            placeholder='Search for Product'
+            value={searchTerm}
+            onChange={searchHandle}
+          />
+        </div>
         {user.is_admin ? (
           <button
-            className="add-button product-button"
+            className='add-button product-button'
             onClick={() => {
               navigate('/products/new');
             }}
@@ -248,35 +297,35 @@ function Products({
           </button>
         ) : null}
       </div>
-      <div id="side-by-side">
-        <div id="products-filter">
+      <div id='side-by-side'>
+        <div id='products-filter'>
           <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
           <br />
-          <ul className="category-list">
+          <ul className='category-list'>
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     id={category.id}
                     name={category.category_name}
                     value={category.category_name}
                     onChange={filterHandler}
                   />
-                  <label htmlFor="category">{category.category_name}</label>
+                  <label htmlFor='category'>{category.category_name}</label>
                 </li>
               );
             })}
           </ul>
         </div>
-        <div id="products-list">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product, idx) => {
+        <div id='products-list'>
+          {productsList.length ? (
+            productsList.map((product, idx) => {
               return (
-                <div id="products-container" key={`products${idx}`}>
+                <div id='products-container' key={`products${idx}`}>
                   <div
-                    className="product-detail"
+                    className='product-detail'
                     onClick={() => {
                       setSelectedProduct({ product_id: product.id });
                       navigate(`/products/${product.id}`);
@@ -284,22 +333,22 @@ function Products({
                   >
                     <img
                       src={product.pic_url}
-                      id="product-pic"
-                      alt="pic of candle product"
+                      id='product-pic'
+                      alt='pic of candle product'
                     />
-                    <div className="product-text-detail">
+                    <div className='product-text-detail'>
                       <h4>{product.name}</h4>
                       <h5>Size: {product.size}</h5>
-                      <h3 className="important-product-detail">
+                      <h3 className='important-product-detail'>
                         {product.price}
                       </h3>
                     </div>
                   </div>
                   {token ? (
-                    <div className="add-cart-container">
-                      <div className="add-shopping-cart-icon-container">
+                    <div className='add-cart-container'>
+                      <div className='add-shopping-cart-icon-container'>
                         <AddShoppingCartIcon
-                          className="add-shopping-cart-icon"
+                          className='add-shopping-cart-icon'
                           onClick={(evt) => {
                             handleShoppingCartClick(evt, product.id);
                           }}
@@ -309,17 +358,17 @@ function Products({
                         ) : null}
                       </div>
                       {showCart[product.id].show ? (
-                        <div className="show-cart-input">
+                        <div className='show-cart-input'>
                           <input
                             onChange={(evt) => {
                               handleCartInputChange(evt, product.id);
                             }}
-                            type="number"
+                            type='number'
                             value={showCart[product.id].amountToAdd}
                           />
                           <button
-                            type="submit"
-                            className="cart-button"
+                            type='submit'
+                            className='cart-button'
                             onClick={(evt) => {
                               handleCartInputSubmit(evt, product.id);
                             }}
@@ -329,16 +378,16 @@ function Products({
                         </div>
                       ) : null}
                       {showCart[product.id].error ? (
-                        <p className="cart-warning">
+                        <p className='cart-warning'>
                           {showCart[product.id].error}
                         </p>
                       ) : null}
                     </div>
                   ) : null}
                   {user.is_admin ? (
-                    <div className="product-buttons-container">
+                    <div className='product-buttons-container'>
                       <button
-                        className="product-button"
+                        className='product-button'
                         onClick={() => {
                           setSelectedProduct({
                             product_id: product.id,
@@ -354,7 +403,7 @@ function Products({
                         Edit
                       </button>
                       <button
-                        className="product-button"
+                        className='product-button'
                         onClick={() => {
                           removeProduct(product.id);
                         }}
