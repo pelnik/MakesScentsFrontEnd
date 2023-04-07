@@ -67,7 +67,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
       >
         <label className='formLabel'>
           Name:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='name'
@@ -80,7 +80,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
 
         <label className='formLabel'>
           Description:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='description'
@@ -108,7 +108,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
 
         <label className='formLabel'>
           Picture:
-          <input
+          <textarea
             id='textBox'
             type='url'
             name='pic_url'

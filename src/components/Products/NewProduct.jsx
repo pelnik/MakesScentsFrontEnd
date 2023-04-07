@@ -82,7 +82,7 @@ function NewProduct({ token, user, categoryList }) {
       >
         <label className='formLabel'>
           Name:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='name'
@@ -96,7 +96,7 @@ function NewProduct({ token, user, categoryList }) {
 
         <label className='formLabel'>
           Description:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='description'
@@ -126,7 +126,7 @@ function NewProduct({ token, user, categoryList }) {
 
         <label className='formLabel'>
           Picture:
-          <input
+          <textarea
             id='textBox'
             type='url'
             name='pic_url'
