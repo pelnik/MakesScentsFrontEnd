@@ -63,9 +63,9 @@ export async function deleteCartItem(token, cart_product_id) {
   }
 }
 
-export async function checkout(token) {
+export async function checkout(token, cart_id) {
   try {
-    const response = await fetch(`${BASE_URL}/carts`, {
+    const response = await fetch(`${BASE_URL}/carts/${cart_id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
