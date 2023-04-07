@@ -56,7 +56,7 @@ function NewProduct({ token, user, categoryList }) {
             setCategory_id(1);
             setColor('');
             setFragrance('');
-            navigate('/products');
+            navigate('/');
           } else {
             setError(result.message);
             console.log('creating new product failed error');

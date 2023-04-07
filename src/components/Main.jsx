@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import {
   Navbar,
-  Home,
   LoginRegister,
   Cart,
   Checkout,
@@ -146,7 +145,6 @@ const Main = () => {
       />
       <div id='page'>
         <Routes>
-          <Route exact path='/' element={<Home token={token} user={user} />} />
           <Route
             path='/loginregister'
             element={
@@ -183,7 +181,7 @@ const Main = () => {
             }
           />
           <Route
-            path='/products'
+            path='/'
             element={
               <Products
                 token={token}

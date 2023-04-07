@@ -25,7 +25,7 @@ const LoginRegister = (props) => {
         setError(`${response.message}`);
       } else {
         await mainLogUserIn(response.token);
-        navigate(-1);
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ const LoginRegister = (props) => {
         setError(`${response.message}`);
       } else {
         await mainLogUserIn(response.token);
-        navigate(-1);
+        navigate('/');
       }
     } catch (error) {
       console.log(error);
