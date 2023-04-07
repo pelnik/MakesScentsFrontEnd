@@ -32,6 +32,7 @@ function NewProduct({ token, user, categoryList }) {
             setError('Invalid URL');
           }
         } else {
+          console.log(category_id, 'category id');
           const result = await createProduct(
             token,
             name,
@@ -68,6 +69,7 @@ function NewProduct({ token, user, categoryList }) {
       console.log(error);
     }
   }
+
   return (
     <div className='new-product-form'>
       <h1 className='pageTitle'>Add New Product</h1>
@@ -169,16 +171,14 @@ function NewProduct({ token, user, categoryList }) {
           Category:
           <select
             id='select-drop'
+            value={category_id}
             onChange={(e) => {
               setCategory_id(Number(e.target.value));
             }}
           >
             {categories.map((category, idx) => {
               return (
-                <option
-                  key={`new-product-category${idx}`}
-                  value={category.category_id}
-                >
+                <option key={`new-product-category${idx}`} value={category.id}>
                   {category.category_name}
                 </option>
               );
