@@ -18,7 +18,7 @@ import {
   EditProduct,
 } from './';
 
-import { usersMe, getActiveCart } from '../apiAdapters';
+import { usersMe, getActiveCart, getAllCategories } from '../apiAdapters';
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
 // React docs recommend checking the first load like this
@@ -34,6 +34,7 @@ const Main = () => {
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});
+  const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
 
   const [cartQuantities, setCartQuantities] = useState(
@@ -136,18 +137,18 @@ const Main = () => {
   }, []);
 
   return (
-    <div id="main">
+    <div id='main'>
       <Navbar
         logUserOut={logUserOut}
         token={token}
         user={user}
         cartQuantities={cartQuantities}
       />
-      <div id="page">
+      <div id='page'>
         <Routes>
-          <Route exact path="/" element={<Home token={token} user={user} />} />
+          <Route exact path='/' element={<Home token={token} user={user} />} />
           <Route
-            path="/loginregister"
+            path='/loginregister'
             element={
               <LoginRegister
                 setToken={setToken}
@@ -158,7 +159,7 @@ const Main = () => {
           />
 
           <Route
-            path="/cart"
+            path='/cart'
             element={
               <Cart
                 token={token}
@@ -171,7 +172,7 @@ const Main = () => {
             }
           />
           <Route
-            path="/checkout"
+            path='/checkout'
             element={
               <Checkout
                 token={token}
@@ -182,7 +183,7 @@ const Main = () => {
             }
           />
           <Route
-            path="/products"
+            path='/products'
             element={
               <Products
                 token={token}
@@ -191,6 +192,7 @@ const Main = () => {
                 getCart={getCart}
                 user={user}
                 setSelectedProduct={setSelectedProduct}
+                setCategoryList={setCategoryList}
               />
             }
           />
@@ -207,11 +209,11 @@ const Main = () => {
             }
           />
           <Route
-            path="/products/new"
-            element={<NewProduct token={token} user={user} />}
+            path='/products/new'
+            element={<NewProduct token={token} user={user} categoryList={categoryList}/>}
           />
           <Route
-            path="/products/edit/:product_id"
+            path='/products/edit/:product_id'
             element={
               <EditProduct
                 token={token}
@@ -221,9 +223,9 @@ const Main = () => {
               />
             }
           />
-          <Route path="/profile" element={<UserProfile user={user} />} />
+          <Route path='/profile' element={<UserProfile user={user} />} />
           <Route
-            path="/profile/edit-profile/:id"
+            path='/profile/edit-profile/:id'
             element={
               <EditProfile
                 user={user}
@@ -234,14 +236,14 @@ const Main = () => {
             }
           />
           <Route
-            path="/admin-users"
+            path='/admin-users'
             element={<AdminUsersPage token={token} />}
           />
           <Route
-            path="/admin-users/edit-user/:id"
+            path='/admin-users/edit-user/:id'
             element={<EditUser user={user} token={token} />}
           />
-          <Route path="*" element={<NotFound />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
     </div>
