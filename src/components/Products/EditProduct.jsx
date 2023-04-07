@@ -56,10 +56,10 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
     }
   }
   return (
-    <div className='new-product-form'>
+    <div className='new-product-form-container'>
       <h1 className='pageTitle'>Edit Product</h1>
       <form
-        className='defaultForm'
+        className='product-form'
         onSubmit={(e) => {
           e.preventDefault();
           updateSelectedProduct(name, description, price, pic_url, inventory);
@@ -67,7 +67,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
       >
         <label className='formLabel'>
           Name:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='name'
@@ -80,7 +80,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
 
         <label className='formLabel'>
           Description:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='description'
@@ -108,7 +108,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
 
         <label className='formLabel'>
           Picture:
-          <input
+          <textarea
             id='textBox'
             type='url'
             name='pic_url'
@@ -135,8 +135,8 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         <button type='submit' className='Button'>
           Submit
         </button>
-        {error === '' ? null : <p className='error'>{error}</p>}
       </form>
+      {error === '' ? null : <p className='error'>{error}</p>}
     </div>
   );
 }

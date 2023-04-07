@@ -71,10 +71,10 @@ function NewProduct({ token, user, categoryList }) {
   }
 
   return (
-    <div className='new-product-form'>
+    <div className='new-product-form-container'>
       <h1 className='pageTitle'>Add New Product</h1>
       <form
-        className='defaultForm'
+        className='product-form'
         onSubmit={(e) => {
           e.preventDefault();
           postNewProduct();
@@ -82,7 +82,7 @@ function NewProduct({ token, user, categoryList }) {
       >
         <label className='formLabel'>
           Name:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='name'
@@ -96,7 +96,7 @@ function NewProduct({ token, user, categoryList }) {
 
         <label className='formLabel'>
           Description:
-          <input
+          <textarea
             id='textBox'
             type='text'
             name='description'
@@ -126,7 +126,7 @@ function NewProduct({ token, user, categoryList }) {
 
         <label className='formLabel'>
           Picture:
-          <input
+          <textarea
             id='textBox'
             type='url'
             name='pic_url'
