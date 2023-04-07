@@ -108,6 +108,22 @@
   flex-direction: row;
   justify-content: space-between;
 }
+#products-header-left {
+  display: flex;
+  flex-direction: row;
+  gap: 2em;
+  align-items: baseline;
+}
+#products-search{
+  border: none;
+  border-bottom: 4px solid var(--red);
+  background-color: var(--yellow);
+  color: var(--red);
+  font-size: 18px;
+  margin: 10px 0px;
+  padding-top: 5px;
+  padding-left: 5px;
+}
 
 #side-by-side {
   display: flex;
