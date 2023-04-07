@@ -7,6 +7,7 @@ import {
 } from '../../apiAdapters';
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Oval } from 'react-loader-spinner';
 
 function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
   const [product, setProduct] = useState([]);
@@ -15,6 +16,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
     show: false,
     amountToAdd: 1,
     error: '',
+    cartLoading: false,
   });
   const product_id = selectedProduct.product_id;
 
@@ -23,17 +25,19 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
       const result = await getSingleProduct(product_id);
       if (result.success) {
         setProduct(result.product);
-        setCartStatus({
-          show: false,
-          amountToAdd: 1,
-          error: '',
-        });
         return result;
       }
     } catch (error) {
       console.log(error);
     }
   }
+
+  console.log(
+    'cart status',
+    cartStatus,
+    'class',
+    'add-shopping-cart-icon' + (cartStatus.cartLoading ? ' fade-loader' : '')
+  );
 
   async function getAllCategoryFilter() {
     try {
@@ -81,6 +85,11 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           error: 'Quantity cannot be less than 1',
         });
       } else {
+        setCartStatus({
+          ...cartStatus,
+          cartLoading: true,
+        });
+
         const cartItem = cart.items.find((item) => {
           return item.product_id === productId;
         });
@@ -99,12 +108,14 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
               amountToAdd: 1,
               show: false,
               error: '',
+              cartLoading: false,
             });
             setCart(cartResult);
           } else {
             setCartStatus({
               ...cartStatus,
               error: 'Error updating cart',
+              cartLoading: false,
             });
           }
         } else {
@@ -121,12 +132,14 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
               amountToAdd: 1,
               show: false,
               error: '',
+              cartLoading: false,
             });
             setCart(cartResult);
           } else {
             setCartStatus({
               ...cartStatus,
               error: 'Error updating cart',
+              cartLoading: false,
             });
           }
         }
@@ -134,12 +147,14 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
     } catch (err) {
       console.log(err);
     }
-}
+  }
 
   const categoryIdToName = (id) => {
-    const pair = categories.filter((category) => {return category.id === id})
-    return pair.length > 0 ? pair[0].category_name : null
-  }
+    const pair = categories.filter((category) => {
+      return category.id === id;
+    });
+    return pair.length > 0 ? pair[0].category_name : null;
+  };
 
   useEffect(() => {
     getSingleProductPage();
@@ -165,18 +180,30 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           </div>
           <hr />
           {token ? (
-            <div className="add-cart-container">
+            <div className="add-cart-container loader-container">
               <div className="add-shopping-cart-icon-container">
                 <AddShoppingCartIcon
-                  className="add-shopping-cart-icon"
+                  className={
+                    'add-shopping-cart-icon' +
+                    (cartStatus.cartLoading ? ' fade-loader' : '')
+                  }
                   onClick={(evt) => {
                     handleShoppingCartClick(evt, product.id);
                   }}
                 />
-                {cartStatus.show ? <p>How many to add?</p> : null}
+                {cartStatus.show ? (
+                  <p className={cartStatus.cartLoading ? 'fade-loader' : null}>
+                    How many to add?
+                  </p>
+                ) : null}
               </div>
               {cartStatus.show ? (
-                <div className="show-cart-input">
+                <div
+                  className={
+                    'show-cart-input' +
+                    (cartStatus.cartLoading ? ' fade-loader' : '')
+                  }
+                >
                   <input
                     className="single-cart-input"
                     onChange={(evt) => {
@@ -197,7 +224,31 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
                 </div>
               ) : null}
               {cartStatus.error ? (
-                <p className="cart-warning">{cartStatus.error}</p>
+                <p
+                  className={
+                    'cart-warning' +
+                    (cartStatus.cartLoading ? ' fade-loader' : '')
+                  }
+                >
+                  {cartStatus.error}
+                </p>
+              ) : null}
+              {cartStatus.cartLoading ? (
+                <div className="spinner-container">
+                  <Oval
+                    className="loading-spinner"
+                    height={'2em'}
+                    width={'2em'}
+                    color="#db7c5a"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel="oval-loading"
+                    secondaryColor="#db7c5a"
+                    strokeWidth={20}
+                    strokeWidthSecondary={20}
+                  />
+                </div>
               ) : null}
             </div>
           ) : null}
@@ -212,7 +263,8 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           <span className="detail-header">Color:</span> {product.color}
         </p>
         <p>
-          <span className='detail-header'>Category:</span> {categoryIdToName(product.category_id)}
+          <span className="detail-header">Category:</span>{' '}
+          {categoryIdToName(product.category_id)}
         </p>
       </div>
     </div>
