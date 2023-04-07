@@ -79,7 +79,7 @@ const LoginRegister = (props) => {
               Password: 
               <input
                 id="textBox"
-                type="text"
+                type="password"
                 className="inputtext"
                 value={password}
                 name="password"
@@ -160,7 +160,7 @@ const LoginRegister = (props) => {
               Password:
               <input
                 id="textBox"
-                type="text"
+                type="password"
                 className="inputtext"
                 value={password}
                 name="password"
