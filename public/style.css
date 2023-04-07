@@ -26,6 +26,8 @@
   padding: 30px;
   min-height: 0;
   overflow-y: scroll;
+  display: flex;
+  justify-content: center;
 }
 
 #Navbar {
@@ -320,6 +322,7 @@ align-items: center;
   display: flex;
   flex-direction: row;
   gap: 10px;
+  flex-grow: 1;
 }
 
 #full-cart-page button, #checkout-full-page button, .cart-button {
