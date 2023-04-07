@@ -528,6 +528,10 @@ align-items: center;
   position: relative;
 }
 
+#main .loader-container > svg {
+  display: block;
+}
+
 .fade-loader {
   filter: grayscale(80%) blur(2px);
 }
