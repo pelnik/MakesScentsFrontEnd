@@ -334,11 +334,16 @@ function Products({
                       navigate(`/products/${product.id}`);
                     }}
                   >
-                    <img
-                      src={product.pic_url}
-                      id='product-pic'
-                      alt='pic of candle product'
-                    />
+                    <div className='product-image-box'>
+                      {product.inventory === 0 ? (
+                        <span id='sold-out-icon'>SOLD OUT</span>
+                      ) : null}
+                      <img
+                        src={product.pic_url}
+                        id='product-pic'
+                        alt='pic of candle product'
+                      />
+                    </div>
                     <div className='product-text-detail'>
                       <h4>{product.name}</h4>
                       <h5>Size: {product.size}</h5>
@@ -347,45 +352,47 @@ function Products({
                       </h3>
                     </div>
                   </div>
-                  {token ? (
-                    <div className='add-cart-container'>
-                      <div className='add-shopping-cart-icon-container'>
-                        <AddShoppingCartIcon
-                          className='add-shopping-cart-icon'
-                          onClick={(evt) => {
-                            handleShoppingCartClick(evt, product.id);
-                          }}
-                        />
+                  {product.inventory !== 0 ? (
+                    token ? (
+                      <div className='add-cart-container'>
+                        <div className='add-shopping-cart-icon-container'>
+                          <AddShoppingCartIcon
+                            className='add-shopping-cart-icon'
+                            onClick={(evt) => {
+                              handleShoppingCartClick(evt, product.id);
+                            }}
+                          />
+                          {showCart[product.id].show ? (
+                            <p>How many to add?</p>
+                          ) : null}
+                        </div>
                         {showCart[product.id].show ? (
-                          <p>How many to add?</p>
+                          <div className='show-cart-input'>
+                            <input
+                              onChange={(evt) => {
+                                handleCartInputChange(evt, product.id);
+                              }}
+                              type='number'
+                              value={showCart[product.id].amountToAdd}
+                            />
+                            <button
+                              type='submit'
+                              className='cart-button'
+                              onClick={(evt) => {
+                                handleCartInputSubmit(evt, product.id);
+                              }}
+                            >
+                              Add
+                            </button>
+                          </div>
+                        ) : null}
+                        {showCart[product.id].error ? (
+                          <p className='cart-warning'>
+                            {showCart[product.id].error}
+                          </p>
                         ) : null}
                       </div>
-                      {showCart[product.id].show ? (
-                        <div className='show-cart-input'>
-                          <input
-                            onChange={(evt) => {
-                              handleCartInputChange(evt, product.id);
-                            }}
-                            type='number'
-                            value={showCart[product.id].amountToAdd}
-                          />
-                          <button
-                            type='submit'
-                            className='cart-button'
-                            onClick={(evt) => {
-                              handleCartInputSubmit(evt, product.id);
-                            }}
-                          >
-                            Add
-                          </button>
-                        </div>
-                      ) : null}
-                      {showCart[product.id].error ? (
-                        <p className='cart-warning'>
-                          {showCart[product.id].error}
-                        </p>
-                      ) : null}
-                    </div>
+                    ) : null
                   ) : null}
                   {user.is_admin ? (
                     <div className='admin-product-card'>
