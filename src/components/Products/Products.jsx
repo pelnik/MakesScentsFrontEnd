@@ -253,17 +253,20 @@ function Products({
 
   const bothFilter = searchedProducts.filter((product) => {
     return selectedFilter.length > 0
-    ? selectedFilter.some((filter) => {
-      return product.category_id === Number(filter)
-    }) : products
-  })
+      ? selectedFilter.some((filter) => {
+          return product.category_id === Number(filter);
+        })
+      : products;
+  });
 
-  const productsList = (
-    searchTerm.length && selectedFilter.length ? bothFilter :
-    !searchTerm.length && selectedFilter.length ? filteredProducts :
-    searchTerm.length && !selectedFilter.length ? searchedDisplay :
-    products
-  )
+  const productsList =
+    searchTerm.length && selectedFilter.length
+      ? bothFilter
+      : !searchTerm.length && selectedFilter.length
+      ? filteredProducts
+      : searchTerm.length && !selectedFilter.length
+      ? searchedDisplay
+      : products;
 
   useEffect(() => {
     getAllProductsPage();
