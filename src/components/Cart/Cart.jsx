@@ -301,8 +301,8 @@ function Cart({
                                     {cartQuantities[item.id].loaders.edit ? (
                                       <Oval
                                         className="loading-spinner"
-                                        height={'1em'}
-                                        width={'1em'}
+                                        height={'0.75em'}
+                                        width={'0.75em'}
                                         color="#db7c5a"
                                         wrapperStyle={{}}
                                         wrapperClass=""
