@@ -176,10 +176,19 @@
   color: var(--red);
 }
 
+.admin-product-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
 .product-buttons-container {
   display: flex;
   justify-content: end;
   gap: 5px;
+}
+#product-inventory {
+ color: black;
+ font-size: 0.8rem;
 }
 
 .product-button {
@@ -271,9 +280,9 @@ align-items: center;
 .product-form button {
   margin-top: 2em;
 }
-.product-form input {
-  overflow-wrap: break-word;
-}
+/* .product-form textarea {
+  resize: none;
+} */
 #select-drop{
   color: var(--red);
   border: none;

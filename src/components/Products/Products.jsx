@@ -388,31 +388,36 @@ function Products({
                     </div>
                   ) : null}
                   {user.is_admin ? (
-                    <div className='product-buttons-container'>
-                      <button
-                        className='product-button'
-                        onClick={() => {
-                          setSelectedProduct({
-                            product_id: product.id,
-                            name: product.name,
-                            description: product.description,
-                            price: product.price,
-                            pic_url: product.pic_url,
-                            inventory: product.inventory,
-                          });
-                          navigate(`/products/edit/${product.id}`);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className='product-button'
-                        onClick={() => {
-                          removeProduct(product.id);
-                        }}
-                      >
-                        Delete
-                      </button>
+                    <div className='admin-product-card'>
+                      <div id='product-inventory'>
+                        <p>Inventory: {product.inventory}</p>
+                      </div>
+                      <div className='product-buttons-container'>
+                        <button
+                          className='product-button'
+                          onClick={() => {
+                            setSelectedProduct({
+                              product_id: product.id,
+                              name: product.name,
+                              description: product.description,
+                              price: product.price,
+                              pic_url: product.pic_url,
+                              inventory: product.inventory,
+                            });
+                            navigate(`/products/edit/${product.id}`);
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className='product-button'
+                          onClick={() => {
+                            removeProduct(product.id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   ) : null}
                 </div>

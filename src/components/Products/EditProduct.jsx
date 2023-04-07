@@ -135,8 +135,8 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         <button type='submit' className='Button'>
           Submit
         </button>
-        {error === '' ? null : <p className='error'>{error}</p>}
       </form>
+      {error === '' ? null : <p className='error'>{error}</p>}
     </div>
   );
 }
