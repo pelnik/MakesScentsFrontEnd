@@ -115,7 +115,8 @@
   color: var(--red);
   font-size: 18px;
   margin: 10px 0px;
-  padding-top: 5px;;
+  padding-top: 5px;
+  padding-left: 5px;
 }
 
 #side-by-side {
