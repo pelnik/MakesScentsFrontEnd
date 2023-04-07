@@ -72,6 +72,10 @@ const Main = () => {
           quantity: item.quantity,
           showEdit: false,
           error: '',
+          loaders: {
+            edit: false,
+            delete: false,
+          },
         };
       });
       return newCartQuantity;
@@ -166,6 +170,7 @@ const Main = () => {
                 hasItems={hasItems}
                 cartQuantities={cartQuantities}
                 setCartQuantities={setCartQuantities}
+                initialLoad={initialLoad}
               />
             }
           />
@@ -177,11 +182,12 @@ const Main = () => {
                 cart={cart}
                 setCart={setCart}
                 getCart={getCart}
+                initialLoad={initialLoad}
               />
             }
           />
           <Route
-            path='/'
+            path="/"
             element={
               <Products
                 token={token}

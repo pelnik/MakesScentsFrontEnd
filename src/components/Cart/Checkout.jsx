@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { checkout } from '../../apiAdapters';
 
 import { CheckoutConfirmation } from '..';
+import { Oval } from 'react-loader-spinner';
 
-function Checkout({ token, cart, setCart, getCart }) {
+function Checkout({ token, cart, setCart, getCart, initialLoad }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [error, setError] = useState('');
+  const [checkoutLoad, setCheckoutLoad] = useState(false);
 
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
@@ -25,12 +27,15 @@ function Checkout({ token, cart, setCart, getCart }) {
   async function handleCheckoutClick() {
     try {
       if (token && hasItems) {
+        setCheckoutLoad(true);
         const checkoutResponse = await checkout(token, cart?.id);
 
         if (checkoutResponse.success) {
           setCart(await getCart(token));
           setShowConfirmation(true);
         }
+
+        setCheckoutLoad(false);
       } else {
         setError('Error checking out your cart');
       }
@@ -43,6 +48,22 @@ function Checkout({ token, cart, setCart, getCart }) {
     <div id="checkout-full-page">
       {showConfirmation ? (
         <CheckoutConfirmation setShowConfirmation={setShowConfirmation} />
+      ) : initialLoad ? (
+        <div className="full-loading-screen">
+          <Oval
+            className="loading-spinner"
+            height={'4em'}
+            width={'4em'}
+            color="#db7c5a"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#db7c5a"
+            strokeWidth={20}
+            strokeWidthSecondary={20}
+          />
+        </div>
       ) : (
         <div id="checkout-start-page">
           <h1>Checkout</h1>
@@ -58,7 +79,43 @@ function Checkout({ token, cart, setCart, getCart }) {
           ) : (
             <div className="checkout-total" id="checkout-with-items">
               <p>Your total is: {dollarTotal}</p>
-              <button onClick={handleCheckoutClick}>Checkout</button>
+
+              <div className="loader-container">
+                <button
+                  className={checkoutLoad ? 'fade-loader' : null}
+                  onClick={(evt) => {
+                    checkoutLoad ? null : handleCheckoutClick();
+                  }}
+                >
+                  Checkout
+                </button>
+                <div
+                  onClick={
+                    checkoutLoad
+                      ? null
+                      : (evt) => {
+                          handleCheckoutClick();
+                        }
+                  }
+                  className="spinner-container"
+                >
+                  {checkoutLoad ? (
+                    <Oval
+                      className="loading-spinner"
+                      height={'0.75em'}
+                      width={'0.75em'}
+                      color="#db7c5a"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      ariaLabel="oval-loading"
+                      secondaryColor="#db7c5a"
+                      strokeWidth={20}
+                      strokeWidthSecondary={20}
+                    />
+                  ) : null}
+                </div>
+              </div>
             </div>
           )}
           {error ? <p></p> : null}

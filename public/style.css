@@ -26,6 +26,8 @@
   padding: 30px;
   min-height: 0;
   overflow-y: scroll;
+  display: flex;
+  justify-content: center;
 }
 
 #Navbar {
@@ -261,6 +263,7 @@
 display: flex;
 flex-direction: column;
 align-items: center;
+flex-grow: 1;
 }
 #select-drop{
   color: var(--red);
@@ -320,6 +323,13 @@ align-items: center;
   display: flex;
   flex-direction: row;
   gap: 10px;
+  flex-grow: 1;
+}
+
+#checkout-full-page {
+  display: flex;
+
+  flex-grow: 1;
 }
 
 #full-cart-page button, #checkout-full-page button, .cart-button {
@@ -524,6 +534,38 @@ align-items: center;
   max-width: 6ch;
 }
 
+.loader-container {
+  position: relative;
+}
+
+#main .loader-container > svg {
+  display: block;
+}
+
+.fade-loader {
+  filter: grayscale(80%) blur(2px);
+}
+
+.spinner-container {
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.full-loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;
@@ -541,6 +583,10 @@ align-items: center;
 }
 
 /* Admin Page Css */
+
+#profile {
+  flex-grow: 1;
+}
 
 #AllUserCards {
   display: flex;
