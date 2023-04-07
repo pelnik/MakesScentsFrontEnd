@@ -450,6 +450,7 @@ flex-grow: 1;
   padding: 3px;
   height: 2rem;
   width: 2rem;
+  cursor: pointer;
 }
 
 .add-shopping-cart-icon {

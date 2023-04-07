@@ -391,7 +391,7 @@ function Products({
                               : handleShoppingCartClick(evt, product.id);
                           }}
                         />
-                        {showCart[product.id].loading ? (
+                        {showCart[product.id].show ? (
                           <p
                             className={
                               showCart[product.id].loading
