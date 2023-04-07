@@ -8,6 +8,7 @@ import {
   addCartItem,
   getAllCategories,
   cart,
+  updateCartQuantity,
 } from '../../apiAdapters';
 import { CategoryFilter } from '..';
 
@@ -67,6 +68,7 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
       newShowCart[product.id] = {
         show: false,
         amountToAdd: 1,
+        error: '',
       };
     });
 
@@ -82,45 +84,102 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
   }
 
   function handleCartInputChange(evt, productId) {
-    setShowCart({
-      ...showCart,
-      [productId]: {
-        ...showCart[productId],
-        amountToAdd: Number(evt.target.value),
-      },
-    });
+    const numEvtValue = Number(evt.target.value);
+    if (numEvtValue > 0) {
+      setShowCart({
+        ...showCart,
+        [productId]: {
+          ...showCart[productId],
+          amountToAdd: numEvtValue,
+          error: '',
+        },
+      });
+    } else {
+      setShowCart({
+        ...showCart,
+        [productId]: {
+          ...showCart[productId],
+          error: 'Value must be greater than 1',
+        },
+      });
+    }
   }
 
-  console.log('the cart', cart);
   async function handleCartInputSubmit(evt, productId) {
     try {
-      const cartItem = cart.items.find((item) => {
-        return item.product_id === productId;
-      });
-
-      console.log('cartItem', cartItem);
-
-      if (!cartItem) {
-        const result = await addCartItem(
-          token,
-          productId,
-          showCart[productId].amountToAdd
-        );
-
-        if (result.success) {
-          const cartResult = await getCart(token);
-          setShowCart({
-            ...showCart,
-            [productId]: {
-              ...showCart[productId],
-              amountToAdd: 1,
-              show: false,
-            },
-          });
-          setCart(cartResult);
-        }
+      if (
+        showCart[productId].amountToAdd < 1 ||
+        typeof showCart[productId].amountToAdd !== 'number'
+      ) {
+        setShowCart({
+          ...showCart,
+          [productId]: {
+            ...showCart[productId],
+            error: 'Quantity cannot be less than 1',
+          },
+        });
       } else {
-        console.log('cartItem', cartItem);
+        const cartItem = cart.items.find((item) => {
+          return item.product_id === productId;
+        });
+
+        if (!cartItem) {
+          const result = await addCartItem(
+            token,
+            productId,
+            showCart[productId].amountToAdd
+          );
+
+          if (result.success) {
+            const cartResult = await getCart(token);
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                amountToAdd: 1,
+                show: false,
+                error: '',
+              },
+            });
+            setCart(cartResult);
+          } else {
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                error: 'Error updating cart',
+              },
+            });
+          }
+        } else {
+          const result = await updateCartQuantity(
+            token,
+            cartItem.id,
+            cartItem.quantity + showCart[productId].amountToAdd
+          );
+
+          if (result.success) {
+            const cartResult = await getCart(token);
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                amountToAdd: 1,
+                show: false,
+                error: '',
+              },
+            });
+            setCart(cartResult);
+          } else {
+            setShowCart({
+              ...showCart,
+              [productId]: {
+                ...showCart[productId],
+                error: 'Error updating cart',
+              },
+            });
+          }
+        }
       }
     } catch (err) {
       console.log(err);
@@ -188,12 +247,12 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
           </button>
         ) : null}
       </div>
-      <div id='side-by-side'>
-        <div id='products-filter'>
+      <div id="side-by-side">
+        <div id="products-filter">
           <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
           <br />
-          <ul className='category-list'>
+          <ul className="category-list">
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
@@ -266,6 +325,11 @@ function Products({ token, user, setSelectedProduct, cart, setCart, getCart, set
                           Add
                         </button>
                       </div>
+                    ) : null}
+                    {showCart[product.id].error ? (
+                      <p className="cart-warning">
+                        {showCart[product.id].error}
+                      </p>
                     ) : null}
                   </div>
                 ) : null}

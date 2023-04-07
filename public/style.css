@@ -492,6 +492,15 @@ align-items: center;
   font-size: 1em;
 }
 
+.cart-warning {
+  font-weight: bold;
+  color: var(--red);
+}
+
+.single-cart-input {
+  max-width: 6ch;
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;

@@ -197,8 +197,16 @@ const Main = () => {
             }
           />
           <Route
-            path='/products/:product_id'
-            element={<SingleProduct selectedProduct={selectedProduct} />}
+            path="/products/:product_id"
+            element={
+              <SingleProduct
+                selectedProduct={selectedProduct}
+                token={token}
+                cart={cart}
+                setCart={setCart}
+                getCart={getCart}
+              />
+            }
           />
           <Route
             path='/products/new'
