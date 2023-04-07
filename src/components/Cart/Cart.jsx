@@ -225,7 +225,7 @@ function Cart({
     <div id="full-cart-page">
       {!token ? (
         <p>Please log in to use the cart.</p>
-      ) : true ? (
+      ) : initialLoad ? (
         <div className="full-loading-screen">
           <Oval
             className="loading-spinner"
