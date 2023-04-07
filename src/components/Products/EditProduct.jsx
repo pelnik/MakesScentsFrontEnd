@@ -45,7 +45,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
           console.log(result, 'result from editing product');
           if (result.success) {
             setSelectedProduct({});
-            navigate('/products');
+            navigate('/');
           }
         }
       } else {
