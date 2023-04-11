@@ -51,14 +51,21 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
     }
   }
 
-  function handleCartInputChange(evt) {
+  function handleCartInputChange(evt, productInventory) {
     const numEvtValue = Number(evt.target.value);
     if (numEvtValue > 0) {
-      setCartStatus({
-        ...cartStatus,
-        amountToAdd: numEvtValue,
-        error: '',
-      });
+      if (numEvtValue <= productInventory) {
+        setCartStatus({
+          ...cartStatus,
+          amountToAdd: numEvtValue,
+          error: '',
+        });
+      } else {
+        setCartStatus({
+          ...cartStatus,
+          error: `Max quantity available is ${productInventory}.`,
+        });
+      }
     } else {
       setCartStatus({
         ...cartStatus,
@@ -74,7 +81,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
     });
   }
 
-  async function handleCartInputSubmit(evt, productId) {
+  async function handleCartInputSubmit(evt, productId, productInventory) {
     try {
       if (
         cartStatus.amountToAdd < 1 ||
@@ -83,6 +90,11 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
         setCartStatus({
           ...cartStatus,
           error: 'Quantity cannot be less than 1',
+        });
+      } else if (cartStatus.amountToAdd > productInventory) {
+        setCartStatus({
+          ...cartStatus,
+          error: `Max quantity available is ${productInventory}.`,
         });
       } else {
         setCartStatus({
@@ -215,7 +227,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
                   <input
                     className='single-cart-input'
                     onChange={(evt) => {
-                      handleCartInputChange(evt);
+                      handleCartInputChange(evt, product.inventory);
                     }}
                     type='number'
                     value={cartStatus.amountToAdd}
@@ -224,7 +236,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
                     type='submit'
                     className='cart-button'
                     onClick={(evt) => {
-                      handleCartInputSubmit(evt, product.id);
+                      handleCartInputSubmit(evt, product.id, product.inventory);
                     }}
                   >
                     Add
