@@ -125,9 +125,10 @@ function NewProduct({ token, user, categoryList }) {
         <label className='formLabel'>
           Picture (url):
           <textarea
-            id='textbox'
+            id='textBox'
             type='url'
             name='pic_url'
+            value={pic_url}
             required
             onChange={(e) => {
               setPic_url(e.target.value);
