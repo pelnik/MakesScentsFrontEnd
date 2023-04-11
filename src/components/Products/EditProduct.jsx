@@ -107,7 +107,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
         </label>
 
         <label className='formLabel'>
-          Picture:
+          Picture (url):
           <textarea
             id='textBox'
             type='url'
