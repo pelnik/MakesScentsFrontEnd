@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import { registerNewUser, logUserIn } from '../../apiAdapters';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { registerNewUser, logUserIn } from "../../apiAdapters";
+import { useNavigate } from "react-router-dom";
 
-import { saveToLocalStorage } from '../../utils';
+import { saveToLocalStorage } from "../../utils";
 
 const LoginRegister = (props) => {
   const navigate = useNavigate();
 
   const [displayLogin, setDisplayLogin] = useState(true);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  let [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  let [error, setError] = useState("");
+  const [show, setShow] = useState(false)
+  const handleShow=()=>{
+    setShow(!show)
+  }
 
   const setToken = props.setToken;
   const setUser = props.setUser;
@@ -25,7 +29,7 @@ const LoginRegister = (props) => {
         setError(`${response.message}`);
       } else {
         await mainLogUserIn(response.token);
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -38,13 +42,14 @@ const LoginRegister = (props) => {
         setError(`${response.message}`);
       } else {
         await mainLogUserIn(response.token);
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
     }
   }
 
+  
   return (
     <div className="formContainer">
       {displayLogin ? (
@@ -53,7 +58,7 @@ const LoginRegister = (props) => {
         <h1 className="pageTitle">Register</h1>
       )}
       {displayLogin ? (
-        <div className='Form'>
+        <div className="Form">
           <form
             className="defaultForm"
             onSubmit={(e) => {
@@ -62,7 +67,7 @@ const LoginRegister = (props) => {
             }}
           >
             <label className="formLabel">
-              Username: 
+              Username:
               <input
                 id="textBox"
                 type="text"
@@ -73,13 +78,13 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setUsername(event.target.value);
                 }}
-              ></input>
+              />
             </label>
             <label className="formLabel">
-              Password: 
+              Password:
               <input
-                id="textBox"
-                type="password"
+                id="Password"
+                type={show ? "text" : "password"}
                 className="inputtext"
                 value={password}
                 name="password"
@@ -87,26 +92,38 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
-              ></input>
+              />
             </label>
+            <label id="checkboxLabel">
+          Show Password:
+          <input
+            className="inputtext"
+            type="checkbox"
+            checked={show}
+            onChange={handleShow}
+          />
+        </label>
             <button type="submit" className="Button">
               Log In
             </button>
           </form>
-            {error==="" ? null : <p className='error'>Username or password is incorrect</p> }
+          {error === "" ? null : (
+            <p className="error">Username or password is incorrect</p>
+          )}
           <button
             type="button"
             className="SwitchForm"
             onClick={() => {
               setDisplayLogin(false);
-              setError('')
+              setError("");
+              setShow(false)
             }}
           >
             Don't have an account? Sign up here
           </button>
         </div>
       ) : (
-        <div className='Form'> 
+        <div className="Form">
           <form
             className="defaultForm"
             onSubmit={(e) => {
@@ -126,7 +143,7 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
-              ></input>
+              />
             </label>
             <label className="formLabel">
               Email:
@@ -140,7 +157,7 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setEmail(event.target.value);
                 }}
-              ></input>
+              />
             </label>
             <label className="formLabel">
               Username:
@@ -154,13 +171,13 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setUsername(event.target.value);
                 }}
-              ></input>
+              />
             </label>
             <label className="formLabel">
               Password:
               <input
-                id="textBox"
-                type="password"
+                id="Password"
+                type={show ? "text" : "password"}
                 className="inputtext"
                 value={password}
                 name="password"
@@ -168,19 +185,29 @@ const LoginRegister = (props) => {
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
-              ></input>
+              />
             </label>
+            <label id="checkboxLabel">
+          Show Password:
+          <input
+            className="inputtext"
+            type="checkbox"
+            checked={show}
+            onChange={handleShow}
+          />
+        </label>
             <button type="submit" className="Button">
               Register
             </button>
           </form>
-          {error==="" ? null : <p className='error'>{error}</p>}
+          {error === "" ? null : <p className="error">{error}</p>}
           <button
             type="button"
             className="SwitchForm"
             onClick={() => {
               setDisplayLogin(true);
-              setError('')
+              setError("");
+              setShow(false)
             }}
           >
             Already have an account? Log in here

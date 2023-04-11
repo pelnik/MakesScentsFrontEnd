@@ -743,6 +743,20 @@ flex-grow: 1;
   font-family: "Roboto Slab", serif;
   font-size: 2vh;
 }
+
+#Password {
+  display: flex;
+  padding-left: 10px;
+  margin-left: 10px;
+  border: none;
+  border-bottom: 4px solid var(--red);
+  font-size: 25px;
+  background-color: var(--yellow);
+  color: var(--red);
+  font-family: "Roboto Slab", serif;
+  font-size: 2vh;
+}
+
 .SwitchForm {
   background-color: var(--yellow);
   font-family: "Roboto Slab", serif;
