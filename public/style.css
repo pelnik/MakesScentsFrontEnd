@@ -96,10 +96,14 @@
 .size-list{
   width: 160px;
 }
+.category-container,
 .size-container {
   display: flex;
   justify-content: space-between;
   width: inherit;
+  background-color: var(--gray);
+  padding: 5px;
+  border-radius: 5px;
 }
 
 #products-filter {
@@ -108,6 +112,7 @@
   min-width: 200px;
   height: fit-content;
   position: relative;
+  gap: 15px;
 }
 
 #products-page-container {

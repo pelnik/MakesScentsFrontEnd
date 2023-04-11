@@ -25,7 +25,8 @@ function Products({
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
-  const [selectedSize, setSelectedSize] = useState([]);
+  const [showCategory, setShowCategory] = useState(false);
+  const [showSize, setShowSize] = useState(false);
   const [showCart, setShowCart] = useState(initializeShowCart(products));
   const [searchTerm, setSearchTerm] = useState('');
   const [lowerSearchTerm, setLowerSearchTerm] = useState('');
@@ -338,53 +339,87 @@ function Products({
       <div id='side-by-side'>
         <div id='products-filter'>
           <h2>Filters</h2>
-
           <CategoryFilter token={token} user={user} />
-          <br />
-          <ul className='category-list'>
+          <div className='category-container'>
             Category
-            {categories.map((category, idx) => {
-              return (
-                <li key={`category${idx}`}>
-                  <input
-                    type='checkbox'
-                    id={category.id}
-                    name={category.category_name}
-                    value={category.category_name}
-                    onChange={filterHandler}
-                  />
-                  <label htmlFor='category'>{category.category_name}</label>
-                </li>
-              );
-            })}
-          </ul>
-          <ul className='size-list'>
-            <div className='size-container'>
-              Size
-              <button id='size-extend'>+</button>
-            </div>
-            <li>
-              <input type='checkbox' name='S' id='S' onChange={filterHandler} />
-              <label>S</label>
-            </li>
-            <li>
-              <input type='checkbox' name='M' id='M' onChange={filterHandler} />
-              <label>M</label>
-            </li>
-            <li>
-              <input type='checkbox' name='L' id='L' onChange={filterHandler} />
-              <label>L</label>
-            </li>
-            <li>
-              <input
-                type='checkbox'
-                name='One Size'
-                id='N'
-                onChange={filterHandler}
-              />
-              <label>One Size</label>
-            </li>
-          </ul>
+            <button
+              id='category-extend'
+              onClick={() => {
+                setShowCategory(!showCategory);
+              }}
+            >
+              {showCategory ? '-' : '+'}
+            </button>
+          </div>
+          {showCategory ? (
+            <ul className='category-list'>
+              {categories.map((category, idx) => {
+                return (
+                  <li key={`category${idx}`}>
+                    <input
+                      type='checkbox'
+                      id={category.id}
+                      name={category.category_name}
+                      value={category.category_name}
+                      onChange={filterHandler}
+                    />
+                    <label htmlFor='category'>{category.category_name}</label>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+          <div className='size-container'>
+            Size
+            <button
+              id='size-extend'
+              onClick={() => {
+                setShowSize(!showSize);
+              }}
+            >
+              {showSize ? '-' : '+'}
+            </button>
+          </div>
+          {showSize ? (
+            <ul className='size-list'>
+              <li>
+                <input
+                  type='checkbox'
+                  name='S'
+                  id='S'
+                  onChange={filterHandler}
+                />
+                <label>S</label>
+              </li>
+              <li>
+                <input
+                  type='checkbox'
+                  name='M'
+                  id='M'
+                  onChange={filterHandler}
+                />
+                <label>M</label>
+              </li>
+              <li>
+                <input
+                  type='checkbox'
+                  name='L'
+                  id='L'
+                  onChange={filterHandler}
+                />
+                <label>L</label>
+              </li>
+              <li>
+                <input
+                  type='checkbox'
+                  name='One Size'
+                  id='N'
+                  onChange={filterHandler}
+                />
+                <label>One Size</label>
+              </li>
+            </ul>
+          ) : null}
         </div>
         <div id='products-list'>
           {productsList.length ? (
