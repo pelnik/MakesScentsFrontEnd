@@ -124,15 +124,13 @@ function NewProduct({ token, user, categoryList }) {
 
         <label className='formLabel'>
           Picture (url):
-          <input
-            id='image'
-            type='file'
+          <textarea
+            id='textbox'
+            type='url'
             name='pic_url'
-            accept='image/*'
             required
             onChange={(e) => {
-              setPic_url(URL.createObjectURL(e.target.files[0]));
-              console.log(pic_url, '%%%')
+              setPic_url(e.target.value);
             }}
           />
         </label>

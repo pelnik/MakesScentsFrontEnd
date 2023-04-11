@@ -22,15 +22,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   ) {
     try {
       if (user.is_admin) {
-        if (price < 0.01 || inventory < 1 || !pic_url.match('https://.*')) {
+        if (price < 0.01 || inventory < 1 ) {
           if (price < 0.01) {
             setError('The price must be higher than $0.');
           }
           if (inventory < 1) {
             setError('The inventory must be higher than 0.');
-          }
-          if (!pic_url.match('https://.*')) {
-            setError('Invalid URL');
           }
         } else {
           const result = await updateProduct(
@@ -72,6 +69,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             type='text'
             name='name'
             value={name}
+            required
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -85,6 +83,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             type='text'
             name='description'
             value={description}
+            required
             onChange={(e) => {
               setDescription(e.target.value);
             }}
@@ -100,6 +99,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             value={price}
             min='0.00'
             step='0.01'
+            required
             onChange={(e) => {
               setPrice(e.target.value);
             }}
@@ -113,6 +113,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             type='url'
             name='pic_url'
             value={pic_url}
+            required
             onChange={(e) => {
               setPic_url(e.target.value);
             }}
@@ -127,6 +128,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             name='inventory'
             value={inventory}
             min='0'
+            required
             onChange={(e) => {
               setInventory(e.target.value);
             }}
