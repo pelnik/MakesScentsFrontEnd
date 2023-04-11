@@ -25,6 +25,7 @@ function Products({
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState([]);
+  const [selectedSize, setSelectedSize] = useState([]);
   const [showCart, setShowCart] = useState(initializeShowCart(products));
   const [searchTerm, setSearchTerm] = useState('');
   const [lowerSearchTerm, setLowerSearchTerm] = useState('');
@@ -244,7 +245,11 @@ function Products({
   const filteredProducts = products.filter((product) => {
     return selectedFilter.length > 0
       ? selectedFilter.some((filter) => {
-          return product.category_id === Number(filter);
+          if (isNaN(filter)) {
+            return product.size === filter;
+          } else {
+            return product.category_id === Number(filter);
+          }
         })
       : products;
   });
@@ -333,9 +338,11 @@ function Products({
       <div id='side-by-side'>
         <div id='products-filter'>
           <h2>Filters</h2>
+
           <CategoryFilter token={token} user={user} />
           <br />
           <ul className='category-list'>
+            Category
             {categories.map((category, idx) => {
               return (
                 <li key={`category${idx}`}>
@@ -350,6 +357,33 @@ function Products({
                 </li>
               );
             })}
+          </ul>
+          <ul className='size-list'>
+            <div className='size-container'>
+              Size
+              <button id='size-extend'>+</button>
+            </div>
+            <li>
+              <input type='checkbox' name='S' id='S' onChange={filterHandler} />
+              <label>S</label>
+            </li>
+            <li>
+              <input type='checkbox' name='M' id='M' onChange={filterHandler} />
+              <label>M</label>
+            </li>
+            <li>
+              <input type='checkbox' name='L' id='L' onChange={filterHandler} />
+              <label>L</label>
+            </li>
+            <li>
+              <input
+                type='checkbox'
+                name='One Size'
+                id='N'
+                onChange={filterHandler}
+              />
+              <label>One Size</label>
+            </li>
           </ul>
         </div>
         <div id='products-list'>
