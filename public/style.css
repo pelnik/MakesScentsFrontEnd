@@ -77,18 +77,33 @@
 }
 
 /* PRODUCTS CSS */
-.category-list {
+.category-list,
+.size-list {
   list-style-type: none;
   width: 100px;
 }
 .category-button {
   white-space: nowrap;
 }
-.category-list label {
+.category-list label,
+.size-list label {
   padding-left: 0.4em;
 }
 .add-button {
   height: 30px;
+}
+
+.size-list{
+  width: 160px;
+}
+.category-container,
+.size-container {
+  display: flex;
+  justify-content: space-between;
+  width: inherit;
+  background-color: var(--gray);
+  padding: 5px;
+  border-radius: 5px;
 }
 
 #products-filter {
@@ -97,6 +112,7 @@
   min-width: 200px;
   height: fit-content;
   position: relative;
+  gap: 15px;
 }
 
 #products-page-container {
@@ -153,6 +169,7 @@
   width: 250px;
   padding: 10px;
   justify-content: space-between;
+  margin-bottom: 2em;
 }
 #products-container:hover {
   background-color: #ede8dd;
