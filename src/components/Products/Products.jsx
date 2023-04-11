@@ -98,17 +98,27 @@ function Products({
     return showCartCopy;
   }
 
-  function handleCartInputChange(evt, productId) {
+  function handleCartInputChange(evt, productId, productInventory) {
     const numEvtValue = Number(evt.target.value);
     if (numEvtValue > 0) {
-      setShowCart({
-        ...showCart,
-        [productId]: {
-          ...showCart[productId],
-          amountToAdd: numEvtValue,
-          error: '',
-        },
-      });
+      if (numEvtValue <= productInventory) {
+        setShowCart({
+          ...showCart,
+          [productId]: {
+            ...showCart[productId],
+            amountToAdd: numEvtValue,
+            error: '',
+          },
+        });
+      } else {
+        setShowCart({
+          ...showCart,
+          [productId]: {
+            ...showCart[productId],
+            error: `Max quantity available is ${productInventory}.`,
+          },
+        });
+      }
     } else {
       setShowCart({
         ...showCart,
@@ -120,7 +130,7 @@ function Products({
     }
   }
 
-  async function handleCartInputSubmit(evt, productId) {
+  async function handleCartInputSubmit(evt, productId, productInventory) {
     try {
       if (
         showCart[productId].amountToAdd < 1 ||
@@ -131,6 +141,14 @@ function Products({
           [productId]: {
             ...showCart[productId],
             error: 'Quantity cannot be less than 1',
+          },
+        });
+      } else if (showCart[productId].amountToAdd > productInventory) {
+        setShowCart({
+          ...showCart,
+          [productId]: {
+            ...showCart[productId],
+            error: `Max quantity available is ${productInventory}.`,
           },
         });
       } else {
@@ -505,7 +523,11 @@ function Products({
                             onChange={(evt) => {
                               showCart[product.id].loading
                                 ? null
-                                : handleCartInputChange(evt, product.id);
+                                : handleCartInputChange(
+                                    evt,
+                                    product.id,
+                                    product.inventory
+                                  );
                             }}
                             type='number'
                             max={product.inventory}
@@ -521,7 +543,11 @@ function Products({
                             onClick={(evt) => {
                               showCart[product.id].loading
                                 ? null
-                                : handleCartInputSubmit(evt, product.id);
+                                : handleCartInputSubmit(
+                                    evt,
+                                    product.id,
+                                    product.inventory
+                                  );
                             }}
                           >
                             Add
