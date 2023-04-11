@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { AddShoppingCart, ExpandLess, ExpandMore } from '@mui/icons-material';
 
 import {
   getAllProducts,
@@ -12,6 +12,7 @@ import {
 import { CategoryFilter } from '..';
 
 import { Oval } from 'react-loader-spinner';
+import { green } from '@mui/material/colors';
 
 function Products({
   token,
@@ -343,12 +344,15 @@ function Products({
           <div className='category-container'>
             Category
             <button
-              id='category-extend'
               onClick={() => {
                 setShowCategory(!showCategory);
               }}
             >
-              {showCategory ? '-' : '+'}
+              {showCategory ? (
+                <ExpandLess fontSize='small' />
+              ) : (
+                <ExpandMore fontSize='small' />
+              )}
             </button>
           </div>
           {showCategory ? (
@@ -372,12 +376,15 @@ function Products({
           <div className='size-container'>
             Size
             <button
-              id='size-extend'
               onClick={() => {
                 setShowSize(!showSize);
               }}
             >
-              {showSize ? '-' : '+'}
+              {showSize ? (
+                <ExpandLess fontSize='small' />
+              ) : (
+                <ExpandMore fontSize='small' />
+              )}
             </button>
           </div>
           {showSize ? (
@@ -454,7 +461,7 @@ function Products({
                   {product.inventory !== 0 && token ? (
                     <div className='add-cart-container loader-container'>
                       <div className='add-shopping-cart-icon-container'>
-                        <AddShoppingCartIcon
+                        <AddShoppingCart
                           className={
                             showCart[product.id].loading
                               ? 'add-shopping-cart-icon fade-loader'
