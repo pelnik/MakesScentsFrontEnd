@@ -530,7 +530,6 @@ function Products({
                                   );
                             }}
                             type='number'
-                            max={product.inventory}
                             value={showCart[product.id].amountToAdd}
                           />
                           <button
