@@ -274,7 +274,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           ) : null}
         </div>
       </div>
-      <h4>Details:</h4>
+      <h4 id='details-header'>Details:</h4>
       <div id='single-product-bottom'>
         <p>
           <span className='detail-header'>Fragrance:</span> {product.fragrance}
@@ -287,6 +287,7 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           {categoryIdToName(product.category_id)}
         </p>
       </div>
+      <br />
     </div>
   );
 }
