@@ -427,6 +427,9 @@ function Products({
               </li>
             </ul>
           ) : null}
+          <div>
+            <p>Showing {productsList.length} results</p>
+          </div>
         </div>
         <div id='products-list'>
           {productsList.length ? (
