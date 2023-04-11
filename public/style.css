@@ -248,6 +248,9 @@
   color: var(--green);
   font-size: 0.9em;
 }
+#add-category-input {
+  padding: 3px;
+}
 .category-submit {
   font-size: 0.5em;
   margin-right: 0.6em;
