@@ -6,6 +6,7 @@ import {
   LoginRegister,
   Cart,
   Checkout,
+  StripeCheckout,
   Products,
   SingleProduct,
   NewProduct,
@@ -255,6 +256,10 @@ const Main = () => {
           <Route
             path="/admin-users/edit-user/:id"
             element={<EditUser user={user} token={token} />}
+          />
+          <Route
+            path="/stripe-checkout"
+            element={<StripeCheckout user={user} token={token} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

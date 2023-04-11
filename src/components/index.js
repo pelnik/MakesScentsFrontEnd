@@ -2,6 +2,7 @@ export { default as Main } from './Main';
 export { default as Navbar } from './Navbar';
 export { default as Cart } from './Cart/Cart';
 export { default as Checkout } from './Cart/Checkout';
+export { default as StripeCheckout } from './Cart/StripeCheckout';
 export { default as CheckoutConfirmation } from './Cart/CheckoutConfirmation';
 export { default as LoginRegister } from './Users/LoginRegister';
 export { default as Products } from './Products/Products';
