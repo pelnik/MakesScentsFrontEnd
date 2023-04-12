@@ -329,7 +329,7 @@ function Products({
 
   useEffect(() => {
     getAllCategoryFilter();
-  }, []);
+  }, [categories]);
 
   return (
     <div id='products-page-container'>
