@@ -10,6 +10,8 @@ export async function getActiveCart(token) {
       },
     });
 
+    console.log('cart response', response);
+
     const result = await response.json();
     console.log('get active cart result', result);
     return result;
@@ -118,6 +120,25 @@ export async function getOrders(token) {
     const result = await response.json();
     console.log('get orders result', result);
     return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}
+
+export async function stripeCheckout(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/carts/create-checkout-session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log('checkout response', response);
+
+    // console.log('get get checkout page', result);
+    // return result;
   } catch (error) {
     console.error('Error getting cart', error);
   }
