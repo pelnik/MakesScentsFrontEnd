@@ -6,7 +6,7 @@ import {
   LoginRegister,
   Cart,
   Checkout,
-  StripeCheckout,
+  StripeWrapper,
   Products,
   SingleProduct,
   NewProduct,
@@ -16,6 +16,7 @@ import {
   AdminUsersPage,
   EditUser,
   EditProduct,
+  CheckoutConfirmation,
 } from './';
 
 import { usersMe, getActiveCart, getAllCategories } from '../apiAdapters';
@@ -259,7 +260,11 @@ const Main = () => {
           />
           <Route
             path="/stripe-checkout"
-            element={<StripeCheckout user={user} token={token} />}
+            element={<StripeWrapper token={token} />}
+          />
+          <Route
+            path="/checkout-confirm"
+            element={<CheckoutConfirmation token={token} />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

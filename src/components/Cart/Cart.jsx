@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  updateCartQuantity,
-  deleteCartItem,
-  stripeCheckout,
-} from '../../apiAdapters';
+import { updateCartQuantity, deleteCartItem } from '../../apiAdapters';
 
 import { Oval } from 'react-loader-spinner';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -222,7 +218,7 @@ function Cart({
   }
 
   function handleCheckoutClick() {
-    stripeCheckout(token);
+    navigate('/stripe-checkout');
   }
 
   return (

@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  'pk_test_51MvPLvDL8W5WinuDzV4Ky34H450ujpVjQXHLfCb2oZ4u0ZrrxXAIFowf1klW3GGdpdlejzaU5NcWPtnI1z8LJZsg00YoYbXcsw'
-);
+const BASE_URL = 'http://localhost:3000';
 
-function StripeCheckout() {
-  // const options = {
-  //   // passing the client secret obtained from the server
-  //   clientSecret: '{{CLIENT_SECRET}}',
-  // };
-  // {/*options={options}*/}
+function StripeCheckout({ token, secret }) {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    // We don't want to let default form submission happen here,
+    // which would refresh the page.
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
+
+    const result = await stripe.confirmPayment({
+      //`Elements` instance that was used to create the Payment Element
+      elements,
+      confirmParams: {
+        return_url: `${BASE_URL}/checkout-confirm`,
+      },
+    });
+
+    if (result.error) {
+      // Show error to your customer (for example, payment details incomplete)
+      console.log(result.error.message);
+    } else {
+    }
+  };
+
+  console.log('secret', secret);
 
   return (
-    <Elements stripe={stripePromise}>
-      <div>Test</div>
-    </Elements>
+    <form onSubmit={handleSubmit}>
+      <PaymentElement />
+      <button type="submit">Submit</button>
+    </form>
   );
 }
 
