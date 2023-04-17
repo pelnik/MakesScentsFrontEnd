@@ -635,6 +635,10 @@ flex-grow: 1;
   gap: 20px;
 }
 
+#stripe-checkout-text {
+  color: var(--green)
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;

@@ -8,7 +8,7 @@ import {
 
 const BASE_URL = 'http://localhost:3000';
 
-function StripeCheckout({ token, secret, cart, hasItems }) {
+function StripeCheckout({ cart, hasItems }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -40,7 +40,7 @@ function StripeCheckout({ token, secret, cart, hasItems }) {
       //`Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
-        return_url: `${BASE_URL}/checkout-confirm`,
+        return_url: `${BASE_URL}/stripe-payment-status`,
       },
     });
 
@@ -52,7 +52,7 @@ function StripeCheckout({ token, secret, cart, hasItems }) {
   return hasItems ? (
     <div id="stripe-checkout-page">
       <form id="stripe-checkout-form" onSubmit={handleSubmit}>
-        <p>Your total today is ${total}</p>
+        <p id="stripe-checkout-text">Thank you! Your total today is ${total}</p>
         <PaymentElement />
         {error ? (
           <p
@@ -70,7 +70,7 @@ function StripeCheckout({ token, secret, cart, hasItems }) {
       </form>
     </div>
   ) : (
-    <p>You need some items1</p>
+    <p>You need some items!</p>
   );
 }
 

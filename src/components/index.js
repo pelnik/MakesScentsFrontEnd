@@ -4,6 +4,7 @@ export { default as Cart } from './Cart/Cart';
 export { default as Checkout } from './Cart/Checkout';
 export { default as StripeCheckout } from './Cart/StripeCheckout';
 export { default as StripeWrapper } from './Cart/StripeWrapper';
+export { default as PaymentStatus } from './Cart/PaymentStatus';
 export { default as CheckoutConfirmation } from './Cart/CheckoutConfirmation';
 export { default as LoginRegister } from './Users/LoginRegister';
 export { default as Products } from './Products/Products';

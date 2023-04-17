@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { StripeCheckout } from '..';
-
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -13,7 +11,7 @@ const stripePromise = loadStripe(
   'pk_test_51MvPLvDL8W5WinuDzV4Ky34H450ujpVjQXHLfCb2oZ4u0ZrrxXAIFowf1klW3GGdpdlejzaU5NcWPtnI1z8LJZsg00YoYbXcsw'
 );
 
-function StripeWrapper({ token, cart, hasItems }) {
+function StripeWrapper({ token, children }) {
   const [secret, setSecret] = useState('');
 
   async function getUserSecret(token) {
@@ -42,7 +40,7 @@ function StripeWrapper({ token, cart, hasItems }) {
 
   return token && secret ? (
     <Elements stripe={stripePromise} options={options}>
-      <StripeCheckout cart={cart} hasItems={hasItems} />
+      {children}
     </Elements>
   ) : !token ? (
     <div>You need to be logged in to checkout!</div>
