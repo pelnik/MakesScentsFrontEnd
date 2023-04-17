@@ -640,11 +640,20 @@ flex-grow: 1;
     flex-direction: column-reverse;
   }
 
+  #Navbar {
+    justify-content:space-around;
+  }
+
   #cart-total-checkout-container {
     align-self: stretch;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+  }
+
+  #cart-total-sticky {
+    position: static;
+    align-self: flex-end;
   }
 }
 

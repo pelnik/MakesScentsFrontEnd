@@ -13,7 +13,7 @@ const stripePromise = loadStripe(
   'pk_test_51MvPLvDL8W5WinuDzV4Ky34H450ujpVjQXHLfCb2oZ4u0ZrrxXAIFowf1klW3GGdpdlejzaU5NcWPtnI1z8LJZsg00YoYbXcsw'
 );
 
-function StripeWrapper({ token }) {
+function StripeWrapper({ token, cart, hasItems }) {
   const [secret, setSecret] = useState('');
 
   async function getUserSecret(token) {
@@ -42,7 +42,7 @@ function StripeWrapper({ token }) {
 
   return token && secret ? (
     <Elements stripe={stripePromise} options={options}>
-      <StripeCheckout />
+      <StripeCheckout cart={cart} hasItems={hasItems} />
     </Elements>
   ) : !token ? (
     <div>You need to be logged in to checkout!</div>

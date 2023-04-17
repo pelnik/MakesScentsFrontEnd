@@ -260,7 +260,9 @@ const Main = () => {
           />
           <Route
             path="/stripe-checkout"
-            element={<StripeWrapper token={token} />}
+            element={
+              <StripeWrapper token={token} cart={cart} hasItems={hasItems} />
+            }
           />
           <Route
             path="/checkout-confirm"

@@ -8,11 +8,22 @@ import {
 
 const BASE_URL = 'http://localhost:3000';
 
-function StripeCheckout({ token, secret }) {
+function StripeCheckout({ token, secret, cart, hasItems }) {
   const stripe = useStripe();
   const elements = useElements();
 
   const [error, setError] = useState(null);
+
+  const total = hasItems
+    ? cart.items
+        .reduce((x, y) => {
+          const cleanY = y.product_price.slice(1);
+          const numY = parseFloat(cleanY);
+
+          return x + numY * y.quantity;
+        }, 0)
+        .toFixed(2)
+    : 0;
 
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
@@ -38,9 +49,10 @@ function StripeCheckout({ token, secret }) {
     }
   };
 
-  return (
+  return hasItems ? (
     <div id="stripe-checkout-page">
       <form id="stripe-checkout-form" onSubmit={handleSubmit}>
+        <p>Your total today is ${total}</p>
         <PaymentElement />
         {error ? (
           <p
@@ -57,6 +69,8 @@ function StripeCheckout({ token, secret }) {
         </button>
       </form>
     </div>
+  ) : (
+    <p>You need some items1</p>
   );
 }
 
