@@ -374,6 +374,9 @@ flex-grow: 1;
   flex-direction: row;
   gap: 10px;
   flex-grow: 1;
+  align-items: flex-start;
+
+  align-self: flex-start
 }
 
 #checkout-full-page {
@@ -620,6 +623,17 @@ flex-grow: 1;
   flex-grow: 1;
 }
 
+.stripe-checkout-page {
+  display: flex;
+  justify-content: center;
+}
+
+#stripe-checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 @media (max-width: 968px) {
   #full-cart-page {
     flex-direction: column-reverse;
@@ -627,9 +641,6 @@ flex-grow: 1;
 
   #cart-total-checkout-container {
     align-self: stretch;
-  }
-
-  #cart-total-checkout-container {
     flex-direction: row;
     align-items: center;
     justify-content: center;

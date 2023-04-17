@@ -12,6 +12,8 @@ function StripeCheckout({ token, secret }) {
   const stripe = useStripe();
   const elements = useElements();
 
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (event) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
@@ -32,19 +34,29 @@ function StripeCheckout({ token, secret }) {
     });
 
     if (result.error) {
-      // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
-    } else {
+      setError(result.error.message);
     }
   };
 
-  console.log('secret', secret);
-
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      <button type="submit">Submit</button>
-    </form>
+    <div id="stripe-checkout-page">
+      <form id="stripe-checkout-form" onSubmit={handleSubmit}>
+        <PaymentElement />
+        {error ? (
+          <p
+            className="cart-warning"
+            onClick={() => {
+              setError('');
+            }}
+          >
+            {error}
+          </p>
+        ) : null}
+        <button className="cart-button" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }
 
