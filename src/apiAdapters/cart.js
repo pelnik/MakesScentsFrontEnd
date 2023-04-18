@@ -63,7 +63,7 @@ export async function deleteCartItem(token, cart_product_id) {
   }
 }
 
-export async function checkout(token, cart_id) {
+export async function checkout(token, cart_id, status) {
   try {
     const response = await fetch(`${BASE_URL}/carts/${cart_id}`, {
       method: 'POST',
@@ -72,7 +72,7 @@ export async function checkout(token, cart_id) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        status: 'Completed',
+        status,
       }),
     });
 

@@ -26,7 +26,7 @@ function Checkout({ token, cart, setCart, getCart, initialLoad }) {
     try {
       if (token && hasItems) {
         setCheckoutLoad(true);
-        const checkoutResponse = await checkout(token, cart?.id);
+        const checkoutResponse = await checkout(token, cart?.id, 'Completed');
 
         if (checkoutResponse.success) {
           setCart(await getCart(token));

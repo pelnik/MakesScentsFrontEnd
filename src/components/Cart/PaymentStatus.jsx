@@ -1,55 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
+import { useNavigate } from 'react-router-dom';
 
-const PaymentStatus = () => {
+import { checkout } from '../../apiAdapters';
+
+const PaymentStatus = ({ token, cart }) => {
   const stripe = useStripe();
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
+
+  const completedCartId = Number(
+    new URLSearchParams(window.location.search).get('cart-id')
+  );
+
+  console.log('cart-id from URL', completedCartId);
 
   useEffect(() => {
-    if (!stripe) {
+    if (
+      !stripe ||
+      !cart?.id ||
+      !completedCartId ||
+      cart?.id !== completedCartId
+    ) {
       return;
     }
 
-    // Retrieve the "payment_intent_client_secret" query parameter appended to
-    // your return_url by Stripe.js
+    // set cart to new cart
+
     const clientSecret = new URLSearchParams(window.location.search).get(
       'payment_intent_client_secret'
     );
 
     // Retrieve the PaymentIntent
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      // Inspect the PaymentIntent `status` to indicate the status of the payment
-      // to your customer.
-      //
-      // Some payment methods will [immediately succeed or fail][0] upon
-      // confirmation, while others will first enter a `processing` state.
-      //
-      // [0]: https://stripe.com/docs/payments/payment-methods#payment-notification
+      console.log('stripee payment response', paymentIntent);
       switch (paymentIntent.status) {
         case 'succeeded':
-          setMessage('Success! Payment received.');
+          const cartSuccessResponse = checkout(token, cart.id, 'Completed');
+          cartSuccessResponse.then((response) => {
+            if (response.success) {
+              setMessage('Success! Payment received.');
+            } else {
+              console.error('cart response', response);
+              setMessage('Stripe updated, but not cart');
+            }
+          });
           break;
-
         case 'processing':
-          setMessage(
-            "Payment processing. We'll update you when payment is received."
-          );
+          const cartProcessingResponse = checkout(token, cart.id, 'Processing');
+          cartProcessingResponse.then((response) => {
+            if (response.success) {
+              setMessage(
+                "Payment processing. We'll update you when payment is received."
+              );
+            } else {
+              console.error('cart response', response);
+              setMessage('Stripe updated, but not cart');
+            }
+          });
           break;
 
         case 'requires_payment_method':
-          // Redirect your user back to your payment page to attempt collecting
-          // payment again
-          setMessage('Payment failed. Please try another payment method.');
+          navigate('stripe-checkout');
           break;
-
         default:
           setMessage('Something went wrong.');
           break;
       }
     });
-  }, [stripe]);
+  }, [stripe, cart?.id]);
 
-  return message;
+  return cart?.id !== completedCartId ? 'Cart already checked out' : message;
 };
 
 export default PaymentStatus;
