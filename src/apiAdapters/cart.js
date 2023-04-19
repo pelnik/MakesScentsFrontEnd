@@ -11,7 +11,6 @@ export async function getActiveCart(token) {
     });
 
     const result = await response.json();
-    console.log('get active cart result', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -35,7 +34,6 @@ export async function updateCartQuantity(token, cart_product_id, quantity) {
     );
 
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -56,7 +54,6 @@ export async function deleteCartItem(token, cart_product_id) {
     );
 
     const result = await response.json();
-    console.log('cart product delete', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -77,7 +74,6 @@ export async function checkout(token, cart_id, status) {
     });
 
     const result = await response.json();
-    console.log('cart product post', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -98,7 +94,6 @@ export async function addCartItem(token, product_id, quantity) {
     });
 
     const result = await response.json();
-    console.log('add cart item post', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -116,7 +111,6 @@ export async function getOrders(token) {
     });
 
     const result = await response.json();
-    console.log('get orders result', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
@@ -134,7 +128,6 @@ export async function stripeSecret(token) {
     });
 
     const result = await response.json();
-    console.log('get secret page', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);
