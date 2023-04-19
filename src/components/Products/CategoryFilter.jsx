@@ -9,7 +9,6 @@ function CategoryFilter({ token, user }) {
     try {
       if (user.is_admin) {
         const result = await createCategory(token, category_name);
-        console.log('creating new category', result);
         if (result.success) {
           setCategory_name('');
           setShowForm(!showForm);
@@ -29,7 +28,7 @@ function CategoryFilter({ token, user }) {
     <div>
       {user.is_admin ? (
         <button
-          className='product-button category-button'
+          className="product-button category-button"
           onClick={() => {
             setShowForm(!showForm);
           }}
@@ -38,27 +37,27 @@ function CategoryFilter({ token, user }) {
         </button>
       ) : null}
       {showForm ? (
-        <div id='add-category-form'>
+        <div id="add-category-form">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               postNewCategory();
             }}
           >
-            <label className='add-category-name'>
+            <label className="add-category-name">
               Name:
               <input
-                id='add-category-input'
-                type='text'
-                name='category_name'
+                id="add-category-input"
+                type="text"
+                name="category_name"
                 value={category_name}
                 onChange={(e) => {
                   setCategory_name(e.target.value);
                 }}
               />
             </label>
-            <div id='add-category-button'>
-              <button className='product-button category-submit' type='submit'>
+            <div id="add-category-button">
+              <button className="product-button category-submit" type="submit">
                 Submit
               </button>
             </div>

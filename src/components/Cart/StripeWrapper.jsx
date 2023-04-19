@@ -17,7 +17,6 @@ function StripeWrapper({ token, children }) {
   async function getUserSecret(token) {
     try {
       const secretResponse = await stripeSecret(token);
-      console.log('component response', secretResponse);
       if (secretResponse.success) {
         setSecret(secretResponse.client_secret);
       }
@@ -29,8 +28,6 @@ function StripeWrapper({ token, children }) {
   const options = {
     clientSecret: secret,
   };
-
-  console.log('secret', secret);
 
   useEffect(() => {
     if (token) {

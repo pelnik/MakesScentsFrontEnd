@@ -34,8 +34,6 @@ const Main = () => {
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
 
-  console.log('main has items', hasItems);
-
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
   const [selectedProduct, setSelectedProduct] = useState({});

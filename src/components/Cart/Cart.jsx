@@ -34,8 +34,6 @@ function Cart({
     L: 'Large',
   };
 
-  console.log('cart quantities', cartQuantities);
-
   async function handleQuantityChangeSubmit(evt, itemId) {
     try {
       setCartQuantities({

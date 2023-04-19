@@ -21,16 +21,14 @@ function NewProduct({ token, user, categoryList }) {
   async function postNewProduct() {
     try {
       if (user.is_admin) {
-        if (price < 0.01 || inventory < 1 ) {
+        if (price < 0.01 || inventory < 1) {
           if (price < 0.01) {
             setError('The price must be higher than $0.');
           }
           if (inventory < 1) {
             setError('The inventory must be higher than 0.');
           }
-
         } else {
-          console.log(category_id, 'category id');
           const result = await createProduct(
             token,
             name,
@@ -43,7 +41,6 @@ function NewProduct({ token, user, categoryList }) {
             color,
             fragrance
           );
-          console.log(result, 'result');
           if (result.success === true) {
             setName('');
             setDescription('');
@@ -69,21 +66,21 @@ function NewProduct({ token, user, categoryList }) {
   }
 
   return (
-    <div className='new-product-form-container'>
-      <h1 className='pageTitle'>Add New Product</h1>
+    <div className="new-product-form-container">
+      <h1 className="pageTitle">Add New Product</h1>
       <form
-        className='product-form'
+        className="product-form"
         onSubmit={(e) => {
           e.preventDefault();
           postNewProduct();
         }}
       >
-        <label className='formLabel'>
+        <label className="formLabel">
           Name:
           <textarea
-            id='textBox'
-            type='text'
-            name='name'
+            id="textBox"
+            type="text"
+            name="name"
             value={name}
             required
             onChange={(e) => {
@@ -92,12 +89,12 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Description:
           <textarea
-            id='textBox'
-            type='text'
-            name='description'
+            id="textBox"
+            type="text"
+            name="description"
             value={description}
             required
             onChange={(e) => {
@@ -106,28 +103,28 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Price: $
           <input
-            id='textBox'
-            type='number'
-            name='price'
+            id="textBox"
+            type="number"
+            name="price"
             value={price}
             required
-            min='0.00'
-            step='0.01'
+            min="0.00"
+            step="0.01"
             onChange={(e) => {
               setPrice(e.target.value);
             }}
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Picture (url):
           <textarea
-            id='textBox'
-            type='url'
-            name='pic_url'
+            id="textBox"
+            type="url"
+            name="pic_url"
             value={pic_url}
             required
             onChange={(e) => {
@@ -136,12 +133,12 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Size:
           <input
-            id='textBox'
-            type='text'
-            name='size'
+            id="textBox"
+            type="text"
+            name="size"
             value={size}
             required
             onChange={(e) => {
@@ -150,25 +147,25 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Inventory:
           <input
-            id='textBox'
-            type='number'
-            name='inventory'
+            id="textBox"
+            type="number"
+            name="inventory"
             value={inventory}
             required
-            min='0'
+            min="0"
             onChange={(e) => {
               setInventory(e.target.value);
             }}
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Category:
           <select
-            id='select-drop'
+            id="select-drop"
             value={category_id}
             onChange={(e) => {
               setCategory_id(Number(e.target.value));
@@ -184,12 +181,12 @@ function NewProduct({ token, user, categoryList }) {
           </select>
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Color:
           <input
-            id='textBox'
-            type='text'
-            name='color'
+            id="textBox"
+            type="text"
+            name="color"
             value={color}
             required
             onChange={(e) => {
@@ -198,12 +195,12 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Fragrance:
           <input
-            id='textBox'
-            type='text'
-            name='fragrance'
+            id="textBox"
+            type="text"
+            name="fragrance"
             value={fragrance}
             required
             onChange={(e) => {
@@ -212,10 +209,10 @@ function NewProduct({ token, user, categoryList }) {
           />
         </label>
 
-        <button type='submit' className='Button'>
+        <button type="submit" className="Button">
           Submit
         </button>
-        {error === '' ? null : <p className='error'>{error}</p>}
+        {error === '' ? null : <p className="error">{error}</p>}
       </form>
     </div>
   );

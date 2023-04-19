@@ -11,7 +11,7 @@ export async function getAllCategories() {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error getting all categories', error);
+    console.error('error getting all categories', error);
   }
 }
 
@@ -30,6 +30,6 @@ export async function createCategory(token, category_name) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error creating a new category', error);
+    console.error('error creating a new category', error);
   }
 }

@@ -11,7 +11,7 @@ export async function getAllProducts() {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error getting all products', error);
+    console.error('error getting all products', error);
   }
 }
 
@@ -26,7 +26,7 @@ export async function getSingleProduct(product_id) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error getting a single product', error);
+    console.error('error getting a single product', error);
   }
 }
 
@@ -64,7 +64,7 @@ export async function createProduct(
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error creating a product', error);
+    console.error('error creating a product', error);
   }
 }
 
@@ -95,7 +95,7 @@ export async function updateProduct(
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error updating a product', error);
+    console.error('error updating a product', error);
   }
 }
 
@@ -111,6 +111,6 @@ export async function deleteProduct(token, product_id) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('error deleting a product', error);
+    console.error('error deleting a product', error);
   }
 }

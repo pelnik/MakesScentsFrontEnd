@@ -14,10 +14,9 @@ export const registerNewUser = async (name, email, username, password) => {
     });
 
     const result = await response.json();
-    console.log(result, 'register');
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -32,10 +31,9 @@ export const logUserIn = async (username, password) => {
       }),
     });
     const result = await response.json();
-    console.log(result, 'login');
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -52,7 +50,7 @@ export const usersMe = async (token) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -69,10 +67,9 @@ export const editUsername = async (id, token, username) => {
       }),
     });
     const result = await response.json();
-    console.log(result, 'editprofile');
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -89,10 +86,9 @@ export const editEmail = async (id, token, email) => {
       }),
     });
     const result = await response.json();
-    console.log(result, 'editprofile');
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -107,10 +103,9 @@ export const getAllUsers = async (token) => {
     });
 
     const result = await response.json();
-    console.log('all users', result);
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -128,9 +123,8 @@ export const editUserStatus = async (id, token, is_active, is_admin) => {
       }),
     });
     const result = await response.json();
-    console.log(result, 'editUserStatus');
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

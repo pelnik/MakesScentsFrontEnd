@@ -37,7 +37,6 @@ function Products({
     try {
       const result = await getAllProducts();
       if (result.success) {
-        console.log('getting all products', result);
         const showCartResult = initializeShowCart(result.products);
 
         setProducts(result.products);
@@ -332,21 +331,21 @@ function Products({
   }, [categories]);
 
   return (
-    <div id='products-page-container'>
-      <div id='products-header'>
-        <div id='products-header-left'>
+    <div id="products-page-container">
+      <div id="products-header">
+        <div id="products-header-left">
           <h1>Products</h1>
           <input
-            id='products-search'
-            type='text'
-            placeholder='Search for Product'
+            id="products-search"
+            type="text"
+            placeholder="Search for Product"
             value={searchTerm}
             onChange={searchHandle}
           />
         </div>
         {user.is_admin ? (
           <button
-            className='add-button product-button'
+            className="add-button product-button"
             onClick={() => {
               navigate('/products/new');
             }}
@@ -355,11 +354,11 @@ function Products({
           </button>
         ) : null}
       </div>
-      <div id='side-by-side'>
-        <div id='products-filter'>
+      <div id="side-by-side">
+        <div id="products-filter">
           <h2>Filters</h2>
           <CategoryFilter token={token} user={user} />
-          <div className='category-container'>
+          <div className="category-container">
             Category
             <button
               onClick={() => {
@@ -367,31 +366,31 @@ function Products({
               }}
             >
               {showCategory ? (
-                <ExpandLess fontSize='small' />
+                <ExpandLess fontSize="small" />
               ) : (
-                <ExpandMore fontSize='small' />
+                <ExpandMore fontSize="small" />
               )}
             </button>
           </div>
           {showCategory ? (
-            <ul className='category-list'>
+            <ul className="category-list">
               {categories.map((category, idx) => {
                 return (
                   <li key={`category${idx}`}>
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       id={category.id}
                       name={category.category_name}
                       value={category.category_name}
                       onChange={filterHandler}
                     />
-                    <label htmlFor='category'>{category.category_name}</label>
+                    <label htmlFor="category">{category.category_name}</label>
                   </li>
                 );
               })}
             </ul>
           ) : null}
-          <div className='size-container'>
+          <div className="size-container">
             Size
             <button
               onClick={() => {
@@ -399,46 +398,46 @@ function Products({
               }}
             >
               {showSize ? (
-                <ExpandLess fontSize='small' />
+                <ExpandLess fontSize="small" />
               ) : (
-                <ExpandMore fontSize='small' />
+                <ExpandMore fontSize="small" />
               )}
             </button>
           </div>
           {showSize ? (
-            <ul className='size-list'>
+            <ul className="size-list">
               <li>
                 <input
-                  type='checkbox'
-                  name='S'
-                  id='S'
+                  type="checkbox"
+                  name="S"
+                  id="S"
                   onChange={filterHandler}
                 />
                 <label>S</label>
               </li>
               <li>
                 <input
-                  type='checkbox'
-                  name='M'
-                  id='M'
+                  type="checkbox"
+                  name="M"
+                  id="M"
                   onChange={filterHandler}
                 />
                 <label>M</label>
               </li>
               <li>
                 <input
-                  type='checkbox'
-                  name='L'
-                  id='L'
+                  type="checkbox"
+                  name="L"
+                  id="L"
                   onChange={filterHandler}
                 />
                 <label>L</label>
               </li>
               <li>
                 <input
-                  type='checkbox'
-                  name='One Size'
-                  id='N'
+                  type="checkbox"
+                  name="One Size"
+                  id="N"
                   onChange={filterHandler}
                 />
                 <label>One Size</label>
@@ -449,39 +448,39 @@ function Products({
             <p>Showing {productsList.length} results</p>
           </div>
         </div>
-        <div id='products-list'>
+        <div id="products-list">
           {productsList.length ? (
             productsList.map((product, idx) => {
               return (
-                <div id='products-container' key={`products${idx}`}>
+                <div id="products-container" key={`products${idx}`}>
                   <div
-                    className='product-detail'
+                    className="product-detail"
                     onClick={() => {
                       setSelectedProduct({ product_id: product.id });
                       navigate(`/products/${product.id}`);
                     }}
                   >
-                    <div className='product-image-box'>
+                    <div className="product-image-box">
                       {product.inventory === 0 ? (
-                        <span id='sold-out-icon'>SOLD OUT</span>
+                        <span id="sold-out-icon">SOLD OUT</span>
                       ) : null}
                       <img
                         src={product.pic_url}
-                        id='product-pic'
-                        alt='pic of candle product'
+                        id="product-pic"
+                        alt="pic of candle product"
                       />
                     </div>
-                    <div className='product-text-detail'>
+                    <div className="product-text-detail">
                       <h4>{product.name}</h4>
                       <h5>Size: {oneSize(product.size)}</h5>
-                      <h3 className='important-product-detail'>
+                      <h3 className="important-product-detail">
                         {product.price}
                       </h3>
                     </div>
                   </div>
                   {product.inventory !== 0 && token ? (
-                    <div className='add-cart-container loader-container'>
-                      <div className='add-shopping-cart-icon-container'>
+                    <div className="add-cart-container loader-container">
+                      <div className="add-shopping-cart-icon-container">
                         <AddShoppingCart
                           className={
                             showCart[product.id].loading
@@ -529,11 +528,11 @@ function Products({
                                     product.inventory
                                   );
                             }}
-                            type='number'
+                            type="number"
                             value={showCart[product.id].amountToAdd}
                           />
                           <button
-                            type='submit'
+                            type="submit"
                             className={
                               showCart[product.id].loading
                                 ? 'fade-loader cart-button'
@@ -554,22 +553,22 @@ function Products({
                         </div>
                       ) : null}
                       {showCart[product.id].error ? (
-                        <p className='cart-warning'>
+                        <p className="cart-warning">
                           {showCart[product.id].error}
                         </p>
                       ) : null}
                       {showCart[product.id].loading ? (
-                        <div className='spinner-container'>
+                        <div className="spinner-container">
                           <Oval
-                            className='loading-spinner'
+                            className="loading-spinner"
                             height={'2em'}
                             width={'2em'}
-                            color='#db7c5a'
+                            color="#db7c5a"
                             wrapperStyle={{}}
-                            wrapperClass=''
+                            wrapperClass=""
                             visible={true}
-                            ariaLabel='oval-loading'
-                            secondaryColor='#db7c5a'
+                            ariaLabel="oval-loading"
+                            secondaryColor="#db7c5a"
                             strokeWidth={20}
                             strokeWidthSecondary={20}
                           />
@@ -578,13 +577,13 @@ function Products({
                     </div>
                   ) : null}
                   {user.is_admin ? (
-                    <div className='admin-product-card'>
-                      <div id='product-inventory'>
+                    <div className="admin-product-card">
+                      <div id="product-inventory">
                         <p>Inventory: {product.inventory}</p>
                       </div>
-                      <div className='product-buttons-container'>
+                      <div className="product-buttons-container">
                         <button
-                          className='product-button'
+                          className="product-button"
                           onClick={() => {
                             setSelectedProduct({
                               product_id: product.id,
@@ -600,7 +599,7 @@ function Products({
                           Edit
                         </button>
                         <button
-                          className='product-button'
+                          className="product-button"
                           onClick={() => {
                             removeProduct(product.id);
                           }}

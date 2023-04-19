@@ -22,7 +22,7 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
   ) {
     try {
       if (user.is_admin) {
-        if (price < 0.01 || inventory < 1 ) {
+        if (price < 0.01 || inventory < 1) {
           if (price < 0.01) {
             setError('The price must be higher than $0.');
           }
@@ -39,7 +39,6 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
             pic_url,
             inventory
           );
-          console.log(result, 'result from editing product');
           if (result.success) {
             setSelectedProduct({});
             navigate('/');
@@ -53,21 +52,21 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
     }
   }
   return (
-    <div className='new-product-form-container'>
-      <h1 className='pageTitle'>Edit Product</h1>
+    <div className="new-product-form-container">
+      <h1 className="pageTitle">Edit Product</h1>
       <form
-        className='product-form'
+        className="product-form"
         onSubmit={(e) => {
           e.preventDefault();
           updateSelectedProduct(name, description, price, pic_url, inventory);
         }}
       >
-        <label className='formLabel'>
+        <label className="formLabel">
           Name:
           <textarea
-            id='textBox'
-            type='text'
-            name='name'
+            id="textBox"
+            type="text"
+            name="name"
             value={name}
             required
             onChange={(e) => {
@@ -76,12 +75,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Description:
           <textarea
-            id='textBox'
-            type='text'
-            name='description'
+            id="textBox"
+            type="text"
+            name="description"
             value={description}
             required
             onChange={(e) => {
@@ -90,15 +89,15 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Price: $
           <input
-            id='textBox'
-            type='number'
-            name='price'
+            id="textBox"
+            type="number"
+            name="price"
             value={price}
-            min='0.00'
-            step='0.01'
+            min="0.00"
+            step="0.01"
             required
             onChange={(e) => {
               setPrice(e.target.value);
@@ -106,12 +105,12 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Picture (url):
           <textarea
-            id='textBox'
-            type='url'
-            name='pic_url'
+            id="textBox"
+            type="url"
+            name="pic_url"
             value={pic_url}
             required
             onChange={(e) => {
@@ -120,25 +119,25 @@ function EditProduct({ token, user, selectedProduct, setSelectedProduct }) {
           />
         </label>
 
-        <label className='formLabel'>
+        <label className="formLabel">
           Inventory:
           <input
-            id='textBox'
-            type='number'
-            name='inventory'
+            id="textBox"
+            type="number"
+            name="inventory"
             value={inventory}
-            min='0'
+            min="0"
             required
             onChange={(e) => {
               setInventory(e.target.value);
             }}
           />
         </label>
-        <button type='submit' className='Button'>
+        <button type="submit" className="Button">
           Submit
         </button>
       </form>
-      {error === '' ? null : <p className='error'>{error}</p>}
+      {error === '' ? null : <p className="error">{error}</p>}
     </div>
   );
 }

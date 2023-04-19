@@ -13,8 +13,6 @@ const PaymentStatus = ({ token, cart, getCart, setCart }) => {
     new URLSearchParams(window.location.search).get('cart-id')
   );
 
-  console.log('cart-id from URL', completedCartId);
-
   useEffect(() => {
     if (
       !stripe ||
@@ -33,7 +31,6 @@ const PaymentStatus = ({ token, cart, getCart, setCart }) => {
 
     // Retrieve the PaymentIntent
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log('stripe payment response', paymentIntent);
       switch (paymentIntent.status) {
         case 'succeeded':
           const cartSuccessResponse = checkout(token, cart.id, 'Completed');

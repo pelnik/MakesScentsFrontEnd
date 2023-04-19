@@ -37,11 +37,8 @@ function StripeCheckout({ cart, hasItems }) {
     }
 
     const fullURL = new URL(`${BASE_URL}/stripe-payment-status`);
-    console.log('fullURL', fullURL);
 
     fullURL.searchParams.set('cart-id', cart?.id);
-
-    console.log('after modification', fullURL);
 
     const result = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
@@ -50,8 +47,6 @@ function StripeCheckout({ cart, hasItems }) {
         return_url: fullURL.href,
       },
     });
-
-    console.log('payment submission response', result);
 
     if (result.error) {
       setError(result.error.message);

@@ -32,13 +32,6 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
     }
   }
 
-  console.log(
-    'cart status',
-    cartStatus,
-    'class',
-    'add-shopping-cart-icon' + (cartStatus.cartLoading ? ' fade-loader' : '')
-  );
-
   async function getAllCategoryFilter() {
     try {
       const result = await getAllCategories();
@@ -182,26 +175,26 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
   }, []);
 
   return (
-    <div id='single-product-page'>
-      <div id='single-product-top'>
-        <div id='single-left'>
-          <img src={product.pic_url} id='single-product-pic' />
+    <div id="single-product-page">
+      <div id="single-product-top">
+        <div id="single-left">
+          <img src={product.pic_url} id="single-product-pic" />
         </div>
-        <div id='single-right'>
-          <div id='single-top'>
-            <h2 className='important-product-detail' id='product-name'>
+        <div id="single-right">
+          <div id="single-top">
+            <h2 className="important-product-detail" id="product-name">
               {product.name}
             </h2>
-            <p id='product-description'>{product.description}</p>
+            <p id="product-description">{product.description}</p>
             <h4>Size: {oneSize(product.size)}</h4>
-            <h3 className='important-product-detail' id='product-price'>
+            <h3 className="important-product-detail" id="product-price">
               {product.price}
             </h3>
           </div>
           <hr />
           {token ? (
-            <div className='add-cart-container loader-container'>
-              <div className='add-shopping-cart-icon-container'>
+            <div className="add-cart-container loader-container">
+              <div className="add-shopping-cart-icon-container">
                 <AddShoppingCartIcon
                   className={
                     'add-shopping-cart-icon' +
@@ -225,16 +218,16 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
                   }
                 >
                   <input
-                    className='single-cart-input'
+                    className="single-cart-input"
                     onChange={(evt) => {
                       handleCartInputChange(evt, product.inventory);
                     }}
-                    type='number'
+                    type="number"
                     value={cartStatus.amountToAdd}
                   />
                   <button
-                    type='submit'
-                    className='cart-button'
+                    type="submit"
+                    className="cart-button"
                     onClick={(evt) => {
                       handleCartInputSubmit(evt, product.id, product.inventory);
                     }}
@@ -254,17 +247,17 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
                 </p>
               ) : null}
               {cartStatus.cartLoading ? (
-                <div className='spinner-container'>
+                <div className="spinner-container">
                   <Oval
-                    className='loading-spinner'
+                    className="loading-spinner"
                     height={'2em'}
                     width={'2em'}
-                    color='#db7c5a'
+                    color="#db7c5a"
                     wrapperStyle={{}}
-                    wrapperClass=''
+                    wrapperClass=""
                     visible={true}
-                    ariaLabel='oval-loading'
-                    secondaryColor='#db7c5a'
+                    ariaLabel="oval-loading"
+                    secondaryColor="#db7c5a"
                     strokeWidth={20}
                     strokeWidthSecondary={20}
                   />
@@ -274,16 +267,16 @@ function SingleProduct({ selectedProduct, token, cart, setCart, getCart }) {
           ) : null}
         </div>
       </div>
-      <h4 id='details-header'>Details:</h4>
-      <div id='single-product-bottom'>
+      <h4 id="details-header">Details:</h4>
+      <div id="single-product-bottom">
         <p>
-          <span className='detail-header'>Fragrance:</span> {product.fragrance}
+          <span className="detail-header">Fragrance:</span> {product.fragrance}
         </p>
         <p>
-          <span className='detail-header'>Color:</span> {product.color}
+          <span className="detail-header">Color:</span> {product.color}
         </p>
         <p>
-          <span className='detail-header'>Category:</span>{' '}
+          <span className="detail-header">Category:</span>{' '}
           {categoryIdToName(product.category_id)}
         </p>
       </div>
