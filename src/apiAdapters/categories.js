@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/api';
+const BASE_URL = 'https://grace-prod.onrender.com/api';
 
 export async function getAllCategories() {
   try {

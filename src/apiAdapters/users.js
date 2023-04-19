@@ -1,4 +1,4 @@
-let BASE_URL = 'http://localhost:3001/api';
+let BASE_URL = 'https://grace-prod.onrender.com/api';
 
 export const registerNewUser = async (name, email, username, password) => {
   try {

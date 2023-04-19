@@ -6,7 +6,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = window.location.origin;
 
 function StripeCheckout({ cart, hasItems }) {
   const stripe = useStripe();
