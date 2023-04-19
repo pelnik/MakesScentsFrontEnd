@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { checkout } from '../../apiAdapters';
 
-const PaymentStatus = ({ token, cart }) => {
+const PaymentStatus = ({ token, cart, getCart, setCart }) => {
   const stripe = useStripe();
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
@@ -33,31 +33,53 @@ const PaymentStatus = ({ token, cart }) => {
 
     // Retrieve the PaymentIntent
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log('stripee payment response', paymentIntent);
+      console.log('stripe payment response', paymentIntent);
       switch (paymentIntent.status) {
         case 'succeeded':
           const cartSuccessResponse = checkout(token, cart.id, 'Completed');
-          cartSuccessResponse.then((response) => {
-            if (response.success) {
-              setMessage('Success! Payment received.');
-            } else {
-              console.error('cart response', response);
-              setMessage('Stripe updated, but not cart');
-            }
-          });
+          cartSuccessResponse
+            .then((response) => {
+              if (response.success) {
+                return getCart(token);
+              } else {
+                setMessage('Stripe updated, but not cart');
+              }
+            })
+            .then((response) => {
+              if (response) {
+                setCart(response);
+                setMessage(
+                  "You're gonna love these candles. You're checked out! Return to our homepage by hitting the button below."
+                );
+              } else {
+                setMessage(
+                  'Stripe and cart updated, but not browser. Please refresh.'
+                );
+              }
+            });
+
           break;
         case 'processing':
           const cartProcessingResponse = checkout(token, cart.id, 'Processing');
-          cartProcessingResponse.then((response) => {
-            if (response.success) {
-              setMessage(
-                "Payment processing. We'll update you when payment is received."
-              );
-            } else {
-              console.error('cart response', response);
-              setMessage('Stripe updated, but not cart');
-            }
-          });
+          cartProcessingResponse
+            .then((response) => {
+              if (response.success) {
+                return getCart(token);
+              } else {
+                setMessage('Stripe updated, but not cart');
+              }
+            })
+            .then((response) => {
+              if (response) {
+                setCart(response);
+                setMessage(
+                  "Payment processing. We'll update you when payment is received."
+                );
+              } else {
+                console.error('cart response', response);
+                setMessage('Stripe updated, but not cart');
+              }
+            });
           break;
 
         case 'requires_payment_method':
@@ -70,7 +92,29 @@ const PaymentStatus = ({ token, cart }) => {
     });
   }, [stripe, cart?.id]);
 
-  return cart?.id !== completedCartId ? 'Cart already checked out' : message;
+  return (
+    <div id="confirmation-page">
+      <p>{message}</p>
+      <div id="checkout-confirm-buttons">
+        <button
+          className="cart-button"
+          onClick={() => {
+            navigate('/cart');
+          }}
+        >
+          Back to Cart
+        </button>
+        <button
+          className="cart-button"
+          onClick={() => {
+            navigate('/');
+          }}
+        >
+          Home
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default PaymentStatus;

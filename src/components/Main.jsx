@@ -278,7 +278,12 @@ const Main = () => {
             path="stripe-payment-status"
             element={
               <StripeWrapper token={token}>
-                <PaymentStatus token={token} cart={cart} />
+                <PaymentStatus
+                  token={token}
+                  cart={cart}
+                  getCart={getCart}
+                  setCart={setCart}
+                />
               </StripeWrapper>
             }
           />
