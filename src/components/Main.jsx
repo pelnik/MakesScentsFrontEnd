@@ -6,6 +6,7 @@ import {
   LoginRegister,
   Cart,
   Checkout,
+  StripeWrapper,
   Products,
   SingleProduct,
   NewProduct,
@@ -15,6 +16,9 @@ import {
   AdminUsersPage,
   EditUser,
   EditProduct,
+  CheckoutConfirmation,
+  PaymentStatus,
+  StripeCheckout,
 } from './';
 
 import { usersMe, getActiveCart, getAllCategories } from '../apiAdapters';
@@ -29,6 +33,8 @@ const Main = () => {
   const [cart, setCart] = useState({});
   const hasCart = Object.keys(cart).length > 0;
   const hasItems = hasCart && cart.items.length > 0;
+
+  console.log('main has items', hasItems);
 
   const [token, setToken] = useState(initialLocalToken);
   const [user, setUser] = useState({});
@@ -255,6 +261,31 @@ const Main = () => {
           <Route
             path="/admin-users/edit-user/:id"
             element={<EditUser user={user} token={token} />}
+          />
+          <Route
+            path="/stripe-checkout"
+            element={
+              <StripeWrapper token={token}>
+                <StripeCheckout cart={cart} hasItems={hasItems} />
+              </StripeWrapper>
+            }
+          />
+          <Route
+            path="/checkout-confirm"
+            element={<CheckoutConfirmation token={token} />}
+          />
+          <Route
+            path="stripe-payment-status"
+            element={
+              <StripeWrapper token={token}>
+                <PaymentStatus
+                  token={token}
+                  cart={cart}
+                  getCart={getCart}
+                  setCart={setCart}
+                />
+              </StripeWrapper>
+            }
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -218,7 +218,7 @@ function Cart({
   }
 
   function handleCheckoutClick() {
-    navigate('/checkout');
+    navigate('/stripe-checkout');
   }
 
   return (

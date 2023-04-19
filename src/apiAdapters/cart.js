@@ -1,4 +1,4 @@
-let BASE_URL = 'https://grace-shopper-wiwo.onrender.com/api';
+let BASE_URL = 'https://grace-prod.onrender.com/api';
 
 export async function getActiveCart(token) {
   try {
@@ -63,7 +63,7 @@ export async function deleteCartItem(token, cart_product_id) {
   }
 }
 
-export async function checkout(token, cart_id) {
+export async function checkout(token, cart_id, status) {
   try {
     const response = await fetch(`${BASE_URL}/carts/${cart_id}`, {
       method: 'POST',
@@ -72,7 +72,7 @@ export async function checkout(token, cart_id) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        status: 'Completed',
+        status,
       }),
     });
 
@@ -117,6 +117,24 @@ export async function getOrders(token) {
 
     const result = await response.json();
     console.log('get orders result', result);
+    return result;
+  } catch (error) {
+    console.error('Error getting cart', error);
+  }
+}
+
+export async function stripeSecret(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/carts/stripe-secret`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    console.log('get secret page', result);
     return result;
   } catch (error) {
     console.error('Error getting cart', error);

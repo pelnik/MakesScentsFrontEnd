@@ -1,4 +1,4 @@
-const BASE_URL = 'https://grace-shopper-wiwo.onrender.com/api';
+const BASE_URL = 'https://grace-prod.onrender.com/api';
 
 export async function getAllProducts() {
   try {
