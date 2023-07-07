@@ -30,6 +30,10 @@ function Products({
   const [showCart, setShowCart] = useState(initializeShowCart(products));
   const [searchTerm, setSearchTerm] = useState('');
   const [lowerSearchTerm, setLowerSearchTerm] = useState('');
+  const [filter, setFilter] = {
+    categories: [],
+    sizes: [],
+  };
   const navigate = useNavigate();
 
   async function getAllProductsPage() {
@@ -237,13 +241,12 @@ function Products({
     }
   }
 
-  async function getAllCategoryFilter() {
+  async function getCategories() {
     try {
       console.log('entered get all category filter function');
       const result = await getAllCategories();
       if (result.success) {
         setCategories(result.categories);
-        setCategoryList(result.categories);
         return result;
       }
     } catch (error) {
@@ -294,7 +297,6 @@ function Products({
 
   const searchHandle = (e) => {
     setSearchTerm(e.target.value);
-    setLowerSearchTerm(e.target.value.toLowerCase());
   };
 
   const bothFilter = searchedProducts.filter((product) => {
@@ -305,14 +307,16 @@ function Products({
       : products;
   });
 
-  const productsList =
-    searchTerm.length && selectedFilter.length
-      ? bothFilter
-      : !searchTerm.length && selectedFilter.length
-      ? filteredProducts
-      : searchTerm.length && !selectedFilter.length
-      ? searchedDisplay
-      : products;
+  const productsList = products.filter((product) => {}).filter();
+
+  // const productsList =
+  //   searchTerm.length && selectedFilter.length
+  //     ? bothFilter
+  //     : !searchTerm.length && selectedFilter.length
+  //     ? filteredProducts
+  //     : searchTerm.length && !selectedFilter.length
+  //     ? searchedDisplay
+  //     : products;
 
   const oneSize = (size) => {
     if (size === 'N') {
@@ -324,10 +328,7 @@ function Products({
 
   useEffect(() => {
     getAllProductsPage();
-  }, []);
-
-  useEffect(() => {
-    getAllCategoryFilter();
+    getCategories();
   }, []);
 
   return (
