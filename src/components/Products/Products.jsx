@@ -239,7 +239,6 @@ function Products({
 
   async function getAllCategoryFilter() {
     try {
-      console.log('entered get all category filter function');
       const result = await getAllCategories();
       if (result.success) {
         setCategories(result.categories);
