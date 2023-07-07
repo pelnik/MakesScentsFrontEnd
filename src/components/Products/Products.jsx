@@ -12,7 +12,6 @@ import {
 import { CategoryFilter } from '..';
 
 import { Oval } from 'react-loader-spinner';
-import { green } from '@mui/material/colors';
 
 function Products({
   token,
@@ -328,7 +327,7 @@ function Products({
 
   useEffect(() => {
     getAllCategoryFilter();
-  }, [categories]);
+  }, []);
 
   return (
     <div id="products-page-container">
