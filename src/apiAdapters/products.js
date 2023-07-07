@@ -1,4 +1,4 @@
-const BASE_URL = 'https://grace-prod.onrender.com/api';
+const BASE_URL = 'https://pelnik.dev/api/scents';
 
 export async function getAllProducts() {
   try {
