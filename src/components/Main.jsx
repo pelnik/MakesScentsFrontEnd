@@ -21,7 +21,7 @@ import {
   StripeCheckout,
 } from './';
 
-import { usersMe, getActiveCart, getAllCategories } from '../apiAdapters';
+import { usersMe, getActiveCart } from '../apiAdapters';
 import { getTokenFromLocalStorage, saveToLocalStorage } from '../utils';
 
 // React docs recommend checking the first load like this
